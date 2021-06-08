@@ -1,34 +1,79 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### Project Architecture
 
-## Getting Started
+1. app
 
-First, run the development server:
+   > The app directory is where our application actually lives. I like the approach of having the application files, which are not dedicated to the framework bundled in a specific directory.<br/><br/> > ![Image](./app/assets/images/md/CAPTURE.PNG)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+2. api
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   > This folder contains all code we need to access the APIs of our application. Personally, I like to have one folder for each REST API controller. Each folder then contains the functions for the API calls as well as the tests.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+3. assets
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+   > This folder contains all your images, icons , vectors and other documents.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+4. RestClient.ts
 
-## Learn More
+   > The RestClient contains basic functions like get, post, delete, and so on. Those functions are then used by the APIs. I like to use axios for this one.
 
-To learn more about Next.js, take a look at the following resources:
+5. components
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   > The components directory contains all your elements, modules, templates, and layouts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   - elements
 
-## Deploy on Vercel
+     > This directory contains all the basic building blocks for your app. For example a button or a headline component.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   - modules
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+     > Create all your components here which are more than a basic building block. This could be a header or a footer component. Most likely those modules are built out of multiple elements.
+
+   - templates
+
+     > In the templates directory, you should place all your page templates which are then called from your Next.js specific pages. You can find an example of this pattern in the Repository.
+
+   - layouts
+     > Layouts are used to wrap your Templates and provide them with the components which will be displayed by default in a specific layout. For example, you would include the Footer and the Header in a default layout.
+
+6. constants
+
+   > Put all your global constants here. A good example would be your action types.
+
+7. hooks
+
+   > Your custom hooks may find their place here.
+
+8. styles
+
+   > Place all your global styles here
+
+9. utils
+
+   > Most likely you will have some JS functions which you will use over and over again.
+
+10. pages
+
+    > All the routes of your Next.js application will be placed in this directory. For each route, you will have a separate file, which is named as the route.
+
+<br/>
+<br/>
+
+### Rules
+
+1. Always create a camelcase folder unless it is a component folder with root file(index.js)<br/><br/>
+   ![Image](./app/assets/images/md/CAPTURE1.PNG)
+
+2. Always create component filename with Pascal casing.<br/><br/>
+   ![Image](./app/assets/images/md/CAPTURE2.PNG)
+
+3. Always place css/sccs file specific for a component on resptive component folder. <br/><br/>
+   ![Image](./app/assets/images/md/CAPTURE3.PNG)
+
+4. Only place global styles inside styles folder.<br/><br/>
+   ![Image](./app/assets/images/md/CAPTURE4.PNG)
+
+5. Be careful while installing packages, dev mode packages should not got to production build.
+
+6. Install eslint and prettifier extension for better code management. (eslint and prettifier rules has been setup in project - code must follow the rules defined)
+
+7. Required absolute path has been setup , if any new absolute path has to added add it in jconfig.json file and in eslintrc file if required.
