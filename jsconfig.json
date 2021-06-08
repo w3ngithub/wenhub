@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "baseUrl": "app",
+    "paths": {
+      "components/*": ["components/*"],
+      "styles/*":["styles/*"],
+      "css/*": ["styles/css/*"],
+      "scss/*": ["styles/scss/*"],
+      "elements/*": ["components/elements/*"],
+      "layouts/*": ["components/layouts/*"],
+      "modules/*": ["components/modules/*"],
+      "templates/*": ["components/templates/*"],
+      "constants/*": ["constants/*"],
+      "context/*": ["context/*"],
+      "hooks/*": ["hooks/*"],
+      "utils/*": ["utils/*"]
+    },
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+  },
+  "include": ["**/*.js", "**/*.jsx"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,48 @@
+{
+  "extends": ["@imaginary-cloud/react"],
+  "plugins": ["unused-imports"],
+
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "app", "app/components"]
+      }
+    }
+  },
+  "globals": {
+    "browser": true,
+    "fetch": true,
+    "serviceworker": true,
+    "describe": true,
+    "it": true,
+    "expect": true,
+    "document": true
+  },
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "rules": {
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0,
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": ["state"]
+      }
+    ]
+  }
+ 
+}
