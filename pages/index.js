@@ -1,10 +1,10 @@
 import React from 'react'
-import Button from 'elements/Button'
+import Table from 'components/elements/Table'
 
 function Home() {
   return (
     <div>
-      This is homepage<Button></Button>
+      <Table />
     </div>
   )
 }

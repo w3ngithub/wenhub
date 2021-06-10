@@ -1,1 +1,7 @@
 @import 'css/abstracts/variable.css';
+
+thead.ant-table-thead th{
+    background-color: var(--primary-color); 
+    color: white;
+    font: 18px Arial;
+}
