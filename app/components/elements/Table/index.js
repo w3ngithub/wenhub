@@ -13,21 +13,21 @@ const ListTable = ({
 }) => {
 
 
-    // const [pageNumber, setPageNumber] = React.useState(1)
-    // const [postPerPage, setPostPerPage] = React.useState(10)
+    const [pageNumber, setPageNumber] = React.useState(1)
+    const [postPerPage, setPostPerPage] = React.useState(5)
 
-    // const changePage = (pageNo, pageSize) => {
-    //     setPageNumber(pageNo)
-    //     setPostPerPage(pageSize)
-    // }
+    const changePage = (pageNo, pageSize) => {
+        setPageNumber(pageNo)
+        setPostPerPage(pageSize)
+    }
 
 
-    // const finalData = listData(data, postPerPage, pageNumber)
+    const finalData = listData(data, postPerPage, pageNumber)
 
     return (
         <div>
             <Table
-                dataSource={data}
+                dataSource={finalData}
                 pagination={false}
             >
                 {
@@ -40,10 +40,11 @@ const ListTable = ({
                     ))
                 }
             </Table>
-            {/* <Paginate
+            <Paginate
                 handlePageChange={changePage}
                 length={data.length}
-            /> */}
+                pageSize={postPerPage}
+            />
         </div>
     )
 }
@@ -129,7 +130,8 @@ ListTable.defaultProps = {
             name: 'Joe Black',
             age: 32,
             address: 'Sidney No. 1 Lake Park',
-        }
+        },
+        
     ]
 }
 
