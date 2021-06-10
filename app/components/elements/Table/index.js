@@ -2,32 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { Table } from 'antd'
 import styles from './table.module.css'
-import { Paginate, listData } from '../Pagination';
 
 const { Column } = Table
 
 
 const ListTable = ({
     columns,
-    data,
+    data
 }) => {
-
-
-    const [pageNumber, setPageNumber] = React.useState(1)
-    const [postPerPage, setPostPerPage] = React.useState(5)
-
-    const changePage = (pageNo, pageSize) => {
-        setPageNumber(pageNo)
-        setPostPerPage(pageSize)
-    }
-
-
-    const finalData = listData(data, postPerPage, pageNumber)
 
     return (
         <div>
             <Table
-                dataSource={finalData}
+                dataSource={data}
                 pagination={false}
             >
                 {
@@ -35,104 +22,118 @@ const ListTable = ({
                         <Column
                             title={col.title}
                             dataIndex={col.keyIndex}
+                            sorter={col.sorting}
                             key={col.keyIndex}
-                            render={(text) => text} />
+                            render={(text) => {
+                                return {
+                                    props: {
+                                        style:{background:'red'}
+                                    },
+                                    children: text
+                                }
+                            }} />
                     ))
                 }
             </Table>
-            <Paginate
-                handlePageChange={changePage}
-                length={data.length}
-                pageSize={postPerPage}
-            />
+
         </div>
     )
 }
 
 ListTable.defaultProps = {
-    columns: [
-        {
-            title: "Name",
-            keyIndex: "name"
-        },
-        {
-            title: "Age",
-            keyIndex: "age"
-        },
-        {
-            title: "Address",
-            keyIndex: "address"
-        }
-    ],
-    data: [
-        {
-            key: '1',
-            name: 'John Brown',
-            age: 32,
-            address: 'New York No. 1 Lake Park',
-        },
-        {
-            key: '2',
-            name: 'Jim Green',
-            age: 42,
-            address: 'London No. 1 Lake Park',
-        },
-        {
-            key: '3',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-        },
-        {
-            key: '4',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-        },
-        {
-            key: '5',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-        },
-        {
-            key: '6',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-        },
-        {
-            key: '7',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-        },
-        {
-            key: '8',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-        },
-        {
-            key: '9',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-        },
-        {
-            key: '10',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-        },
-        {
-            key: '11',
-            name: 'Joe Black',
-            age: 32,
-            address: 'Sidney No. 1 Lake Park',
-        },
-        
-    ]
+    // columns: [
+    //     {
+    //         title: "Name",
+    //         keyIndex: "name"
+    //     },
+    //     {
+    //         title: "Age",
+    //         keyIndex: "age"
+    //     },
+    //     {
+    //         title: "Address",
+    //         keyIndex: "address"
+    //     }
+    // ],
+    // data : [
+    //     {
+    //       key: '1',
+    //       name: 'John Brown',
+    //       age: 32,
+    //       address: 'New York No. 1 Lake Park',
+    //       edit: <button onClick={() => console.log(1)}>Edit</button>
+    //     },
+    //     {
+    //       key: '2',
+    //       name: 'Jim Green',
+    //       age: 42,
+    //       address: 'London No. 1 Lake Park',
+    //       edit: <button onClick={() => console.log(2)}>Edit</button>
+    //     },
+    //     {
+    //       key: '3',
+    //       name: 'Joe Black',
+    //       age: 32,
+    //       address: 'Sidney No. 1 Lake Park',
+    //       edit: <button onClick={() => console.log(3)}>Edit</button>
+    //     },
+    //     {
+    //       key: '4',
+    //       name: 'Joe Black',
+    //       age: 32,
+    //       address: 'Sidney No. 1 Lake Park',
+    //       edit: <button onClick={() => console.log(4)}>Edit</button>
+    //     },
+    //     {
+    //       key: '5',
+    //       name: 'Joe Black',
+    //       age: 32,
+    //       address: 'Sidney No. 1 Lake Park',
+    //       edit: <button onClick={() => console.log(5)}>Edit</button>
+    //     },
+    //     {
+    //       key: '6',
+    //       name: 'Joe Black',
+    //       age: 32,
+    //       address: 'Sidney No. 1 Lake Park',
+    //       edit: <button onClick={() => console.log(6)}>Edit</button>
+    //     },
+    //     {
+    //       key: '7',
+    //       name: 'Joe Black',
+    //       age: 32,
+    //       address: 'Sidney No. 1 Lake Park',
+    //       edit: <button onClick={() => console.log(7)}>Edit</button>
+    //     },
+    //     {
+    //       key: '8',
+    //       name: 'Joe Black',
+    //       age: 32,
+    //       address: 'Sidney No. 1 Lake Park',
+    //       edit: <button onClick={() => console.log(8)}>Edit</button>
+    //     },
+    //     {
+    //       key: '9',
+    //       name: 'Joe Black',
+    //       age: 32,
+    //       address: 'Sidney No. 1 Lake Park',
+    //       edit: <button onClick={() => console.log(9)}>Edit</button>
+    //     },
+    //     {
+    //       key: '10',
+    //       name: 'Joe Black',
+    //       age: 32,
+    //       address: 'Sidney No. 1 Lake Park',
+    //       edit: <button onClick={() => console.log(10)}>Edit</button>
+    //     },
+    //     {
+    //       key: '11',
+    //       name: 'Joe Black',
+    //       age: 32,
+    //       address: 'Sidney No. 1 Lake Park',
+    //       edit: <button onClick={() => console.log(11)}>Edit</button>
+    //     },
+    //   ]
 }
 
 ListTable.propTypes = {
