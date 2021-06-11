@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 export const Paginate = ({
     handlePageChange,
     length,
-    pageSize
+    pageSize,
+    style
 }) => {
 
     return <Pagination
@@ -14,13 +15,15 @@ export const Paginate = ({
         pageSizeOptions={[5, 10, 20]}
         pageSize={pageSize}
         responsive={true}
+        style={style}
     />
 }
 
 Paginate.propTypes = {
     handlePageChange: PropTypes.func.isRequired,
     length: PropTypes.number.isRequired,
-    pageSize: PropTypes.number.isRequired
+    pageSize: PropTypes.number.isRequired,
+    style: PropTypes.object
 }
 
 export const listData = (array = [], page_size = 5, page_number = 1) => {

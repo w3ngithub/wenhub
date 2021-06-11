@@ -21,7 +21,6 @@ const ListTable = ({
                         <Column
                             title={col.title}
                             dataIndex={col.keyIndex}
-                            sorter={col.sorting}
                             key={col.keyIndex}
                             render={(text) => {
                                 return {
@@ -34,24 +33,22 @@ const ListTable = ({
                     ))
                 }
             </Table>
-
         </div>
     )
 }
 
 ListTable.defaultProps = {
     tableBodyStyle: {
-        background: "ccff33"
+        background: "#ddd"
     },
     columns: [
         {
             title: "Name",
             keyIndex: "name",
-            sorting: (a, b) => a.name > b.name
         },
         {
             title: "Age",
-            keyIndex: "age"
+            keyIndex: "age",
         },
         {
             title: "Address",

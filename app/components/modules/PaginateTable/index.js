@@ -3,6 +3,7 @@ import Table from 'components/elements/Table'
 import { Paginate, listData } from 'components/elements/Pagination'
 
 const PaginateTable = ({ data, columns, tableBodyStyle }) => {
+    
     const [pageNumber, setPageNumber] = React.useState(1)
     const [postPerPage, setPostPerPage] = React.useState(5)
 
@@ -11,6 +12,7 @@ const PaginateTable = ({ data, columns, tableBodyStyle }) => {
         setPostPerPage(pageSize)
     }
     const finalData = listData(data, postPerPage, pageNumber)
+
     return (
         <div>
             <Table
