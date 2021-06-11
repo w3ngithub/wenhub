@@ -2,7 +2,7 @@ import React from 'react'
 import Table from 'components/elements/Table'
 import { Paginate, listData } from 'components/elements/Pagination'
 
-const PaginateTable = ({ data, columns, tableBodyStyle }) => {
+const PaginateTable = ({ data, tableBodyStyle }) => {
     
     const [pageNumber, setPageNumber] = React.useState(1)
     const [postPerPage, setPostPerPage] = React.useState(5)
@@ -17,7 +17,6 @@ const PaginateTable = ({ data, columns, tableBodyStyle }) => {
         <div>
             <Table
                 data={finalData}
-                columns={columns}
                 tableBodyStyle={tableBodyStyle}
             />
             <div style={{marginTop:10}}></div>
