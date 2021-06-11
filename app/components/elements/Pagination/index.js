@@ -1,5 +1,6 @@
 import React from 'react'
 import { Pagination } from 'antd';
+import PropTypes from 'prop-types';
 
 export const Paginate = ({
     handlePageChange,
@@ -14,6 +15,12 @@ export const Paginate = ({
         pageSize={pageSize}
         responsive={true}
     />
+}
+
+Paginate.propTypes = {
+    handlePageChange: PropTypes.func.isRequired,
+    length: PropTypes.number.isRequired,
+    pageSize: PropTypes.number.isRequired
 }
 
 export const listData = (array = [], page_size = 5, page_number = 1) => {
