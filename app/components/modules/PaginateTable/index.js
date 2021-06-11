@@ -18,6 +18,7 @@ const PaginateTable = ({ data, columns, tableBodyStyle }) => {
                 columns={columns}
                 tableBodyStyle={tableBodyStyle}
             />
+            <div style={{marginTop:10}}></div>
             <Paginate
                 handlePageChange={changePage}
                 length={data.length}

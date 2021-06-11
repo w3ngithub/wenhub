@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Table } from 'antd'
-import styles from './table.module.css'
 
 const { Column } = Table
-
 
 const ListTable = ({
     columns,
