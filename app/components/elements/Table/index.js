@@ -13,7 +13,7 @@ const ListTable = ({
 
     React.useEffect(() => {
         if (data.length > 0) {
-            const colmn = {...data[0]}
+            const colmn = { ...data[0] }
             delete colmn.key
             const col = Object.keys(colmn).map(x => {
                 return {
@@ -22,7 +22,6 @@ const ListTable = ({
                 }
             })
             setColumn(col)
-
         }
     }, [data])
 
