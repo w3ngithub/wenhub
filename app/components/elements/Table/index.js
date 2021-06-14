@@ -1,29 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { Table } from 'antd'
-import { getFirstLetterCapital } from 'utils/stringChange';
 
 const { Column } = Table
 const ListTable = ({
+    columns,
     data,
     tableBodyStyle
 }) => {
-
-    const [columns, setColumn] = React.useState([])
-
-    React.useEffect(() => {
-        if (data.length > 0) {
-            const colmn = { ...data[0] }
-            delete colmn.key
-            const col = Object.keys(colmn).map(x => {
-                return {
-                    title: getFirstLetterCapital(x),
-                    keyIndex: x
-                }
-            })
-            setColumn(col)
-        }
-    }, [data])
 
     return (
         <div>
@@ -56,6 +40,24 @@ ListTable.defaultProps = {
     tableBodyStyle: {
         background: "#ddd"
     },
+    columns: [
+        {
+            title: "Name",
+            keyIndex: "name",
+        },
+        {
+            title: "Age",
+            keyIndex: "age",
+        },
+        {
+            title: "Address",
+            keyIndex: "address"
+        },
+        {
+            title: "Actions",
+            keyIndex: "edit",
+        }
+    ],
     data: [
         {
             key: '1',
@@ -82,6 +84,7 @@ ListTable.defaultProps = {
 }
 
 ListTable.propTypes = {
+    columns:PropTypes.array.isRequired,
     tableBodyStyle: PropTypes.object,
     data: PropTypes.array.isRequired
 }
