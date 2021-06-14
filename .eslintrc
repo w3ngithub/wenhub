@@ -42,6 +42,12 @@
         "props": true,
         "ignorePropertyModificationsFor": ["state"]
       }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
     ]
   }
  
