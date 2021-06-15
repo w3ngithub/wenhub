@@ -4,17 +4,7 @@ import { Tabs } from 'antd'
 
 const { TabPane } = Tabs
 
-const renderTabBar = (props, DefaultTabBar) => <DefaultTabBar {...props}>
-    {node => (
-        <>
-            {
-                React.cloneElement(node, {
-                    className: `${node.props.className}`
-                })
-            }
-        </>
-    )}
-</DefaultTabBar>;
+const renderTabBar = (props, DefaultTabBar) => <DefaultTabBar {...props} />;
 
 const Tab = ({ type, tabs, onChange, tabBarStyle }) => {
 
