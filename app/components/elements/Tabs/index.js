@@ -1,34 +1,71 @@
-import React from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import { Tabs } from 'antd'
+import useOutsideClick from 'hooks/outsideClickHook';
+import AddPane from './AddPane';
 
 const { TabPane } = Tabs
 
 const renderTabBar = (props, DefaultTabBar) => <DefaultTabBar {...props} />;
 
-const Tab = ({ type, tabs, onChange, tabBarStyle }) => {
+const Tab = ({ type, tabs, tabBarStyle, style }) => {
+
+    const ref = useRef()
+    const [activeKey, setActiveKey] = useState("1")
+    const [panes, setPanes] = useState([...tabs])
+
+    useEffect(() => panes.length === 0 && setActiveKey('0'), [panes])
+
+    useOutsideClick(ref, () => setActiveKey(panes[0]?.id))
+
+    const add = () => setActiveKey("0")
+
+    const remove = (key) => setPanes(pane => ([...pane].filter(x => x.id !== key)))
+    const onEdit = (targetKey, action) => action === "add" ? add() : remove(targetKey);
+
+    const addTab = (datas) => {
+        let data = datas
+        setPanes(p => ([...p, { ...data }]))
+        setActiveKey(datas['id'])
+    }
 
     return (
-        <Tabs
-            defaultActiveKey="1"
-            type={type}
-            renderTabBar={renderTabBar}
-            onChange={onChange}
-            tabBarStyle={tabBarStyle}
-        >
-            {tabs.map(({ tab, key, content, style }) => (
-                <TabPane tab={tab} key={key} style={style} >
-                    {content}
-                </TabPane>
-            ))}
-        </Tabs>
+        <div ref={ref}>
+            <Tabs
+                defaultActiveKey="1"
+                type={type}
+                renderTabBar={renderTabBar}
+                onChange={(key) => { setActiveKey(key); }}
+                tabBarStyle={tabBarStyle}
+                style={style}
+                activeKey={activeKey}
+                onEdit={onEdit}
+            >
+                {panes.map(({ tab, id, content, style }) => (
+                    <TabPane tab={tab} key={id} style={style} >
+                        {content}
+                    </TabPane>
+                ))}
+                {
+                    type === "editable-card" && <TabPane tab="+" key={"0"} closable={false}>
+                        <AddPane onSubmit={addTab} panes={panes} />
+                    </TabPane>
+                }
+
+            </Tabs>
+
+
+        </div>
+
     )
 }
 
 Tab.defaultProps = {
+    type: "editable-card",
+    tabBarStyle: { background: "blue", width: "90%" },
     tabs: [
         {
-            key: "1",
+            id: "1",
             tab: <div style={{ background: "yellow" }}>
                 Tab 1
             </div>,
@@ -36,7 +73,7 @@ Tab.defaultProps = {
             style: { background: "red", height: "222px", fontSize: "33px", width: "50%" },
         },
         {
-            key: "2",
+            id: "2",
             tab: <div style={{ background: "green" }}>
                 Tab 2
             </div>,
@@ -44,15 +81,14 @@ Tab.defaultProps = {
             style: { background: "blue", height: "122px", fontSize: "33px", width: "90%" },
         }
     ],
-    onChange: (key) => console.log(key)
+    style: { background: "black" }
 }
 
 Tab.propTypes = {
     tabs: PropTypes.array.isRequired,
-    onChange: PropTypes.func,
     type: PropTypes.string,
-    headerBackground: PropTypes.string,
-    tabBarStyle: PropTypes.object
+    tabBarStyle: PropTypes.object,
+    style: PropTypes.object,
 }
 
 export default Tab

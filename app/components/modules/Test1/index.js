@@ -23,6 +23,23 @@ const ContentTwo = () => {
 
 const Test1 = () => {
     const [visible, setVisible] = React.useState(true)
+    const [panes, setPane] = React.useState([
+        {
+            id: "1",
+            tab: <div style={{ background: "yellow", color: "red", fontSize: "2rem" }}>
+                Tab 1
+            </div>,
+            content: <ContentOne />,
+        },
+        {
+            id: "2",
+            tab: <div style={{ background: "green", color: "pink", fontSize: "2rem" }}>
+                Tab 2
+            </div>,
+            content: <ContentTwo />,
+            style: { background: "blue", height: "122px", fontSize: "33px", width: "90%" },
+        }
+    ])
     return (
         <div>
             <div>
@@ -53,24 +70,9 @@ const Test1 = () => {
                 <h1>Tabs</h1>
                 <Tab
                     tabBarStyle={{ background: "blue", width: "90%" }}
-                    tabs={[
-                        {
-                            key: "1",
-                            tab: <div style={{ background: "yellow", color: "red", fontSize: "2rem" }}>
-                                Tab 1
-                            </div>,
-                            content: <ContentOne />,
-                            style: { background: "red", height: "222px", fontSize: "33px", width: "50%" },
-                        },
-                        {
-                            key: "2",
-                            tab: <div style={{ background: "green", color: "pink", fontSize: "2rem" }}>
-                                Tab 2
-                            </div>,
-                            content: <ContentTwo />,
-                            style: { background: "blue", height: "122px", fontSize: "33px", width: "90%" },
-                        }
-                    ]} />
+                    tabs={panes}
+                    style={{ background: "ccff33" }}
+                />
             </div>
         </div >
     )
