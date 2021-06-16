@@ -1,8 +1,13 @@
 import React from 'react'
+import PaginateTable from 'components/modules/PaginateTable'
+
 const test = () => {
     return (
         <div>
-            This is test page
+            <div>
+                <h1>Table</h1>
+                <PaginateTable />
+            </div>
         </div>
     )
 }

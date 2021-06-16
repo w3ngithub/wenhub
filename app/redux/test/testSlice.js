@@ -8,6 +8,7 @@ const initialTestsState = {
   testForEdit: undefined,
   lastError: null,
 }
+
 export const callTypes = {
   list: 'list',
   action: 'action',
