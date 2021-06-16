@@ -1,13 +1,10 @@
 import React from 'react'
-import Button from 'components/elements/Button'
 
 function Home() {
   return (
     <div>
       This is homepage
-      <div>
-        <Button />
-      </div>
+      <div></div>
     </div>
   )
 }
