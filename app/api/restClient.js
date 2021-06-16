@@ -8,7 +8,7 @@ const getHttpHeaders = (isAuthenticated = false) => {
   if (isAuthenticated) {
     return {
       headers: {
-        Authorization: 'Bearer YOUR_TOKEN',
+        Authorization: `Bearer YOUR_TOKEN`,
       },
     }
   }
