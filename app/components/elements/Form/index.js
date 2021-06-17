@@ -1,5 +1,6 @@
 import React from 'react'
-import InputField from 'components/elements/Form/InputField/InputField'
+import InputField from 'elements/Form/InputField/InputField'
+import DatePicker from 'elements/Form/DatePicker'
 
 function index({ component, ...props }) {
   const DynamicComponent = (dynamicComponent) => {
@@ -7,8 +8,10 @@ function index({ component, ...props }) {
       case 'InputField':
         return <InputField {...props} />
 
+      case 'DatePicker':
+        return <DatePicker {...props} />
       default:
-        console.log('no such component')
+        throw new Error('no such component')
     }
   }
 
