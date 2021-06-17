@@ -39,7 +39,7 @@ const Modals = ({
     }
   }, [])
 
-  let width = '20%'
+  let width
 
   if (variant === 'small') {
     width = '25%'
