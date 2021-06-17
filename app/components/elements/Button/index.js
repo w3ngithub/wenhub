@@ -3,7 +3,7 @@ import { Button } from 'antd'
 import PropTypes from 'prop-types'
 import styles from './button.module.css'
 
-//!! Format of Providing Props to the Button Component
+// !! Format of Providing Props to the Button Component
 // const style = {
 //   color: '#fff',
 //   borderRadius: '12px',
@@ -20,7 +20,7 @@ import styles from './button.module.css'
 //   size: 'large',
 // }
 function ButtonComponent(props) {
-  const { style, btnConfig, onBtnClick } = props
+  const { style, btnConfig, onClick } = props
 
   return (
     <Button
@@ -28,7 +28,7 @@ function ButtonComponent(props) {
       className={styles.btn}
       block={btnConfig.isBlock}
       style={style}
-      onClick={onBtnClick}
+      onClick={onClick}
       disabled={btnConfig.isDisabled}
       size={btnConfig.size}
     >
@@ -38,21 +38,21 @@ function ButtonComponent(props) {
 }
 
 ButtonComponent.propTypes = {
-  style: PropTypes.object.isRequired,
+  style: PropTypes.number.isRequired,
   btnConfig: PropTypes.object.isRequired,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func.isRequired,
 }
 
 ButtonComponent.defaultProps = {
-  style: {},
-  btnConfig: {
-    type: 'danger',
-    isBlock: false,
-    btnText: 'Demo Button',
-    isDisabled: false,
-    size: 'large',
-  },
-  onBtnClick: () => console.log('Clicked'),
+  // style: 1,
+  // btnConfig: {
+  //   type: 'danger',
+  //   isBlock: false,
+  //   btnText: 'Demo Button',
+  //   isDisabled: false,
+  //   size: 'large',
+  // },
+  // onClick: () => console.log('Clicked'),
 }
 
 export default ButtonComponent
