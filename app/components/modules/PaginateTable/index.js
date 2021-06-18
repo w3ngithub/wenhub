@@ -57,33 +57,21 @@ PaginateTable.defaultProps = {
       name: 'John Brown',
       age: 32,
       address: 'New York No. 1 Lake Park',
-      edit: (
-        <button type="button" onClick={() => {}}>
-          Edit
-        </button>
-      ),
+      edit: <button onClick={() => console.log(1)}>Edit</button>,
     },
     {
       key: '2',
       name: 'Jim Green',
       age: 42,
       address: 'London No. 1 Lake Park',
-      edit: (
-        <button type="button" onClick={() => {}}>
-          Edit
-        </button>
-      ),
+      edit: <button onClick={() => console.log(2)}>Edit</button>,
     },
     {
       key: '3',
       name: 'Joe Black',
       age: 32,
       address: 'Sidney No. 1 Lake Park',
-      edit: (
-        <button type="button" onClick={() => {}}>
-          Edit
-        </button>
-      ),
+      edit: <button onClick={() => console.log(3)}>Edit</button>,
     },
   ],
 }

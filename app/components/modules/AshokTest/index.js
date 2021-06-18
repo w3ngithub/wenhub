@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FormField from 'elements/Form'
+import DatePanel from 'react-multi-date-picker/plugins/date_panel'
 
 function Test() {
+  const [input, setInput] = useState('')
   const onChnage = (e) => {
     console.log(e)
   }
@@ -10,7 +12,11 @@ function Test() {
       <h3>Ashok Component Test</h3>
       <div>
         <h4>InputField Component</h4>
-        <FormField component="InputField" />
+        <FormField
+          component="InputField"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
         <FormField
           component="InputField"
           placeholder="enter something"
@@ -19,6 +25,8 @@ function Test() {
           textColor="red"
           width="30rem"
           borderRadius="6px"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
       </div>
       <div>
@@ -33,13 +41,24 @@ function Test() {
         /> */}
       </div>
       <div>
-        <h4>TextAreaField Component</h4>
-        <FormField component="TextAreaField" size="small" />
-        <FormField component="TextAreaField" rows={10} width="30%" allowClear />
-      </div>
-      <div>
         <h4>MultiSelectCalendar Component</h4>
-        <FormField component="MultiSelectCalendar" />
+        <div>
+          <FormField
+            component="MultiSelectCalendar"
+            plugins={[<DatePanel />]}
+            multiple
+          />
+        </div>
+        <div>
+          <h4>TextAreaField Component</h4>
+          <FormField component="TextAreaField" size="small" />
+          <FormField
+            component="TextAreaField"
+            rows={10}
+            width="30%"
+            allowClear
+          />
+        </div>
       </div>
     </div>
   )
