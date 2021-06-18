@@ -2,6 +2,7 @@ import React from 'react'
 import InputField from 'elements/Form/InputField/InputField'
 import DatePicker from 'elements/Form/DatePicker'
 import TextAreaField from 'elements/Form/TextAreaField'
+import MultiSelectCalendar from 'elements/Form/MultiSelectCalendar'
 
 function index({ component, ...props }) {
   const DynamicComponent = (dynamicComponent) => {
@@ -15,8 +16,11 @@ function index({ component, ...props }) {
       case 'TextAreaField':
         return <TextAreaField {...props} />
 
+      case 'MultiSelectCalendar':
+        return <MultiSelectCalendar {...props} />
+
       default:
-        throw new Error('no such component')
+        return <InputField {...props} />
     }
   }
 
