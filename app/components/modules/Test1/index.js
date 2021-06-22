@@ -2,7 +2,7 @@ import React from 'react'
 import PaginateTable from 'components/modules/PaginateTable'
 import Modal from 'components/elements/Modal'
 import Tab from 'components/elements/Tabs'
-
+import DropdownComponent from 'components/elements/Dropdown'
 const ContentOne = () => (
   <div>
     <h1>Hey this is first Content</h1>
@@ -20,27 +20,19 @@ const Test1 = () => {
   const [panes, setPane] = React.useState([
     {
       id: '1',
-      tab: (
-        <div style={{ background: 'yellow', color: 'red', fontSize: '2rem' }}>
-          Tab 1
-        </div>
-      ),
+      tab: 'Tab 1',
       content: <ContentOne />,
     },
     {
       id: '2',
-      tab: (
-        <div style={{ background: 'green', color: 'pink', fontSize: '2rem' }}>
-          Tab 2
-        </div>
-      ),
+      tab: 'Tab 2',
       content: <ContentTwo />,
-      style: {
-        background: 'blue',
-        height: '122px',
-        fontSize: '33px',
-        width: '90%',
-      },
+      // paneStyle: {
+      //   background: 'blue',
+      //   height: '122px',
+      //   fontSize: '33px',
+      //   width: '90%',
+      // },
     },
   ])
   return (
@@ -48,6 +40,10 @@ const Test1 = () => {
       <div>
         <h1>Table</h1>
         <PaginateTable />
+      </div>
+      <div>
+        <h1>Dropdown</h1>
+        <DropdownComponent />
       </div>
       <div>
         <h1>Modal</h1>
@@ -59,13 +55,9 @@ const Test1 = () => {
           visible={visible}
           handleOk={() => setVisible(false)}
           handleCancel={() => setVisible(false)}
-          bodyStyle={{ color: 'purple', background: 'red' }}
+          bodyStyle={{ color: 'black', background: 'white' }}
           confirmText="Delete"
           cancelText="No"
-          headerBackground="white"
-          headerFontSize="1rem"
-          headerTextColor="blue"
-          footerBackground="white"
           variant="small"
         >
           These are the contents
@@ -74,9 +66,10 @@ const Test1 = () => {
       <div>
         <h1>Tabs</h1>
         <Tab
-          tabBarStyle={{ background: 'blue', width: '90%' }}
+          type="editable-card"
+          tabBarStyle={{ background: '#ddd', width: '100%' }}
           tabs={panes}
-          style={{ background: 'ccff33' }}
+          // style={{ backgroundColor: '#ddd' }}
         />
       </div>
     </div>

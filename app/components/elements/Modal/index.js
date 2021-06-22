@@ -1,7 +1,6 @@
 import React from 'react'
 import { Modal } from 'antd'
 import PropTypes from 'prop-types'
-import { unmountComponentAtNode } from 'react-dom'
 
 const Modals = ({
   title,
@@ -13,32 +12,9 @@ const Modals = ({
   children,
   confirmText,
   cancelText,
-  headerBackground,
-  headerTextColor,
-  headerFontSize,
-  footerBackground,
   variant,
+  footer,
 }) => {
-  React.useEffect(() => {
-    const header = document.getElementsByClassName('ant-modal-header')
-    header[0].style.backgroundColor = headerBackground
-    const headerTitle = document.getElementsByClassName('ant-modal-title')
-    headerTitle[0].style.color = headerTextColor
-    headerTitle[0].style.fontSize = headerFontSize
-    const footer = document.getElementsByClassName('ant-modal-footer')
-    footer[0].style.backgroundColor = footerBackground
-
-    return () => {
-      unmountComponentAtNode(
-        document.getElementsByClassName('ant-modal-header'),
-      )
-      unmountComponentAtNode(document.getElementsByClassName('ant-modal-title'))
-      unmountComponentAtNode(
-        document.getElementsByClassName('ant-modal-footer'),
-      )
-    }
-  }, [])
-
   let width
 
   if (variant === 'small') {
@@ -60,6 +36,7 @@ const Modals = ({
       cancelText={cancelText}
       bodyStyle={bodyStyle}
       width={width}
+      footer={footer}
     >
       {children}
     </Modal>
@@ -71,11 +48,7 @@ Modals.defaultProps = {
   visible: true,
   confirmText: 'Confirm',
   cancelText: 'Cancel',
-  headerBackground: 'white',
-  headerFontSize: '1rem',
-  headerTextColor: 'blue',
-  footerBackground: 'white',
-  variant: 'small',
+  footer: null,
 }
 
 Modals.propTypes = {
@@ -85,11 +58,7 @@ Modals.propTypes = {
   handleCancel: PropTypes.func,
   confirmText: PropTypes.string,
   cancelText: PropTypes.string,
-  headerBackground: PropTypes.string,
-  headerFontSize: PropTypes.string,
-  headerTextColor: PropTypes.string,
-  footerBackground: PropTypes.string,
-  variant: PropTypes.string,
+  footer: PropTypes.array,
 }
 
 export default Modals

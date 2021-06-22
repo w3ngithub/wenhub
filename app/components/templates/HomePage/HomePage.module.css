@@ -1,0 +1,39 @@
+.timeloglink {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.timeloglink:hover {
+  color: #007cba;
+  cursor: pointer;
+}
+
+.filterItems {
+  display: flex;
+}
+.containerFluid {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+}
+
+.tableHead {
+  border: 1px solid #ddd;
+  font-size: 12px;
+  text-align: left;
+  padding: 10px;
+}
+
+.tableData {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 12px;
+}

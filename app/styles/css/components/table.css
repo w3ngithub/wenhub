@@ -1,5 +1,11 @@
-thead.ant-table-thead th{
-    background-color: var(--primary-color); 
-    color: white;
-    font: 18px Arial;
+thead.ant-table-thead th {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-transform: uppercase;
+}
+
+tbody.ant-table-tbody td {
+  border: 1px solid #ddd;
 }

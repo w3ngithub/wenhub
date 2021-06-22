@@ -43,8 +43,8 @@ const Tab = ({ type, tabs, tabBarStyle, style }) => {
         activeKey={activeKey}
         onEdit={onEdit}
       >
-        {panes.map(({ tab, id, content, st }) => (
-          <TabPane tab={tab} key={id} style={st}>
+        {panes.map(({ tab, id, content, paneStyle }) => (
+          <TabPane tab={tab} key={id} style={paneStyle}>
             {content}
           </TabPane>
         ))}
@@ -85,7 +85,6 @@ Tab.defaultProps = {
       },
     },
   ],
-  style: { background: 'black' },
 }
 
 Tab.propTypes = {
