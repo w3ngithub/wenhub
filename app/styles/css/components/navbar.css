@@ -1,5 +1,9 @@
 .ant-menu-submenu-popup > .ant-menu {
   background-color: var(--navbar-color);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .ant-menu-overflow {
@@ -7,13 +11,28 @@
   justify-content: flex-end;
 }
 
-.ant-menu-horizontal > .ant-menu-item:hover,
-.ant-menu-horizontal > .ant-menu-submenu:hover,
-.ant-menu-horizontal > .ant-menu-item-active,
-.ant-menu-horizontal > .ant-menu-submenu-active,
-.ant-menu-horizontal > .ant-menu-item-open,
-.ant-menu-horizontal > .ant-menu-submenu-open,
-.ant-menu-horizontal > .ant-menu-item-selected,
-.ant-menu-horizontal > .ant-menu-submenu-selected {
+.ant-menu-submenu .ant-menu-title-content {
+  margin-right: -15px;
   color: #fff;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+
+.ant-menu-submenu-active .ant-menu-title-content {
+  color: #fff;
+  margin-right: -15px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.315);
+}
+
+.navbar_nav_item__1T-62 {
+  color: #fff;
+  padding: 10px 6px;
+  border-radius: 6px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  text-decoration: none;
+  outline: none;
+  margin-right: 0px;
 }

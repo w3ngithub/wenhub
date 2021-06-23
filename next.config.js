@@ -1,6 +1,7 @@
 const path = require('path')
+const withImages = require('next-images')
 
-module.exports = {
+module.exports = withImages({
   sassOptions: {
     includePaths: [path.join(__dirname, 'app/styles')],
   },
@@ -8,4 +9,4 @@ module.exports = {
     locales: ['en-US'],
     defaultLocale: 'en-US',
   },
-}
+})

@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
-import Link from 'next/link'
+import Image from 'next/image'
 import { Menu, Layout } from 'antd'
 import { MenuFoldOutlined } from '@ant-design/icons'
+import PropTypes from 'prop-types'
+import Link from 'next/link'
+import wenLogo from 'assets/images/wenLogo.png'
 import style from './navbar.module.css'
 
 const { SubMenu } = Menu
 const { Header } = Layout
 
-function NavBar({ navItems, backgroundColor }) {
+function NavBar({ navItems, backgroundColor, styles }) {
   const [menuItemSelectedKey, setMenuItemSelecteKey] = useState('1')
   const handleMenuClicked = (navItem) => {
     setMenuItemSelecteKey(navItem.key)
@@ -20,28 +23,15 @@ function NavBar({ navItems, backgroundColor }) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          backgroundColor: backgroundColor,
+          backgroundColor,
           width: '100%',
         }}
       >
-        <div
-          style={{
-            width: '130px',
-            height: '64px',
-            minWidth: '130px',
-            minHeight: '64px',
-            marginRight: '30px',
-            cursor: 'pointer',
-          }}
-        >
+        <div className={style.logo}>
           <Link href="/">
-            <img
-              src={
-                'http://202.166.207.19/wenhub-rt/wp-content/uploads/2018/05/wen-white.png'
-              }
-              alt="WEN HUB"
-              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-            />
+            <span>
+              <Image src={wenLogo} alt="WEN" width={130} height={40} />
+            </span>
           </Link>
         </div>
         <Menu
@@ -52,26 +42,19 @@ function NavBar({ navItems, backgroundColor }) {
           overflowedIndicator={<MenuFoldOutlined style={{ color: '#fff' }} />}
           style={{
             backgroundColor: 'inherit',
-            color: '#fff',
-            fontSize: '14px',
-            fontWeight: '600',
-            width: '100%',
-            height: '100%',
-            textDecoration: 'none',
+            padding: '32px',
+            ...styles,
           }}
         >
-          {navItems.map((item) => {
-            return item.subItem ? (
+          {navItems.map((item) =>
+            item.subItem ? (
               <SubMenu
                 key={item.id}
                 title={item.item}
                 className={style.nav_subMenuitem}
               >
                 {item.subItem.map((subitem) => (
-                  <Menu.Item
-                    key={subitem.id}
-                    style={{ backgroundColor: backgroundColor }}
-                  >
+                  <Menu.Item key={subitem.id} style={{ backgroundColor }}>
                     <Link href={subitem.path}>
                       <span className={style.nav_item}>{subitem.item}</span>
                     </Link>
@@ -83,7 +66,7 @@ function NavBar({ navItems, backgroundColor }) {
                 <Link href={item.path}>
                   <span
                     className={
-                      item.id == menuItemSelectedKey
+                      item.id === +menuItemSelectedKey
                         ? style.nav_item_active
                         : style.nav_item
                     }
@@ -92,12 +75,23 @@ function NavBar({ navItems, backgroundColor }) {
                   </span>
                 </Link>
               </Menu.Item>
-            )
-          })}
+            ),
+          )}
         </Menu>
       </Header>
     </Layout>
   )
+}
+
+NavBar.propTypes = {
+  navItems: PropTypes.array.isRequired,
+  backgroundColor: PropTypes.string,
+  styles: PropTypes.object,
+}
+
+NavBar.defaultProps = {
+  backgroundColor: 'none',
+  styles: {},
 }
 
 export default NavBar
