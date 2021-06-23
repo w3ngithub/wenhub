@@ -1,3 +1,13 @@
+.logo {
+  width: 130px;
+  height: 64px;
+  min-width: 130px;
+  min-height: 64px;
+  margin-top: 20px;
+  margin-right: 30px;
+  justify-items: center;
+  cursor: pointer;
+}
 .nav_item {
   color: #fff;
   padding: 10px 6px;
@@ -20,11 +30,11 @@
 }
 
 .nav_subMenuitem {
-  /* padding: 10px 6px; */
   border-radius: 6px;
   transition: all 0.3s;
   margin-right: -15px;
   text-decoration: none;
   outline: none;
   color: #fff;
+  margin-left: -25px;
 }
