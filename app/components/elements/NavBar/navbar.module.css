@@ -1,0 +1,30 @@
+.nav_item {
+  color: #fff;
+  padding: 10px 6px;
+  border-radius: 6px;
+  transition: all 0.3s;
+  margin-right: -15px;
+  text-decoration: none;
+  outline: none;
+}
+
+.nav_item:hover {
+  background-color: rgba(0, 0, 0, 0.315);
+}
+
+.nav_item_active {
+  color: #fff;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.315);
+}
+
+.nav_subMenuitem {
+  /* padding: 10px 6px; */
+  border-radius: 6px;
+  transition: all 0.3s;
+  margin-right: -15px;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+}
