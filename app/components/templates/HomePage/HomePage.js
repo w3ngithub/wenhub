@@ -33,10 +33,10 @@ const HomePage = () => {
   }
 
   return (
-    <div style={{ background: '#F5F5F5', height: '100vh' }}>
+    <div style={{ marginTop: 12 }}>
       <Card
         style={{
-          width: '90%',
+          width: '85%',
           boxShadow: '0 0 5px rgb(0 0 0 / 45%)',
           margin: 'auto',
         }}
@@ -65,7 +65,10 @@ const HomePage = () => {
                             readOnly
                             value="sdkfjskldf"
                             onFocus={(e) => e.target.select()}
-                            style={{ backgroundColor: '#eee' }}
+                            style={{
+                              backgroundColor: '#eee',
+                              fontSize: '0.9rem',
+                            }}
                           />
                         ),
                         project_status: 'On Going',
