@@ -1,9 +1,6 @@
 .btn{
     background-color: var(--primary-color);
     border-color: var(--primary-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 

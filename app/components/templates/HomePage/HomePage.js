@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { Card, Row, Col, Input } from 'antd'
 import PaginateTable from 'components/modules/PaginateTable'
-import FormField from 'elements/Form'
-// import Button from 'elements/Button'
 import Modal from 'components/elements/Modal'
 import styles from './HomePage.module.css'
 import Detail from './Detail'
+import FilterSection from './FilterSection'
 
 const columns = [
   { title: '#', keyIndex: 'key' },
@@ -42,29 +41,7 @@ const HomePage = () => {
           margin: 'auto',
         }}
       >
-        <div className={styles.filterItems}>
-          <div>
-            <FormField
-              component="InputField"
-              placeholder="Search Projects"
-              borderRadius="3px"
-              padding="0.4rem"
-              value=""
-            />
-          </div>
-          <div>
-            {/* <Button
-              btnConfig={{
-                type: 'danger',
-                isBlock: false,
-                btnText: 'Search',
-                isDisabled: false,
-                size: 'large',
-              }}
-            /> */}
-          </div>
-        </div>
-
+        <FilterSection styles={styles} />
         <div>
           <PaginateTable
             tableBodyStyle={{
@@ -113,7 +90,7 @@ const HomePage = () => {
                     readOnly
                     value="sdkfjskldf"
                     onFocus={(e) => e.target.select()}
-                    style={{ backgroundColor: '#eee' }}
+                    style={{ backgroundColor: '#eee', fontSize: '0.9rem' }}
                   />
                 ),
                 project_status: 'On Going',

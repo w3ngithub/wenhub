@@ -2,45 +2,41 @@ import React from 'react'
 import { Button } from 'antd'
 import PropTypes from 'prop-types'
 import styles from './button.module.css'
-function ButtonComponent(props) {
-  const { style, btnConfig, onClick } = props
-
+function ButtonComponent({ type, btnText, size, style, onClick, isDisabled }) {
   return (
     <Button
-      type={btnConfig.type}
+      type={type}
+      disabled={isDisabled}
+      size={size}
       className={styles.btn}
-      block={btnConfig.isBlock}
       style={style}
       onClick={onClick}
-      disabled={btnConfig.isDisabled}
-      size={btnConfig.size}
     >
-      {btnConfig.btnText}
+      {btnText}
     </Button>
   )
 }
 
 ButtonComponent.propTypes = {
-  style: PropTypes.number,
-  btnConfig: PropTypes.object,
+  style: PropTypes.object,
   onClick: PropTypes.func,
+  btnText: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  size: PropTypes.string,
+  isDisabled: PropTypes.bool,
 }
 
 ButtonComponent.defaultProps = {
   style: {
     color: '#fff',
-    borderRadius: '12px',
-    padding: '20px',
-    fontSize: '20px',
+    borderRadius: '5px',
+    padding: '8px 10px',
+    fontSize: '17px',
   },
-  btnConfig: {
-    type: 'danger',
-    isBlock: false,
-    btnText: 'Demo Button',
-    isDisabled: false,
-    size: 'large',
-  },
+  size: 'medium',
   onClick: () => {},
+  type: 'primary',
+  isDisabled: false,
 }
 
 export default ButtonComponent
