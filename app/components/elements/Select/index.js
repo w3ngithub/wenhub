@@ -20,7 +20,11 @@ const SelectComponent = ({
       showSearch
       mode={mode}
       style={style}
-      placeholder={placeholder}
+      placeholder={
+        <div style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>
+          {placeholder}
+        </div>
+      }
       onChange={(val) => {
         if (Array.isArray(val)) {
           const selectedData = options.filter((opt) => val.includes(opt.value))
@@ -34,13 +38,11 @@ const SelectComponent = ({
       onBlur={onBlur}
       onSearch={onSearch}
       dropdownClassName={dropdownClassName}
-      defaultValue={
-        Array.isArray(value) ? value.map((x) => x.label) : value.label
-      }
+      value={Array.isArray(value) ? value.map((x) => x.value) : value.value}
       {...rest}
     >
       {options.map((opt) => (
-        <Option key={opt.value} value={opt.value} label={opt.label}>
+        <Option key={opt.value} value={opt.value}>
           {opt.label}
         </Option>
       ))}
@@ -50,7 +52,7 @@ const SelectComponent = ({
 
 SelectComponent.propTypes = {
   options: PropTypes.array.isRequired,
-  value: PropTypes.oneOfType([PropTypes.array, PropTypes.object]), // [{label:'',value:''}] for multiple
+  value: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired, // [{label:'',value:''}] for multiple
   style: PropTypes.object,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
@@ -63,7 +65,7 @@ SelectComponent.propTypes = {
 
 SelectComponent.defaultProps = {
   placeholder: 'Select a person',
-  style: { width: 200 },
+  style: { width: 190, fontSize: '0.8rem', fontWeight: 'bold' },
   mode: 'tag',
   onChange: () => {},
   onBlur: () => {},

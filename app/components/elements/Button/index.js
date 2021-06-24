@@ -29,7 +29,7 @@ ButtonComponent.propTypes = {
 ButtonComponent.defaultProps = {
   style: {
     color: '#fff',
-    borderRadius: '5px',
+    borderRadius: '3px',
     padding: '8px 10px',
     fontSize: '17px',
   },
