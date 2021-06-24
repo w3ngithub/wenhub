@@ -2,6 +2,7 @@ import React from 'react'
 import PaginateTable from 'components/modules/PaginateTable'
 import Modal from 'components/elements/Modal'
 import Tab from 'components/elements/Tabs'
+import Select from 'components/elements/Select'
 import DropdownComponent from 'components/elements/Dropdown'
 const ContentOne = () => (
   <div>
@@ -17,6 +18,7 @@ const ContentTwo = () => (
 
 const Test1 = () => {
   const [visible, setVisible] = React.useState(true)
+  const [personValue, setPerson] = React.useState([])
   const [panes, setPane] = React.useState([
     {
       id: '1',
@@ -44,6 +46,18 @@ const Test1 = () => {
       <div>
         <h1>Dropdown</h1>
         <DropdownComponent />
+      </div>
+      <div>
+        <h1>Select</h1>
+        <Select
+          options={[
+            { label: 'Hari', value: '0' },
+            { label: 'Gita', value: '1' },
+          ]}
+          onChange={(data) => setPerson(data)}
+          value={personValue}
+          mode="multiple"
+        />
       </div>
       <div>
         <h1>Modal</h1>

@@ -10,6 +10,10 @@
 
 .filterItems {
   display: flex;
+  gap: 6px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  align-items: center;
 }
 .containerFluid {
   padding-right: 15px;
