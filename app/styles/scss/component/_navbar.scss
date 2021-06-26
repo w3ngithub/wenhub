@@ -1,0 +1,11 @@
+@include respond(phone) {
+  .ant-layout-header {
+    padding: 0;
+  }
+  .nav-logo {
+    padding-left: 15px;
+  }
+  .ant-menu-title-content {
+    font-size: 10px;
+  }
+}

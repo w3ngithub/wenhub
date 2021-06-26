@@ -27,11 +27,9 @@ function NavBar({ navItems, backgroundColor, styles }) {
           width: '100%',
         }}
       >
-        <div className={style.logo}>
+        <div className={`${style.logo} nav-logo`}>
           <Link href="/">
-            <span>
-              <Image src={wenLogo} alt="WEN" width={130} height={40} />
-            </span>
+            <Image src={wenLogo} alt="WEN" width={130} height={40} />
           </Link>
         </div>
         <Menu
