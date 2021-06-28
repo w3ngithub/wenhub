@@ -7,7 +7,7 @@ export const PRIMARY_COLOR = '#e0e0e0'
 export const SECONDARY_COLOR = '#37549c'
 export const PRIMARY_DARK_COLOR = '#44416f'
 
-//navbar backgroundColor
+// navbar backgroundColor
 export const navBarBackgroundColor = '#337ab7'
 
 // navbar items
@@ -21,8 +21,8 @@ export const navBarItems = [
     id: 2,
     item: 'BLOG',
     subItem: [
-      { id: 1.1, item: 'ADD NEW BLOG', path: '/add-new-blog' },
-      { id: 1.2, item: 'VIEW BLOG', path: '/view-blog' },
+      { id: 2.1, item: 'ADD NEW BLOG', path: '/add-new-blog' },
+      { id: 2.2, item: 'VIEW BLOG', path: '/view-blog' },
     ],
   },
   { id: 3, item: 'MY PROJECTS', path: '/my-projects' },
