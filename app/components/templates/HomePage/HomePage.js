@@ -32,78 +32,597 @@ const HomePage = () => {
     }
   }
 
+  const data = [
+    {
+      key: '1',
+      name: (
+        <span
+          className={styles.timeloglink}
+          onClick={() =>
+            handleModal({
+              key: '1',
+              name: 'New Project',
+              time_log: 'href',
+              path: (
+                <Input
+                  size="large"
+                  readOnly
+                  value="sdkfjskldf"
+                  onFocus={(e) => e.target.select()}
+                  style={{
+                    backgroundColor: '#eee',
+                    fontSize: '0.8rem',
+                    fontWeight: 'bold',
+                  }}
+                />
+              ),
+              project_status: 'On Going',
+              project_type: 'Custom Build',
+              start_date: '06/08/2021',
+              deadline: '06/30/2021',
+            })
+          }
+          aria-hidden="true"
+        >
+          New Project
+        </span>
+      ),
+      time_log: (
+        <Link href="https://github.com">
+          <span className={styles.timeloglink}>Go to Log</span>
+        </Link>
+      ),
+      path: (
+        <Input
+          size="large"
+          readOnly
+          value="sdkfjskldf"
+          onFocus={(e) => e.target.select()}
+          style={{ backgroundColor: '#eee', width: '250px' }}
+        />
+      ),
+      project_status: 'On Going',
+      project_type: 'Custom Build',
+      start_date: '06/08/2021',
+      deadline: '06/30/2021',
+    },
+    {
+      key: '2',
+      name: (
+        <span
+          className={styles.timeloglink}
+          onClick={() =>
+            handleModal({
+              key: '1',
+              name: 'New Project',
+              time_log: 'href',
+              path: (
+                <Input
+                  size="large"
+                  readOnly
+                  value="sdkfjskldf"
+                  onFocus={(e) => e.target.select()}
+                  style={{
+                    backgroundColor: '#eee',
+                    fontSize: '0.8rem',
+                    fontWeight: 'bold',
+                  }}
+                />
+              ),
+              project_status: 'On Going',
+              project_type: 'Custom Build',
+              start_date: '06/08/2021',
+              deadline: '06/30/2021',
+            })
+          }
+          aria-hidden="true"
+        >
+          New Project
+        </span>
+      ),
+      time_log: (
+        <Link href="https://github.com">
+          <span className={styles.timeloglink}>Go to Log</span>
+        </Link>
+      ),
+      path: (
+        <Input
+          size="large"
+          readOnly
+          value="sdkfjskldf"
+          onFocus={(e) => e.target.select()}
+          style={{ backgroundColor: '#eee', width: '250px' }}
+        />
+      ),
+      project_status: 'On Going',
+      project_type: 'Custom Build',
+      start_date: '06/08/2021',
+      deadline: '06/30/2021',
+    },
+    {
+      key: '3',
+      name: (
+        <span
+          className={styles.timeloglink}
+          onClick={() =>
+            handleModal({
+              key: '1',
+              name: 'New Project',
+              time_log: 'href',
+              path: (
+                <Input
+                  size="large"
+                  readOnly
+                  value="sdkfjskldf"
+                  onFocus={(e) => e.target.select()}
+                  style={{
+                    backgroundColor: '#eee',
+                    fontSize: '0.9rem',
+                  }}
+                />
+              ),
+              project_status: 'On Going',
+              project_type: 'Custom Build',
+              start_date: '06/08/2021',
+              deadline: '06/30/2021',
+            })
+          }
+          aria-hidden="true"
+        >
+          New Project
+        </span>
+      ),
+      time_log: (
+        <Link href="https://github.com">
+          <span className={styles.timeloglink}>Go to Log</span>
+        </Link>
+      ),
+      path: (
+        <Input
+          size="large"
+          readOnly
+          value="sdkfjskldf"
+          onFocus={(e) => e.target.select()}
+          style={{ backgroundColor: '#eee', width: '250px' }}
+        />
+      ),
+      project_status: 'On Going',
+      project_type: 'Custom Build',
+      start_date: '06/08/2021',
+      deadline: '06/30/2021',
+    },
+    {
+      key: '4',
+      name: (
+        <span
+          className={styles.timeloglink}
+          onClick={() =>
+            handleModal({
+              key: '1',
+              name: 'New Project',
+              time_log: 'href',
+              path: (
+                <Input
+                  size="large"
+                  readOnly
+                  value="sdkfjskldf"
+                  onFocus={(e) => e.target.select()}
+                  style={{
+                    backgroundColor: '#eee',
+                    fontSize: '0.9rem',
+                  }}
+                />
+              ),
+              project_status: 'On Going',
+              project_type: 'Custom Build',
+              start_date: '06/08/2021',
+              deadline: '06/30/2021',
+            })
+          }
+          aria-hidden="true"
+        >
+          New Project
+        </span>
+      ),
+      time_log: (
+        <Link href="https://github.com">
+          <span className={styles.timeloglink}>Go to Log</span>
+        </Link>
+      ),
+      path: (
+        <Input
+          size="large"
+          readOnly
+          value="sdkfjskldf"
+          onFocus={(e) => e.target.select()}
+          style={{ backgroundColor: '#eee', width: '250px' }}
+        />
+      ),
+      project_status: 'On Going',
+      project_type: 'Custom Build',
+      start_date: '06/08/2021',
+      deadline: '06/30/2021',
+    },
+    {
+      key: '5',
+      name: (
+        <span
+          className={styles.timeloglink}
+          onClick={() =>
+            handleModal({
+              key: '1',
+              name: 'New Project',
+              time_log: 'href',
+              path: (
+                <Input
+                  size="large"
+                  readOnly
+                  value="sdkfjskldf"
+                  onFocus={(e) => e.target.select()}
+                  style={{
+                    backgroundColor: '#eee',
+                    fontSize: '0.9rem',
+                  }}
+                />
+              ),
+              project_status: 'On Going',
+              project_type: 'Custom Build',
+              start_date: '06/08/2021',
+              deadline: '06/30/2021',
+            })
+          }
+          aria-hidden="true"
+        >
+          New Project
+        </span>
+      ),
+      time_log: (
+        <Link href="https://github.com">
+          <span className={styles.timeloglink}>Go to Log</span>
+        </Link>
+      ),
+      path: (
+        <Input
+          size="large"
+          readOnly
+          value="sdkfjskldf"
+          onFocus={(e) => e.target.select()}
+          style={{ backgroundColor: '#eee', width: '250px' }}
+        />
+      ),
+      project_status: 'On Going',
+      project_type: 'Custom Build',
+      start_date: '06/08/2021',
+      deadline: '06/30/2021',
+    },
+    {
+      key: '6',
+      name: (
+        <span
+          className={styles.timeloglink}
+          onClick={() =>
+            handleModal({
+              key: '1',
+              name: 'New Project',
+              time_log: 'href',
+              path: (
+                <Input
+                  size="large"
+                  readOnly
+                  value="sdkfjskldf"
+                  onFocus={(e) => e.target.select()}
+                  style={{
+                    backgroundColor: '#eee',
+                    fontSize: '0.9rem',
+                  }}
+                />
+              ),
+              project_status: 'On Going',
+              project_type: 'Custom Build',
+              start_date: '06/08/2021',
+              deadline: '06/30/2021',
+            })
+          }
+          aria-hidden="true"
+        >
+          New Project
+        </span>
+      ),
+      time_log: (
+        <Link href="https://github.com">
+          <span className={styles.timeloglink}>Go to Log</span>
+        </Link>
+      ),
+      path: (
+        <Input
+          size="large"
+          readOnly
+          value="sdkfjskldf"
+          onFocus={(e) => e.target.select()}
+          style={{ backgroundColor: '#eee', width: '250px' }}
+        />
+      ),
+      project_status: 'On Going',
+      project_type: 'Custom Build',
+      start_date: '06/08/2021',
+      deadline: '06/30/2021',
+    },
+    {
+      key: '7',
+      name: (
+        <span
+          className={styles.timeloglink}
+          onClick={() =>
+            handleModal({
+              key: '1',
+              name: 'New Project',
+              time_log: 'href',
+              path: (
+                <Input
+                  size="large"
+                  readOnly
+                  value="sdkfjskldf"
+                  onFocus={(e) => e.target.select()}
+                  style={{
+                    backgroundColor: '#eee',
+                    fontSize: '0.9rem',
+                  }}
+                />
+              ),
+              project_status: 'On Going',
+              project_type: 'Custom Build',
+              start_date: '06/08/2021',
+              deadline: '06/30/2021',
+            })
+          }
+          aria-hidden="true"
+        >
+          New Project
+        </span>
+      ),
+      time_log: (
+        <Link href="https://github.com">
+          <span className={styles.timeloglink}>Go to Log</span>
+        </Link>
+      ),
+      path: (
+        <Input
+          size="large"
+          readOnly
+          value="sdkfjskldf"
+          onFocus={(e) => e.target.select()}
+          style={{ backgroundColor: '#eee', width: '250px' }}
+        />
+      ),
+      project_status: 'On Going',
+      project_type: 'Custom Build',
+      start_date: '06/08/2021',
+      deadline: '06/30/2021',
+    },
+    {
+      key: '8',
+      name: (
+        <span
+          className={styles.timeloglink}
+          onClick={() =>
+            handleModal({
+              key: '1',
+              name: 'New Project',
+              time_log: 'href',
+              path: (
+                <Input
+                  size="large"
+                  readOnly
+                  value="sdkfjskldf"
+                  onFocus={(e) => e.target.select()}
+                  style={{
+                    backgroundColor: '#eee',
+                    fontSize: '0.9rem',
+                  }}
+                />
+              ),
+              project_status: 'On Going',
+              project_type: 'Custom Build',
+              start_date: '06/08/2021',
+              deadline: '06/30/2021',
+            })
+          }
+          aria-hidden="true"
+        >
+          New Project
+        </span>
+      ),
+      time_log: (
+        <Link href="https://github.com">
+          <span className={styles.timeloglink}>Go to Log</span>
+        </Link>
+      ),
+      path: (
+        <Input
+          size="large"
+          readOnly
+          value="sdkfjskldf"
+          onFocus={(e) => e.target.select()}
+          style={{ backgroundColor: '#eee', width: '250px' }}
+        />
+      ),
+      project_status: 'On Going',
+      project_type: 'Custom Build',
+      start_date: '06/08/2021',
+      deadline: '06/30/2021',
+    },
+    {
+      key: '9',
+      name: (
+        <span
+          className={styles.timeloglink}
+          onClick={() =>
+            handleModal({
+              key: '1',
+              name: 'New Project',
+              time_log: 'href',
+              path: (
+                <Input
+                  size="large"
+                  readOnly
+                  value="sdkfjskldf"
+                  onFocus={(e) => e.target.select()}
+                  style={{
+                    backgroundColor: '#eee',
+                    fontSize: '0.9rem',
+                  }}
+                />
+              ),
+              project_status: 'On Going',
+              project_type: 'Custom Build',
+              start_date: '06/08/2021',
+              deadline: '06/30/2021',
+            })
+          }
+          aria-hidden="true"
+        >
+          New Project
+        </span>
+      ),
+      time_log: (
+        <Link href="https://github.com">
+          <span className={styles.timeloglink}>Go to Log</span>
+        </Link>
+      ),
+      path: (
+        <Input
+          size="large"
+          readOnly
+          value="sdkfjskldf"
+          onFocus={(e) => e.target.select()}
+          style={{ backgroundColor: '#eee', width: '250px' }}
+        />
+      ),
+      project_status: 'On Going',
+      project_type: 'Custom Build',
+      start_date: '06/08/2021',
+      deadline: '06/30/2021',
+    },
+    {
+      key: '10',
+      name: (
+        <span
+          className={styles.timeloglink}
+          onClick={() =>
+            handleModal({
+              key: '1',
+              name: 'New Project',
+              time_log: 'href',
+              path: (
+                <Input
+                  size="large"
+                  readOnly
+                  value="sdkfjskldf"
+                  onFocus={(e) => e.target.select()}
+                  style={{
+                    backgroundColor: '#eee',
+                    fontSize: '0.9rem',
+                  }}
+                />
+              ),
+              project_status: 'On Going',
+              project_type: 'Custom Build',
+              start_date: '06/08/2021',
+              deadline: '06/30/2021',
+            })
+          }
+          aria-hidden="true"
+        >
+          New Project
+        </span>
+      ),
+      time_log: (
+        <Link href="https://github.com">
+          <span className={styles.timeloglink}>Go to Log</span>
+        </Link>
+      ),
+      path: (
+        <Input
+          size="large"
+          readOnly
+          value="sdkfjskldf"
+          onFocus={(e) => e.target.select()}
+          style={{ backgroundColor: '#eee', width: '250px' }}
+        />
+      ),
+      project_status: 'On Going',
+      project_type: 'Custom Build',
+      start_date: '06/08/2021',
+      deadline: '06/30/2021',
+    },
+    {
+      key: '11',
+      name: (
+        <span
+          className={styles.timeloglink}
+          onClick={() =>
+            handleModal({
+              key: '1',
+              name: 'New Project',
+              time_log: 'href',
+              path: (
+                <Input
+                  size="large"
+                  readOnly
+                  value="sdkfjskldf"
+                  onFocus={(e) => e.target.select()}
+                  style={{
+                    backgroundColor: '#eee',
+                    fontSize: '0.8rem',
+                    fontWeight: 'bold',
+                  }}
+                />
+              ),
+              project_status: 'On Going',
+              project_type: 'Custom Build',
+              start_date: '06/08/2021',
+              deadline: '06/30/2021',
+            })
+          }
+          aria-hidden="true"
+        >
+          New Project
+        </span>
+      ),
+      time_log: (
+        <Link href="https://github.com">
+          <span className={styles.timeloglink}>Go to Log</span>
+        </Link>
+      ),
+      path: (
+        <Input
+          size="large"
+          readOnly
+          value="sdkfjskldf"
+          onFocus={(e) => e.target.select()}
+          style={{ backgroundColor: '#eee', width: '250px' }}
+        />
+      ),
+      project_status: 'On Going',
+      project_type: 'Custom Build',
+      start_date: '06/08/2021',
+      deadline: '06/30/2021',
+    },
+  ]
+
   return (
-    <div style={{ marginTop: 12 }}>
-      <Card
-        style={{
-          width: '85%',
-          boxShadow: '0 0 5px rgb(0 0 0 / 45%)',
-          margin: 'auto',
-        }}
-      >
+    <div className={styles.container}>
+      <Card className={styles.cardResponsive}>
         <FilterSection styles={styles} />
-        <div>
-          <PaginateTable
-            tableBodyStyle={{
-              background: 'white',
-            }}
-            columns={columns}
-            data={[
-              {
-                key: '1',
-                name: (
-                  <span
-                    className={styles.timeloglink}
-                    onClick={() =>
-                      handleModal({
-                        key: '1',
-                        name: 'New Project',
-                        time_log: 'href',
-                        path: (
-                          <Input
-                            size="large"
-                            readOnly
-                            value="sdkfjskldf"
-                            onFocus={(e) => e.target.select()}
-                            style={{
-                              backgroundColor: '#eee',
-                              fontSize: '0.9rem',
-                            }}
-                          />
-                        ),
-                        project_status: 'On Going',
-                        project_type: 'Custom Build',
-                        start_date: '06/08/2021',
-                        deadline: '06/30/2021',
-                      })
-                    }
-                    aria-hidden="true"
-                  >
-                    New Project
-                  </span>
-                ),
-                time_log: (
-                  <Link href="https://github.com">
-                    <span className={styles.timeloglink}>Go to Log</span>
-                  </Link>
-                ),
-                path: (
-                  <Input
-                    size="large"
-                    readOnly
-                    value="sdkfjskldf"
-                    onFocus={(e) => e.target.select()}
-                    style={{ backgroundColor: '#eee', fontSize: '0.9rem' }}
-                  />
-                ),
-                project_status: 'On Going',
-                project_type: 'Custom Build',
-                start_date: '06/08/2021',
-                deadline: '06/30/2021',
-              },
-            ]}
-          />
-        </div>
+        <PaginateTable
+          tableBodyStyle={{
+            background: 'white',
+            fontWeight: 'bold',
+            fontSize: '0.8rem',
+          }}
+          columns={columns}
+          data={data}
+        />
       </Card>
       <Modal
         title={detail.name}

@@ -1,19 +1,22 @@
+.container {
+  padding: 50px;
+}
+
 .timeloglink {
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.85);
+  color: #007cba;
+  white-space: nowrap;
 }
 
 .timeloglink:hover {
-  color: #007cba;
   cursor: pointer;
 }
 
 .filterItems {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 15px;
-  margin-bottom: 10px;
+  gap: 8px;
+  margin: 17px 0;
   align-items: center;
 }
 .containerFluid {
@@ -23,16 +26,21 @@
   margin-left: auto;
 }
 
-.table {
+.detailTable {
   width: 100%;
   max-width: 100%;
   margin-bottom: 20px;
   border: 1px solid #ddd;
 }
 
+.table {
+  width: '100%';
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 .tableHead {
   border: 1px solid #ddd;
-  font-size: 12px;
   text-align: left;
   padding: 10px;
 }
@@ -40,5 +48,33 @@
 .tableData {
   border: 1px solid #ddd;
   padding: 10px;
-  font-size: 12px;
+}
+
+.cardResponsive {
+  box-shadow: 0 0 5px rgb(0 0 0 / 6%);
+  margin: auto;
+}
+
+@media only screen and (min-width: 0) and (max-width: 599px) {
+  .cardResponsive {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .cardResponsive {
+    width: 95%;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .cardResponsive {
+    width: 80%;
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  .cardResponsive {
+    width: 65%;
+  }
 }

@@ -31,7 +31,7 @@ ButtonComponent.defaultProps = {
     color: '#fff',
     borderRadius: '3px',
     padding: '8px 10px',
-    fontSize: '17px',
+    fontSize: '13px',
   },
   size: 'medium',
   onClick: () => {},

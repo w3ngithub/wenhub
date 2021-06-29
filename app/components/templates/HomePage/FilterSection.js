@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import FormField from 'elements/Form'
 import Button from 'components/elements/Button'
 import Select from 'components/elements/Select'
+
 const FilterSection = ({ styles }) => {
-  const [projectTypes, setProjectTypes] = useState([])
+  const [projectTypes, setProjectTypes] = useState({})
   const [projectStatus, setProjectStatus] = useState({
     label: 'Show all project status',
     value: '3',
   })
+
   const [allClients, setAllClients] = useState({})
   const [allDevelopers, setAllDevelopers] = useState({})
   const [allDesigners, setAllDesigners] = useState({})
@@ -19,7 +21,8 @@ const FilterSection = ({ styles }) => {
             component="InputField"
             placeholder="Search Projects"
             borderRadius="3px"
-            padding="0.4rem"
+            width="190px"
+            padding="7px"
             value=""
           />
         </div>
@@ -37,7 +40,6 @@ const FilterSection = ({ styles }) => {
               { label: 'gita', value: '2' },
             ]}
             onChange={(d) => setProjectTypes(d)}
-            mode="multiple"
           />
         </div>
         <div>

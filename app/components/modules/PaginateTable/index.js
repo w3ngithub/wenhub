@@ -4,7 +4,7 @@ import { Paginate, listData } from 'components/elements/Pagination'
 
 const PaginateTable = ({ columns, data, tableBodyStyle }) => {
   const [pageNumber, setPageNumber] = React.useState(1)
-  const [postPerPage, setPostPerPage] = React.useState(5)
+  const [postPerPage, setPostPerPage] = React.useState(10)
 
   const changePage = (pageNo, pageSize) => {
     setPageNumber(pageNo)
@@ -13,7 +13,7 @@ const PaginateTable = ({ columns, data, tableBodyStyle }) => {
   const finalData = listData(data, postPerPage, pageNumber)
 
   return (
-    <div>
+    <>
       <Table
         columns={columns}
         data={finalData}
@@ -25,7 +25,7 @@ const PaginateTable = ({ columns, data, tableBodyStyle }) => {
         length={data.length}
         pageSize={postPerPage}
       />
-    </div>
+    </>
   )
 }
 
