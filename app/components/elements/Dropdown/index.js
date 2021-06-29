@@ -18,7 +18,7 @@ const DropdownComponent = (props) => {
   const menu = (
     <Menu className={menuClassname}>
       {dropdownList &&
-        dropdownList.map((list) => (
+        dropdownList?.map((list) => (
           <Menu.Item
             className={menuListClassname}
             key={list.key}
@@ -73,7 +73,7 @@ DropdownComponent.defaultProps = {
   dropdownTitle: 'Dropdown Here',
   dropdownArrow: true,
   onMenuListClick: () => {
-    console.log('ee')
+    // console.log('ee')
   },
 }
 

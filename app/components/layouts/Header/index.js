@@ -12,7 +12,7 @@ function HeaderLayout({ children }) {
           color: '#fff',
           fontSize: '14px',
           fontWeight: '600',
-          width: '100%',
+          width: '80%',
           height: '100%',
           alignItems: 'center',
           textDecoration: 'none',

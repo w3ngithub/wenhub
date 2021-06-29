@@ -1,7 +1,9 @@
 {
   "extends": ["@imaginary-cloud/react"],
   "plugins": ["unused-imports"],
-
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
   "settings": {
     "import/resolver": {
       "node": {
@@ -48,7 +50,7 @@
       {
         "endOfLine": "auto"
       }
-    ]
+    ],
+    "no-console": "off"
   }
- 
 }

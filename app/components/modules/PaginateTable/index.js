@@ -69,7 +69,12 @@ PaginateTable.defaultProps = {
       age: 42,
       address: 'London No. 1 Lake Park',
       edit: (
-        <button type="button" onClick={() => console.log(2)}>
+        <button
+          type="button"
+          onClick={() => {
+            console.log(2)
+          }}
+        >
           Edit
         </button>
       ),
