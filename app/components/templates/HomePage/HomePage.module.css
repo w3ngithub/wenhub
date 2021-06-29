@@ -1,7 +1,11 @@
 .container {
   padding: 50px;
 }
-
+@media screen and (max-width: 624px) {
+  .container {
+    padding: 0;
+  }
+}
 .timeloglink {
   text-decoration: none;
   color: #007cba;
@@ -9,6 +13,8 @@
 }
 
 .timeloglink:hover {
+  text-decoration: underline;
+  color: #0875ac;
   cursor: pointer;
 }
 

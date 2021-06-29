@@ -47,7 +47,7 @@ const HomePage = () => {
                 <Input
                   size="large"
                   readOnly
-                  value="sdkfjskldf"
+                  value="W:\kickstartup-projects\combier"
                   onFocus={(e) => e.target.select()}
                   style={{
                     backgroundColor: '#eee',
@@ -76,7 +76,7 @@ const HomePage = () => {
         <Input
           size="large"
           readOnly
-          value="sdkfjskldf"
+          value="W:\kickstartup-projects\combier"
           onFocus={(e) => e.target.select()}
           style={{ backgroundColor: '#eee', width: '250px' }}
         />
@@ -100,7 +100,7 @@ const HomePage = () => {
                 <Input
                   size="large"
                   readOnly
-                  value="sdkfjskldf"
+                  value="W:\kickstartup-projects\combier"
                   onFocus={(e) => e.target.select()}
                   style={{
                     backgroundColor: '#eee',
@@ -129,7 +129,7 @@ const HomePage = () => {
         <Input
           size="large"
           readOnly
-          value="sdkfjskldf"
+          value="W:\kickstartup-projects\combier"
           onFocus={(e) => e.target.select()}
           style={{ backgroundColor: '#eee', width: '250px' }}
         />
@@ -153,7 +153,7 @@ const HomePage = () => {
                 <Input
                   size="large"
                   readOnly
-                  value="sdkfjskldf"
+                  value="W:\kickstartup-projects\combier"
                   onFocus={(e) => e.target.select()}
                   style={{
                     backgroundColor: '#eee',
@@ -181,7 +181,7 @@ const HomePage = () => {
         <Input
           size="large"
           readOnly
-          value="sdkfjskldf"
+          value="W:\kickstartup-projects\combier"
           onFocus={(e) => e.target.select()}
           style={{ backgroundColor: '#eee', width: '250px' }}
         />
@@ -205,7 +205,7 @@ const HomePage = () => {
                 <Input
                   size="large"
                   readOnly
-                  value="sdkfjskldf"
+                  value="W:\kickstartup-projects\combier"
                   onFocus={(e) => e.target.select()}
                   style={{
                     backgroundColor: '#eee',
@@ -233,7 +233,7 @@ const HomePage = () => {
         <Input
           size="large"
           readOnly
-          value="sdkfjskldf"
+          value="W:\kickstartup-projects\combier"
           onFocus={(e) => e.target.select()}
           style={{ backgroundColor: '#eee', width: '250px' }}
         />
@@ -257,7 +257,7 @@ const HomePage = () => {
                 <Input
                   size="large"
                   readOnly
-                  value="sdkfjskldf"
+                  value="W:\kickstartup-projects\combier"
                   onFocus={(e) => e.target.select()}
                   style={{
                     backgroundColor: '#eee',
@@ -285,7 +285,7 @@ const HomePage = () => {
         <Input
           size="large"
           readOnly
-          value="sdkfjskldf"
+          value="W:\kickstartup-projects\combier"
           onFocus={(e) => e.target.select()}
           style={{ backgroundColor: '#eee', width: '250px' }}
         />
@@ -309,7 +309,7 @@ const HomePage = () => {
                 <Input
                   size="large"
                   readOnly
-                  value="sdkfjskldf"
+                  value="W:\kickstartup-projects\combier"
                   onFocus={(e) => e.target.select()}
                   style={{
                     backgroundColor: '#eee',
@@ -337,7 +337,7 @@ const HomePage = () => {
         <Input
           size="large"
           readOnly
-          value="sdkfjskldf"
+          value="W:\kickstartup-projects\combier"
           onFocus={(e) => e.target.select()}
           style={{ backgroundColor: '#eee', width: '250px' }}
         />
@@ -361,7 +361,7 @@ const HomePage = () => {
                 <Input
                   size="large"
                   readOnly
-                  value="sdkfjskldf"
+                  value="W:\kickstartup-projects\combier"
                   onFocus={(e) => e.target.select()}
                   style={{
                     backgroundColor: '#eee',
@@ -389,7 +389,7 @@ const HomePage = () => {
         <Input
           size="large"
           readOnly
-          value="sdkfjskldf"
+          value="W:\kickstartup-projects\combier"
           onFocus={(e) => e.target.select()}
           style={{ backgroundColor: '#eee', width: '250px' }}
         />
@@ -413,7 +413,7 @@ const HomePage = () => {
                 <Input
                   size="large"
                   readOnly
-                  value="sdkfjskldf"
+                  value="W:\kickstartup-projects\combier"
                   onFocus={(e) => e.target.select()}
                   style={{
                     backgroundColor: '#eee',
@@ -441,7 +441,7 @@ const HomePage = () => {
         <Input
           size="large"
           readOnly
-          value="sdkfjskldf"
+          value="W:\kickstartup-projects\combier"
           onFocus={(e) => e.target.select()}
           style={{ backgroundColor: '#eee', width: '250px' }}
         />
@@ -465,7 +465,7 @@ const HomePage = () => {
                 <Input
                   size="large"
                   readOnly
-                  value="sdkfjskldf"
+                  value="W:\kickstartup-projects\combier"
                   onFocus={(e) => e.target.select()}
                   style={{
                     backgroundColor: '#eee',
@@ -493,7 +493,7 @@ const HomePage = () => {
         <Input
           size="large"
           readOnly
-          value="sdkfjskldf"
+          value="W:\kickstartup-projects\combier"
           onFocus={(e) => e.target.select()}
           style={{ backgroundColor: '#eee', width: '250px' }}
         />
@@ -517,7 +517,7 @@ const HomePage = () => {
                 <Input
                   size="large"
                   readOnly
-                  value="sdkfjskldf"
+                  value="W:\kickstartup-projects\combier"
                   onFocus={(e) => e.target.select()}
                   style={{
                     backgroundColor: '#eee',
@@ -545,7 +545,7 @@ const HomePage = () => {
         <Input
           size="large"
           readOnly
-          value="sdkfjskldf"
+          value="W:\kickstartup-projects\combier"
           onFocus={(e) => e.target.select()}
           style={{ backgroundColor: '#eee', width: '250px' }}
         />
@@ -569,7 +569,7 @@ const HomePage = () => {
                 <Input
                   size="large"
                   readOnly
-                  value="sdkfjskldf"
+                  value="W:\kickstartup-projects\combier"
                   onFocus={(e) => e.target.select()}
                   style={{
                     backgroundColor: '#eee',
@@ -598,7 +598,7 @@ const HomePage = () => {
         <Input
           size="large"
           readOnly
-          value="sdkfjskldf"
+          value="W:\kickstartup-projects\combier"
           onFocus={(e) => e.target.select()}
           style={{ backgroundColor: '#eee', width: '250px' }}
         />
@@ -630,7 +630,7 @@ const HomePage = () => {
         handleCancel={handleModal}
         confirmText="Delete"
         cancelText="No"
-        variant="large"
+        variant="medium"
       >
         <div className={`${styles.containerFluid}`}>
           <Row>

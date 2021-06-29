@@ -7,3 +7,9 @@
 //   src: local("Sans-Pro"),
 //     url(../../fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf) format("woff");
 // }
+
+@font-face {
+  font-family: 'Work-Sans';
+  src: local('Work-Sans'),
+    url(../../../assets/fonts/Work_Sans/WorkSans-Regular.ttf) format('woff');
+}

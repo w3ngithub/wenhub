@@ -14,6 +14,7 @@ const Modals = ({
   cancelText,
   variant,
   footer,
+  centered,
 }) => {
   let width
 
@@ -37,6 +38,7 @@ const Modals = ({
       bodyStyle={bodyStyle}
       width={width}
       footer={footer}
+      centered={centered}
     >
       {children}
     </Modal>
@@ -49,6 +51,7 @@ Modals.defaultProps = {
   confirmText: 'Confirm',
   cancelText: 'Cancel',
   footer: null,
+  centered: true,
 }
 
 Modals.propTypes = {
@@ -59,6 +62,7 @@ Modals.propTypes = {
   confirmText: PropTypes.string,
   cancelText: PropTypes.string,
   footer: PropTypes.array,
+  centered: PropTypes.bool,
 }
 
 export default Modals

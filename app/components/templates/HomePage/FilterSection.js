@@ -36,8 +36,9 @@ const FilterSection = ({ styles }) => {
             placeholder="Show All Project Types"
             value={projectTypes}
             options={[
-              { label: 'haru', value: '1' },
-              { label: 'gita', value: '2' },
+              { label: 'Contao(2)', value: '1' },
+              { label: 'Custom build(6)', value: '2' },
+              { label: 'Fixing(5)', value: '3' },
             ]}
             onChange={(d) => setProjectTypes(d)}
           />
@@ -47,9 +48,11 @@ const FilterSection = ({ styles }) => {
             placeholder="Show All Project Status"
             value={projectStatus}
             options={[
-              { label: 'Show all project status', value: '3' },
-              { label: 'haru', value: '1' },
-              { label: 'gita', value: '2' },
+              { label: 'Show All Project Status', value: '1' },
+              { label: 'Awaiting Response(122)', value: '2' },
+              { label: 'Completed(3)', value: '3' },
+              { label: 'On Going(12)', value: '4' },
+              { label: 'On Hold(23)', value: '5' },
             ]}
             onChange={(d) => setProjectStatus(d)}
           />
@@ -58,7 +61,11 @@ const FilterSection = ({ styles }) => {
           <Select
             placeholder="Show All Clients"
             value={allClients}
-            options={[]}
+            options={[
+              { label: '360', value: '1' },
+              { label: 'Avasant', value: '2' },
+              { label: 'Cyber Family', value: '3' },
+            ]}
             onChange={(d) => setAllClients(d)}
           />
         </div>
@@ -66,7 +73,12 @@ const FilterSection = ({ styles }) => {
           <Select
             placeholder="All Developers"
             value={allDevelopers}
-            options={[]}
+            options={[
+              { label: 'Rujal Sapkota', value: '1' },
+              { label: 'Ashok Ganika', value: '2' },
+              { label: 'Pariskrit Moktan', value: '3' },
+              { label: 'Sagar Shrestha', value: '4' },
+            ]}
             onChange={(d) => setAllDevelopers(d)}
           />
         </div>
