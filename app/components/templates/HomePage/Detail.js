@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Detail = ({ columns, styles, detail }) => (
-  <table className={`${styles.table}`}>
+  <table className={`${styles.detailTable}`}>
     <tbody>
       {columns
         .filter(

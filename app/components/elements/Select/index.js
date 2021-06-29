@@ -21,7 +21,7 @@ const SelectComponent = ({
       mode={mode}
       style={style}
       placeholder={
-        <div style={{ fontSize: '0.8rem', fontWeight: 'bold' }}>
+        <div style={{ fontSize: '0.7rem', fontWeight: 'bold' }}>
           {placeholder}
         </div>
       }
@@ -65,7 +65,7 @@ SelectComponent.propTypes = {
 
 SelectComponent.defaultProps = {
   placeholder: 'Select a person',
-  style: { width: 190, fontSize: '0.8rem', fontWeight: 'bold' },
+  style: { width: 190, fontSize: '0.7rem', fontWeight: 'bold' },
   mode: 'tag',
   onChange: () => {},
   onBlur: () => {},

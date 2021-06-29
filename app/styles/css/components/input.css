@@ -1,0 +1,10 @@
+.ant-input::-webkit-input-placeholder {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: black;
+}
+
+.ant-input {
+  font-weight: bold;
+  font-size: 0.7rem;
+}

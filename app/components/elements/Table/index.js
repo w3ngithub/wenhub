@@ -4,23 +4,21 @@ import { Table } from 'antd'
 
 const { Column } = Table
 const ListTable = ({ columns, data, tableBodyStyle }) => (
-  <div>
-    <Table dataSource={data} pagination={false}>
-      {columns.map((col) => (
-        <Column
-          title={col.title}
-          dataIndex={col.keyIndex}
-          key={col.keyIndex}
-          render={(text) => ({
-            props: {
-              style: tableBodyStyle,
-            },
-            children: text,
-          })}
-        />
-      ))}
-    </Table>
-  </div>
+  <Table dataSource={data} pagination={false}>
+    {columns.map((col) => (
+      <Column
+        title={col.title}
+        dataIndex={col.keyIndex}
+        key={col.keyIndex}
+        render={(text) => ({
+          props: {
+            style: tableBodyStyle,
+          },
+          children: text,
+        })}
+      />
+    ))}
+  </Table>
 )
 
 ListTable.defaultProps = {
