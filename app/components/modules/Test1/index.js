@@ -4,6 +4,7 @@ import Modal from 'components/elements/Modal'
 import Tab from 'components/elements/Tabs'
 import Select from 'components/elements/Select'
 import DropdownComponent from 'components/elements/Dropdown'
+import CheckList from '../GoToLog/CheckList'
 const ContentOne = () => (
   <div>
     <h1>Hey this is first Content</h1>
@@ -39,6 +40,10 @@ const Test1 = () => {
   ])
   return (
     <div>
+      <div>
+        <h1>Check List</h1>
+        <CheckList />
+      </div>
       <div>
         <h1>Table</h1>
         <PaginateTable />
@@ -80,7 +85,7 @@ const Test1 = () => {
       <div>
         <h1>Tabs</h1>
         <Tab
-          type="editable-card"
+          type="card"
           tabBarStyle={{ background: '#ddd', width: '100%' }}
           tabs={panes}
           // style={{ backgroundColor: '#ddd' }}

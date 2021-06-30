@@ -2,7 +2,15 @@ import React from 'react'
 import { Button } from 'antd'
 import PropTypes from 'prop-types'
 import styles from './button.module.css'
-function ButtonComponent({ type, btnText, size, style, onClick, isDisabled }) {
+function ButtonComponent({
+  type,
+  btnText,
+  size,
+  style,
+  onClick,
+  isDisabled,
+  htmlType,
+}) {
   return (
     <Button
       type={type}
@@ -11,6 +19,7 @@ function ButtonComponent({ type, btnText, size, style, onClick, isDisabled }) {
       className={styles.btn}
       style={style}
       onClick={onClick}
+      htmlType={htmlType}
     >
       {btnText}
     </Button>
@@ -24,6 +33,7 @@ ButtonComponent.propTypes = {
   type: PropTypes.string,
   size: PropTypes.string,
   isDisabled: PropTypes.bool,
+  htmlType: PropTypes.string,
 }
 
 ButtonComponent.defaultProps = {
@@ -37,6 +47,7 @@ ButtonComponent.defaultProps = {
   onClick: () => {},
   type: 'primary',
   isDisabled: false,
+  htmlType: 'button',
 }
 
 export default ButtonComponent

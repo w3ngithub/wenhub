@@ -1,0 +1,81 @@
+.checkList {
+  width: 70%;
+  margin: 0 auto;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 25px 50px 0 rgb(0 0 0 / 10%);
+  font-weight: 800;
+}
+
+.checkListItems li {
+  padding: 20px;
+  border-bottom: 1px solid #ededed;
+  letter-spacing: 1px;
+  width: 100%;
+  position: relative;
+  list-style-position: inside;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.buttons button {
+  padding: 1px;
+  border: 1px solid black;
+  min-width: 15%;
+  text-align: center;
+}
+
+.tickIcon {
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: rgb(30, 128, 91);
+}
+
+.crossIcon {
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: rgb(187, 15, 70);
+}
+
+.itemActions {
+  background: #fff;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0 3px;
+}
+
+.itemActions span {
+  margin-left: 5px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  margin-left: 80%;
+}
+
+.skippedReason {
+  opacity: 1;
+  visibility: visible;
+  padding-top: 20px;
+  border-top: 2px dashed;
+  margin-top: 20px;
+  height: 150px;
+}
+
+.skipNone {
+  opacity: 0;
+  visibility: hidden;
+  height: 0px;
+  overflow: hidden;
+}
+
+.skip {
+  color: #fff;
+  transition: all 0.54s ease;
+}
