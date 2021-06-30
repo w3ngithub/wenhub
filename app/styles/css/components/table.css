@@ -4,7 +4,7 @@
 }
 
 thead.ant-table-thead th {
-  background-color: var(--primary-color);
+  background-color: var(--navbar-color);
   color: #ffffff;
   padding: 10px;
   text-transform: uppercase;
