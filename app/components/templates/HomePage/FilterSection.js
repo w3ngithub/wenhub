@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import FormField from 'elements/Form'
 import Button from 'components/elements/Button'
 import Select from 'components/elements/Select'
+import { setFilterOptions } from 'utils/commonFunctions'
 
-const FilterSection = ({ styles }) => {
+const FilterSection = ({
+  styles,
+  filterType, // : { projectTypes, projectStatus, clients, developers, designers },
+}) => {
   const [projectTypes, setProjectTypes] = useState({})
-  const [projectStatus, setProjectStatus] = useState({
-    label: 'Show all project status',
-    value: '3',
-  })
-
+  const [projectStatus, setProjectStatus] = useState({})
   const [allClients, setAllClients] = useState({})
   const [allDevelopers, setAllDevelopers] = useState({})
   const [allDesigners, setAllDesigners] = useState({})
@@ -35,11 +35,7 @@ const FilterSection = ({ styles }) => {
           <Select
             placeholder="Show All Project Types"
             value={projectTypes}
-            options={[
-              { label: 'Contao(2)', value: '1' },
-              { label: 'Custom build(6)', value: '2' },
-              { label: 'Fixing(5)', value: '3' },
-            ]}
+            options={filterType.projectTypes.map(setFilterOptions)}
             onChange={(d) => setProjectTypes(d)}
           />
         </div>
@@ -47,13 +43,7 @@ const FilterSection = ({ styles }) => {
           <Select
             placeholder="Show All Project Status"
             value={projectStatus}
-            options={[
-              { label: 'Show All Project Status', value: '1' },
-              { label: 'Awaiting Response(122)', value: '2' },
-              { label: 'Completed(3)', value: '3' },
-              { label: 'On Going(12)', value: '4' },
-              { label: 'On Hold(23)', value: '5' },
-            ]}
+            options={filterType.projectStatus.map(setFilterOptions)}
             onChange={(d) => setProjectStatus(d)}
           />
         </div>
@@ -61,11 +51,7 @@ const FilterSection = ({ styles }) => {
           <Select
             placeholder="Show All Clients"
             value={allClients}
-            options={[
-              { label: '360', value: '1' },
-              { label: 'Avasant', value: '2' },
-              { label: 'Cyber Family', value: '3' },
-            ]}
+            options={filterType.clients.map(setFilterOptions)}
             onChange={(d) => setAllClients(d)}
           />
         </div>
@@ -73,12 +59,7 @@ const FilterSection = ({ styles }) => {
           <Select
             placeholder="All Developers"
             value={allDevelopers}
-            options={[
-              { label: 'Rujal Sapkota', value: '1' },
-              { label: 'Ashok Ganika', value: '2' },
-              { label: 'Pariskrit Moktan', value: '3' },
-              { label: 'Sagar Shrestha', value: '4' },
-            ]}
+            options={filterType.developers.map(setFilterOptions)}
             onChange={(d) => setAllDevelopers(d)}
           />
         </div>
@@ -86,7 +67,7 @@ const FilterSection = ({ styles }) => {
           <Select
             placeholder="All Designers"
             value={allDesigners}
-            options={[]}
+            options={filterType.designers.map(setFilterOptions)}
             onChange={(d) => setAllDesigners(d)}
           />
         </div>

@@ -7,7 +7,7 @@ const PaginateTable = ({ columns, data, tableBodyStyle }) => {
   const [postPerPage, setPostPerPage] = React.useState(10)
 
   const changePage = (pageNo, pageSize) => {
-    setPageNumber(pageNo)
+    if (pageNo !== 0) setPageNumber(pageNo)
     setPostPerPage(pageSize)
   }
   const finalData = listData(data, postPerPage, pageNumber)

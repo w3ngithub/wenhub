@@ -4,7 +4,7 @@ import TimeLog from 'components/modules/TimeLog'
 import Tab from 'components/elements/Tabs'
 import Details from 'components/elements/Detail'
 import FormField from 'components/elements/Form'
-import Checklist from 'components/modules/GoToLog/CheckList'
+import Checklist from 'components/modules/CheckList'
 import styles from './styles.module.css'
 
 function ProjectLog() {

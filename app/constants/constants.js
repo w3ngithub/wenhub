@@ -1,6 +1,6 @@
 export const ADMIN_ROLE_ID = 1
 
-export const BASE_URL = '/'
+export const API_URL = 'http://202.166.207.19/wenhub-rt/wp-json/wp/v2'
 
 // color
 export const PRIMARY_COLOR = '#e0e0e0'

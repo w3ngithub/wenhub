@@ -4,7 +4,7 @@ import Modal from 'components/elements/Modal'
 import Tab from 'components/elements/Tabs'
 import Select from 'components/elements/Select'
 import DropdownComponent from 'components/elements/Dropdown'
-import CheckList from '../GoToLog/CheckList'
+import CheckList from '../CheckList'
 const ContentOne = () => (
   <div>
     <h1>Hey this is first Content</h1>
