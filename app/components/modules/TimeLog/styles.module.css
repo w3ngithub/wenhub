@@ -1,0 +1,87 @@
+.timelog_container {
+  display: flex;
+  width: 100%;
+  margin: auto;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .timelog_container {
+    flex-direction: column;
+  }
+}
+
+.add_time_log {
+  width: 25%;
+}
+
+.time_summary {
+  width: 75%;
+}
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .add_time_log {
+    width: 100%;
+  }
+  .time_summary {
+    width: 100%;
+  }
+}
+.filter_table {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+.project_detail_table {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.chart_container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .chart_container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+.chart_type {
+  width: 20%;
+}
+
+.chart_log_type {
+  min-width: 300px;
+}
+
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .chart_type {
+    width: 100%;
+  }
+  .chart_log_type {
+    min-width: 90%;
+  }
+}
+
+.chart_display {
+  margin: 30px 0;
+}
+
+.edit_table_row_data {
+  cursor: pointer;
+}
+.edit_table_row_data:hover {
+  color: var(--navbar-color);
+}

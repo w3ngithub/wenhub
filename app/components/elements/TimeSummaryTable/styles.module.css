@@ -1,0 +1,34 @@
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  text-align: left;
+  color: #000;
+  /* table-layout: fixed; */
+}
+
+.tableHead {
+  border: 1px solid #ddd;
+  font-size: 14px;
+  padding: 10px;
+  font-weight: 600;
+}
+
+.tableData {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.tableHeader1 {
+  padding: 10px;
+  background-color: var(--navbar-color);
+  color: #fff;
+}
+.tableHeader2 {
+  padding: 10px;
+  background-color: var(--navbar-color);
+  color: var(--navbar-color);
+}

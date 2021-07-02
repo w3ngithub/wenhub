@@ -8,11 +8,15 @@ thead.ant-table-thead th {
   color: #ffffff;
   padding: 10px;
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
   font-size: 0.79rem;
   font-weight: bold;
 }
 
 tbody.ant-table-tbody td {
-  text-align: center;
+  text-align: left;
 }
+
+/* .ant-tabs-nav-operations {
+  text-align: left;
+} */

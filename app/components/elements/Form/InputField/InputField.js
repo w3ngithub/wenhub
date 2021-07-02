@@ -20,6 +20,9 @@ function InputField({
   textColor,
   fontSize,
   padding,
+  styles,
+  onFocus,
+  readOnly,
 }) {
   const style = {
     width: `${width}`,
@@ -42,7 +45,9 @@ function InputField({
       size={size}
       addonBefore={addonBefore}
       addonAfter={addonAfter}
-      style={style}
+      onFocus={onFocus}
+      style={{ ...style, ...styles }}
+      readOnly={readOnly}
     />
   )
 }
@@ -63,6 +68,8 @@ InputField.propTypes = {
   textColor: PropTypes.string,
   fontSize: PropTypes.string,
   padding: PropTypes.string,
+  onFocus: PropTypes.func,
+  readOnly: PropTypes.bool,
 }
 
 InputField.defaultProps = {
@@ -72,6 +79,7 @@ InputField.defaultProps = {
   width: '100%',
   backgroundColor: 'none',
   borderRadius: '0px',
+  readOnly: false,
 }
 
 export default InputField
