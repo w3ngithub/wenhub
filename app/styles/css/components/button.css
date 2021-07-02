@@ -1,5 +1,17 @@
 button.ant-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-btn-primary[disabled],
+.ant-btn-primary[disabled]:hover,
+.ant-btn-primary[disabled]:focus,
+.ant-btn-primary[disabled]:active {
+  color: rgba(0, 0, 0, 0.25);
+  background: var(--secondary-color);
+  border-color: #d9d9d9;
+  text-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }

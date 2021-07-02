@@ -1,0 +1,19 @@
+.time_log_container {
+  width: '100%';
+}
+
+.time_log_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: x-large;
+}
+
+.timelog_edit {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.timelog_edit:hover {
+  color: var(--navbar-color);
+}

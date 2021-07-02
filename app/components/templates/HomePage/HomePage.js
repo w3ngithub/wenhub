@@ -611,19 +611,18 @@ const HomePage = () => {
   ]
 
   return (
-    <div className={styles.container}>
-      <Card className={styles.cardResponsive}>
-        <FilterSection styles={styles} />
-        <PaginateTable
-          tableBodyStyle={{
-            background: 'white',
-            fontWeight: 'bold',
-            fontSize: '0.8rem',
-          }}
-          columns={columns}
-          data={data}
-        />
-      </Card>
+    <>
+      <FilterSection styles={styles} />
+      <PaginateTable
+        tableBodyStyle={{
+          background: 'white',
+          fontWeight: 'bold',
+          fontSize: '0.8rem',
+        }}
+        columns={columns}
+        data={data}
+      />
+
       <Modal
         title={detail.name}
         visible={open}
@@ -640,7 +639,7 @@ const HomePage = () => {
           </Row>
         </div>
       </Modal>
-    </div>
+    </>
   )
 }
 
