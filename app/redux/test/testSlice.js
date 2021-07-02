@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { HYDRATE } from 'next-redux-wrapper'
 
 const initialTestsState = {
   listLoading: false,
@@ -94,5 +95,11 @@ export const testsSlice = createSlice({
         return ent
       })
     },
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => ({
+      ...state,
+      ...action.payload.tests,
+    }),
   },
 })

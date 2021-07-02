@@ -1,0 +1,44 @@
+import { createSlice } from '@reduxjs/toolkit'
+import { HYDRATE } from 'next-redux-wrapper'
+
+const initialState = {
+  filterType: {
+    projectTypes: [],
+    projectStatus: [],
+    clients: [],
+    developers: [],
+    designers: [],
+  },
+  commonLoading: false,
+  error: '',
+}
+
+export const commonSlice = createSlice({
+  name: 'commonData',
+  initialState,
+  reducers: {
+    filterOptionsFetching: (state) => {
+      state.commonLoading = true
+    },
+    filterOptionsFetchingSuccess: (state, { payload }) => {
+      state.commonLoading = false
+      state.filterType = {
+        projectTypes: payload.data[0],
+        projectStatus: payload.data[1],
+        clients: payload.data[2],
+        developers: payload.data[3],
+        designers: payload.data[4],
+      }
+    },
+    filterOptionsFetchingError: (state, { payload }) => {
+      state.commonLoading = false
+      state.error = payload.error
+    },
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => ({
+      ...state,
+      ...action.payload.commonData,
+    }),
+  },
+})

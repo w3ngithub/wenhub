@@ -1,26 +1,54 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Card, Row, Col, Input } from 'antd'
+import { Row, Col, Input } from 'antd'
 import PaginateTable from 'components/modules/PaginateTable'
 import Modal from 'components/elements/Modal'
-import styles from './HomePage.module.css'
-import Detail from './Detail'
+import { getDataDetail } from 'utils/commonFunctions'
+import Detail from 'components/elements/Detail'
 import FilterSection from './FilterSection'
+import styles from './HomePage.module.css'
 
-const columns = [
-  { title: '#', keyIndex: 'key' },
-  { title: 'Name', keyIndex: 'name' },
-  { title: 'Time Log', keyIndex: 'time_log' },
-  { title: 'Path', keyIndex: 'path' },
-  { title: 'Project Status', keyIndex: 'project_status' },
-  { title: 'Project Type', keyIndex: 'project_type' },
-  { title: 'Start Date', keyIndex: 'start_date' },
-  { title: 'Deadline', keyIndex: 'deadline' },
-]
-
-const HomePage = () => {
+const HomePage = ({ projects, filterType }) => {
   const [open, setOpen] = useState(false)
   const [detail, setDetail] = useState({})
+  const [data, setData] = useState([])
+  // console.clear()
+  // console.log(projects)
+
+  React.useEffect(() => {
+    const mainData = projects.map((x, i) => ({
+      key: i + 1,
+      id: x.id,
+      name: (
+        <span
+          className={styles.timeloglink}
+          onClick={() => handleModal(getDataDetail(x))}
+          aria-hidden="true"
+        >
+          {x.title.rendered}
+        </span>
+      ),
+      time_log: (
+        <Link href="/project/idoine">
+          <span className={styles.timeloglink}>Go to Log</span>
+        </Link>
+      ),
+      path: (
+        <Input
+          size="large"
+          readOnly
+          value={x.acf_fields.project_link}
+          onFocus={(e) => e.target.select()}
+          style={{ backgroundColor: '#eee', width: '250px' }}
+        />
+      ),
+      project_status: 'On Going', // x._embedded['wp:term'][2][0]?.name,
+      project_type: 'Custom Build', // x._embedded['wp:term'][1][0]?.name,
+      start_date: x.acf_fields.start_date,
+      deadline: x.acf_fields.end_date,
+    }))
+    setData(mainData)
+  }, [projects])
 
   const handleModal = (d) => {
     if (open === true) {
@@ -32,594 +60,25 @@ const HomePage = () => {
     }
   }
 
-  const data = [
-    {
-      key: '1',
-      name: (
-        <span
-          className={styles.timeloglink}
-          onClick={() =>
-            handleModal({
-              key: '1',
-              name: 'New Project',
-              time_log: 'href',
-              path: (
-                <Input
-                  size="large"
-                  readOnly
-                  value="W:\kickstartup-projects\combier"
-                  onFocus={(e) => e.target.select()}
-                  style={{
-                    backgroundColor: '#eee',
-                    fontSize: '0.8rem',
-                    fontWeight: 'bold',
-                  }}
-                />
-              ),
-              project_status: 'On Going',
-              project_type: 'Custom Build',
-              start_date: '06/08/2021',
-              deadline: '06/30/2021',
-            })
-          }
-          aria-hidden="true"
-        >
-          New Project
-        </span>
-      ),
-      time_log: (
-        <Link href="https://github.com">
-          <span className={styles.timeloglink}>Go to Log</span>
-        </Link>
-      ),
-      path: (
-        <Input
-          size="large"
-          readOnly
-          value="W:\kickstartup-projects\combier"
-          onFocus={(e) => e.target.select()}
-          style={{ backgroundColor: '#eee', width: '250px' }}
-        />
-      ),
-      project_status: 'On Going',
-      project_type: 'Custom Build',
-      start_date: '06/08/2021',
-      deadline: '06/30/2021',
-    },
-    {
-      key: '2',
-      name: (
-        <span
-          className={styles.timeloglink}
-          onClick={() =>
-            handleModal({
-              key: '1',
-              name: 'New Project',
-              time_log: 'href',
-              path: (
-                <Input
-                  size="large"
-                  readOnly
-                  value="W:\kickstartup-projects\combier"
-                  onFocus={(e) => e.target.select()}
-                  style={{
-                    backgroundColor: '#eee',
-                    fontSize: '0.8rem',
-                    fontWeight: 'bold',
-                  }}
-                />
-              ),
-              project_status: 'On Going',
-              project_type: 'Custom Build',
-              start_date: '06/08/2021',
-              deadline: '06/30/2021',
-            })
-          }
-          aria-hidden="true"
-        >
-          New Project
-        </span>
-      ),
-      time_log: (
-        <Link href="https://github.com">
-          <span className={styles.timeloglink}>Go to Log</span>
-        </Link>
-      ),
-      path: (
-        <Input
-          size="large"
-          readOnly
-          value="W:\kickstartup-projects\combier"
-          onFocus={(e) => e.target.select()}
-          style={{ backgroundColor: '#eee', width: '250px' }}
-        />
-      ),
-      project_status: 'On Going',
-      project_type: 'Custom Build',
-      start_date: '06/08/2021',
-      deadline: '06/30/2021',
-    },
-    {
-      key: '3',
-      name: (
-        <span
-          className={styles.timeloglink}
-          onClick={() =>
-            handleModal({
-              key: '1',
-              name: 'New Project',
-              time_log: 'href',
-              path: (
-                <Input
-                  size="large"
-                  readOnly
-                  value="W:\kickstartup-projects\combier"
-                  onFocus={(e) => e.target.select()}
-                  style={{
-                    backgroundColor: '#eee',
-                    fontSize: '0.9rem',
-                  }}
-                />
-              ),
-              project_status: 'On Going',
-              project_type: 'Custom Build',
-              start_date: '06/08/2021',
-              deadline: '06/30/2021',
-            })
-          }
-          aria-hidden="true"
-        >
-          New Project
-        </span>
-      ),
-      time_log: (
-        <Link href="https://github.com">
-          <span className={styles.timeloglink}>Go to Log</span>
-        </Link>
-      ),
-      path: (
-        <Input
-          size="large"
-          readOnly
-          value="W:\kickstartup-projects\combier"
-          onFocus={(e) => e.target.select()}
-          style={{ backgroundColor: '#eee', width: '250px' }}
-        />
-      ),
-      project_status: 'On Going',
-      project_type: 'Custom Build',
-      start_date: '06/08/2021',
-      deadline: '06/30/2021',
-    },
-    {
-      key: '4',
-      name: (
-        <span
-          className={styles.timeloglink}
-          onClick={() =>
-            handleModal({
-              key: '1',
-              name: 'New Project',
-              time_log: 'href',
-              path: (
-                <Input
-                  size="large"
-                  readOnly
-                  value="W:\kickstartup-projects\combier"
-                  onFocus={(e) => e.target.select()}
-                  style={{
-                    backgroundColor: '#eee',
-                    fontSize: '0.9rem',
-                  }}
-                />
-              ),
-              project_status: 'On Going',
-              project_type: 'Custom Build',
-              start_date: '06/08/2021',
-              deadline: '06/30/2021',
-            })
-          }
-          aria-hidden="true"
-        >
-          New Project
-        </span>
-      ),
-      time_log: (
-        <Link href="https://github.com">
-          <span className={styles.timeloglink}>Go to Log</span>
-        </Link>
-      ),
-      path: (
-        <Input
-          size="large"
-          readOnly
-          value="W:\kickstartup-projects\combier"
-          onFocus={(e) => e.target.select()}
-          style={{ backgroundColor: '#eee', width: '250px' }}
-        />
-      ),
-      project_status: 'On Going',
-      project_type: 'Custom Build',
-      start_date: '06/08/2021',
-      deadline: '06/30/2021',
-    },
-    {
-      key: '5',
-      name: (
-        <span
-          className={styles.timeloglink}
-          onClick={() =>
-            handleModal({
-              key: '1',
-              name: 'New Project',
-              time_log: 'href',
-              path: (
-                <Input
-                  size="large"
-                  readOnly
-                  value="W:\kickstartup-projects\combier"
-                  onFocus={(e) => e.target.select()}
-                  style={{
-                    backgroundColor: '#eee',
-                    fontSize: '0.9rem',
-                  }}
-                />
-              ),
-              project_status: 'On Going',
-              project_type: 'Custom Build',
-              start_date: '06/08/2021',
-              deadline: '06/30/2021',
-            })
-          }
-          aria-hidden="true"
-        >
-          New Project
-        </span>
-      ),
-      time_log: (
-        <Link href="https://github.com">
-          <span className={styles.timeloglink}>Go to Log</span>
-        </Link>
-      ),
-      path: (
-        <Input
-          size="large"
-          readOnly
-          value="W:\kickstartup-projects\combier"
-          onFocus={(e) => e.target.select()}
-          style={{ backgroundColor: '#eee', width: '250px' }}
-        />
-      ),
-      project_status: 'On Going',
-      project_type: 'Custom Build',
-      start_date: '06/08/2021',
-      deadline: '06/30/2021',
-    },
-    {
-      key: '6',
-      name: (
-        <span
-          className={styles.timeloglink}
-          onClick={() =>
-            handleModal({
-              key: '1',
-              name: 'New Project',
-              time_log: 'href',
-              path: (
-                <Input
-                  size="large"
-                  readOnly
-                  value="W:\kickstartup-projects\combier"
-                  onFocus={(e) => e.target.select()}
-                  style={{
-                    backgroundColor: '#eee',
-                    fontSize: '0.9rem',
-                  }}
-                />
-              ),
-              project_status: 'On Going',
-              project_type: 'Custom Build',
-              start_date: '06/08/2021',
-              deadline: '06/30/2021',
-            })
-          }
-          aria-hidden="true"
-        >
-          New Project
-        </span>
-      ),
-      time_log: (
-        <Link href="https://github.com">
-          <span className={styles.timeloglink}>Go to Log</span>
-        </Link>
-      ),
-      path: (
-        <Input
-          size="large"
-          readOnly
-          value="W:\kickstartup-projects\combier"
-          onFocus={(e) => e.target.select()}
-          style={{ backgroundColor: '#eee', width: '250px' }}
-        />
-      ),
-      project_status: 'On Going',
-      project_type: 'Custom Build',
-      start_date: '06/08/2021',
-      deadline: '06/30/2021',
-    },
-    {
-      key: '7',
-      name: (
-        <span
-          className={styles.timeloglink}
-          onClick={() =>
-            handleModal({
-              key: '1',
-              name: 'New Project',
-              time_log: 'href',
-              path: (
-                <Input
-                  size="large"
-                  readOnly
-                  value="W:\kickstartup-projects\combier"
-                  onFocus={(e) => e.target.select()}
-                  style={{
-                    backgroundColor: '#eee',
-                    fontSize: '0.9rem',
-                  }}
-                />
-              ),
-              project_status: 'On Going',
-              project_type: 'Custom Build',
-              start_date: '06/08/2021',
-              deadline: '06/30/2021',
-            })
-          }
-          aria-hidden="true"
-        >
-          New Project
-        </span>
-      ),
-      time_log: (
-        <Link href="https://github.com">
-          <span className={styles.timeloglink}>Go to Log</span>
-        </Link>
-      ),
-      path: (
-        <Input
-          size="large"
-          readOnly
-          value="W:\kickstartup-projects\combier"
-          onFocus={(e) => e.target.select()}
-          style={{ backgroundColor: '#eee', width: '250px' }}
-        />
-      ),
-      project_status: 'On Going',
-      project_type: 'Custom Build',
-      start_date: '06/08/2021',
-      deadline: '06/30/2021',
-    },
-    {
-      key: '8',
-      name: (
-        <span
-          className={styles.timeloglink}
-          onClick={() =>
-            handleModal({
-              key: '1',
-              name: 'New Project',
-              time_log: 'href',
-              path: (
-                <Input
-                  size="large"
-                  readOnly
-                  value="W:\kickstartup-projects\combier"
-                  onFocus={(e) => e.target.select()}
-                  style={{
-                    backgroundColor: '#eee',
-                    fontSize: '0.9rem',
-                  }}
-                />
-              ),
-              project_status: 'On Going',
-              project_type: 'Custom Build',
-              start_date: '06/08/2021',
-              deadline: '06/30/2021',
-            })
-          }
-          aria-hidden="true"
-        >
-          New Project
-        </span>
-      ),
-      time_log: (
-        <Link href="https://github.com">
-          <span className={styles.timeloglink}>Go to Log</span>
-        </Link>
-      ),
-      path: (
-        <Input
-          size="large"
-          readOnly
-          value="W:\kickstartup-projects\combier"
-          onFocus={(e) => e.target.select()}
-          style={{ backgroundColor: '#eee', width: '250px' }}
-        />
-      ),
-      project_status: 'On Going',
-      project_type: 'Custom Build',
-      start_date: '06/08/2021',
-      deadline: '06/30/2021',
-    },
-    {
-      key: '9',
-      name: (
-        <span
-          className={styles.timeloglink}
-          onClick={() =>
-            handleModal({
-              key: '1',
-              name: 'New Project',
-              time_log: 'href',
-              path: (
-                <Input
-                  size="large"
-                  readOnly
-                  value="W:\kickstartup-projects\combier"
-                  onFocus={(e) => e.target.select()}
-                  style={{
-                    backgroundColor: '#eee',
-                    fontSize: '0.9rem',
-                  }}
-                />
-              ),
-              project_status: 'On Going',
-              project_type: 'Custom Build',
-              start_date: '06/08/2021',
-              deadline: '06/30/2021',
-            })
-          }
-          aria-hidden="true"
-        >
-          New Project
-        </span>
-      ),
-      time_log: (
-        <Link href="https://github.com">
-          <span className={styles.timeloglink}>Go to Log</span>
-        </Link>
-      ),
-      path: (
-        <Input
-          size="large"
-          readOnly
-          value="W:\kickstartup-projects\combier"
-          onFocus={(e) => e.target.select()}
-          style={{ backgroundColor: '#eee', width: '250px' }}
-        />
-      ),
-      project_status: 'On Going',
-      project_type: 'Custom Build',
-      start_date: '06/08/2021',
-      deadline: '06/30/2021',
-    },
-    {
-      key: '10',
-      name: (
-        <span
-          className={styles.timeloglink}
-          onClick={() =>
-            handleModal({
-              key: '1',
-              name: 'New Project',
-              time_log: 'href',
-              path: (
-                <Input
-                  size="large"
-                  readOnly
-                  value="W:\kickstartup-projects\combier"
-                  onFocus={(e) => e.target.select()}
-                  style={{
-                    backgroundColor: '#eee',
-                    fontSize: '0.9rem',
-                  }}
-                />
-              ),
-              project_status: 'On Going',
-              project_type: 'Custom Build',
-              start_date: '06/08/2021',
-              deadline: '06/30/2021',
-            })
-          }
-          aria-hidden="true"
-        >
-          New Project
-        </span>
-      ),
-      time_log: (
-        <Link href="https://github.com">
-          <span className={styles.timeloglink}>Go to Log</span>
-        </Link>
-      ),
-      path: (
-        <Input
-          size="large"
-          readOnly
-          value="W:\kickstartup-projects\combier"
-          onFocus={(e) => e.target.select()}
-          style={{ backgroundColor: '#eee', width: '250px' }}
-        />
-      ),
-      project_status: 'On Going',
-      project_type: 'Custom Build',
-      start_date: '06/08/2021',
-      deadline: '06/30/2021',
-    },
-    {
-      key: '11',
-      name: (
-        <span
-          className={styles.timeloglink}
-          onClick={() =>
-            handleModal({
-              key: '1',
-              name: 'New Project',
-              time_log: 'href',
-              path: (
-                <Input
-                  size="large"
-                  readOnly
-                  value="W:\kickstartup-projects\combier"
-                  onFocus={(e) => e.target.select()}
-                  style={{
-                    backgroundColor: '#eee',
-                    fontSize: '0.8rem',
-                    fontWeight: 'bold',
-                  }}
-                />
-              ),
-              project_status: 'On Going',
-              project_type: 'Custom Build',
-              start_date: '06/08/2021',
-              deadline: '06/30/2021',
-            })
-          }
-          aria-hidden="true"
-        >
-          New Project
-        </span>
-      ),
-      time_log: (
-        <Link href="https://github.com">
-          <span className={styles.timeloglink}>Go to Log</span>
-        </Link>
-      ),
-      path: (
-        <Input
-          size="large"
-          readOnly
-          value="W:\kickstartup-projects\combier"
-          onFocus={(e) => e.target.select()}
-          style={{ backgroundColor: '#eee', width: '250px' }}
-        />
-      ),
-      project_status: 'On Going',
-      project_type: 'Custom Build',
-      start_date: '06/08/2021',
-      deadline: '06/30/2021',
-    },
-  ]
-
   return (
     <>
-      <FilterSection styles={styles} />
+      <FilterSection styles={styles} filterType={filterType} />
       <PaginateTable
         tableBodyStyle={{
           background: 'white',
           fontWeight: 'bold',
           fontSize: '0.8rem',
         }}
-        columns={columns}
+        columns={[
+          { title: '#', keyIndex: 'key' },
+          { title: 'Name', keyIndex: 'name' },
+          { title: 'Time Log', keyIndex: 'time_log' },
+          { title: 'Path', keyIndex: 'path' },
+          { title: 'Project Status', keyIndex: 'project_status' },
+          { title: 'Project Type', keyIndex: 'project_type' },
+          { title: 'Start Date', keyIndex: 'start_date' },
+          { title: 'Deadline', keyIndex: 'deadline' },
+        ]}
         data={data}
       />
 
@@ -634,7 +93,19 @@ const HomePage = () => {
         <div className={`${styles.containerFluid}`}>
           <Row>
             <Col span={24}>
-              <Detail columns={columns} detail={detail} styles={styles} />
+              <Detail
+                columns={[
+                  { title: 'Path', keyIndex: 'path' },
+                  { title: 'Project Status', keyIndex: 'project_status' },
+                  { title: 'Live Url', keyIndex: 'live_url' },
+                  { title: 'Staging Url(s)', keyIndex: 'staging_url' },
+                  { title: 'Start Date', keyIndex: 'start_date' },
+                  { title: 'Deadline', keyIndex: 'deadline' },
+                  { title: 'Project Type', keyIndex: 'project_type' },
+                  { title: 'Important Notes', keyIndex: 'important_notes' },
+                ]}
+                detail={detail}
+              />
             </Col>
           </Row>
         </div>

@@ -4,6 +4,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import 'styles/app.scss'
 import 'styles/css/components/button.css'
 import Head from 'next/head'
+import { wrapper } from 'redux/store'
 import Card from 'components/layouts/Card'
 
 function MyApp({ Component, pageProps }) {
@@ -21,4 +22,4 @@ function MyApp({ Component, pageProps }) {
   )
 }
 
-export default MyApp
+export default wrapper.withRedux(MyApp)
