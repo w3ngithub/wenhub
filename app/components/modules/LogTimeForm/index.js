@@ -11,7 +11,7 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
 
   React.useEffect(() => {
     form.resetFields()
-  }, [formType])
+  }, [formType, initialValues])
 
   const handleClose = () => {
     setVisible(false)
@@ -91,7 +91,11 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
         </div>
         <Form.Item label="Type" name="log_type" rules={[{ required: true }]}>
           <Select
-            placeholder="Choose A Log Type"
+            placeholder={
+              <div style={{ fontSize: '0.7rem', fontWeight: 'bold' }}>
+                Select Log Type
+              </div>
+            }
             allowClear
             options={[
               { label: 'Bug', value: 'Bug' },
@@ -117,10 +121,14 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
             rules={[{ required: true }]}
           >
             <Select
-              placeholder="Choose Project"
+              placeholder={
+                <div style={{ fontSize: '0.7rem', fontWeight: 'bold' }}>
+                  Choose Project
+                </div>
+              }
               options={[
-                { label: 'kisok', value: '1' },
-                { label: 'Idonize', value: '2' },
+                { label: 'kisok', value: 'Kisok' },
+                { label: 'Idonize', value: 'idonize' },
               ]}
               style={{ width: '100%', textAlign: 'left' }}
             />

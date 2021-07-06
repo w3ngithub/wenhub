@@ -70,7 +70,6 @@ function TimeLog() {
           hours: '',
           minutes: '',
           remarks: '',
-          log_type: '',
         }
       : {
           ...rowDataForEdit,
