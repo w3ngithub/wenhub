@@ -1,0 +1,62 @@
+.time_log_container {
+  width: '100%';
+}
+
+.time_log_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: x-large;
+}
+
+.timelog_edit {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.timelog_edit:hover {
+  color: var(--navbar-color);
+}
+
+.timelog_container {
+  display: flex;
+  width: 100%;
+  margin: auto;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .timelog_container {
+    flex-direction: column;
+  }
+}
+
+.add_time_log {
+  width: 25%;
+}
+
+.time_summary {
+  width: 75%;
+}
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .add_time_log {
+    width: 100%;
+  }
+  .time_summary {
+    width: 100%;
+  }
+}
+
+.project_detail_table {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.edit_table_row_data {
+  cursor: pointer;
+}
+.edit_table_row_data:hover {
+  color: var(--navbar-color);
+}
