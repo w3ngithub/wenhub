@@ -9,5 +9,13 @@ export function getProjectFilterTypes() {
   const clients = urls('client')
   const developers = urls('developer')
   const designers = urls('designer')
-  return api.all([projectType, projectStatus, clients, developers, designers])
+  const projectTags = urls('project_tag')
+  return api.all([
+    projectType,
+    projectStatus,
+    clients,
+    developers,
+    designers,
+    projectTags,
+  ])
 }

@@ -39,6 +39,9 @@ const SelectComponent = ({
       onSearch={onSearch}
       dropdownClassName={dropdownClassName}
       value={Array.isArray(value) ? value.map((x) => x.value) : value.value}
+      filterOption={(input, opt) =>
+        opt.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      }
       {...rest}
     >
       {options.map((opt) => (

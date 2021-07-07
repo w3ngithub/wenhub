@@ -4,49 +4,100 @@ import { Row, Col, Input } from 'antd'
 import PaginateTable from 'components/modules/PaginateTable'
 import Modal from 'components/elements/Modal'
 import { getDataDetail } from 'utils/commonFunctions'
+import { connect } from 'react-redux'
 import Detail from 'components/elements/Detail'
+import { fetchFilteredProject } from 'redux/project/projectActions'
 import FilterSection from './FilterSection'
 import styles from './HomePage.module.css'
 
-const HomePage = ({ projects, filterType }) => {
+const HomePage = ({ projects, filterType, totalData, ...props }) => {
   const [open, setOpen] = useState(false)
   const [detail, setDetail] = useState({})
   const [data, setData] = useState([])
-  // console.clear()
-  // console.log(projects)
+  const [pageNumber, setPageNumber] = useState(1)
+  const [postPerPage, setPostPerPage] = useState(20)
 
   React.useEffect(() => {
-    const mainData = projects.map((x, i) => ({
-      key: i + 1,
-      id: x.id,
-      name: (
-        <span
-          className={styles.timeloglink}
-          onClick={() => handleModal(getDataDetail(x))}
-          aria-hidden="true"
-        >
-          {x.title.rendered}
-        </span>
-      ),
-      time_log: (
-        <Link href="/project/idoine">
-          <span className={styles.timeloglink}>Go to Log</span>
-        </Link>
-      ),
-      path: (
-        <Input
-          size="large"
-          readOnly
-          value={x.acf_fields.project_link}
-          onFocus={(e) => e.target.select()}
-          style={{ backgroundColor: '#eee', width: '250px' }}
-        />
-      ),
-      project_status: 'On Going', // x._embedded['wp:term'][2][0]?.name,
-      project_type: 'Custom Build', // x._embedded['wp:term'][1][0]?.name,
-      start_date: x.acf_fields.start_date,
-      deadline: x.acf_fields.end_date,
-    }))
+    const mainData = projects.map((x, i) => {
+      const {
+        projectTypes,
+        projectStatus,
+        developers,
+        designers,
+        projectTags,
+      } = filterType
+
+      const projectType = projectTypes.find(
+        (y) => y?.id === x?.acf_fields?.project_type[0],
+      )
+      const projectStat = projectStatus.find(
+        (y) => y?.id === x?.acf_fields?.project_status,
+      )
+
+      const developer = developers.filter(
+        (y) =>
+          x?.acf_fields?.developers !== false &&
+          x?.acf_fields?.developers.includes(y?.id),
+      )
+      const designer = designers.filter(
+        (y) =>
+          x?.acf_fields?.designers !== false &&
+          x?.acf_fields?.designers?.includes(y?.id),
+      )
+      const projectTag = projectTags.filter(
+        (y) =>
+          x?.acf_fields?.project_tags !== false &&
+          x?.acf_fields?.project_tags?.includes(y?.id),
+      )
+
+      return {
+        key: i + 1,
+        id: x.id,
+        name: (
+          <span
+            className={styles.timeloglink}
+            onClick={() =>
+              handleModal(
+                getDataDetail(
+                  x,
+                  projectType,
+                  projectStat,
+                  developer,
+                  designer,
+                  projectTag,
+                ),
+              )
+            }
+            aria-hidden="true"
+          >
+            {x.title.rendered}
+          </span>
+        ),
+        time_log: (
+          <Link
+            href={`/project/${x.title.rendered
+              .split(' ')
+              .join('-')
+              .toLowerCase()}`}
+          >
+            <span className={styles.timeloglink}>Go to Log</span>
+          </Link>
+        ),
+        path: (
+          <Input
+            size="large"
+            readOnly
+            value={x.acf_fields.project_link}
+            onFocus={(e) => e.target.select()}
+            style={{ backgroundColor: '#eee', width: '250px' }}
+          />
+        ),
+        project_status: projectStat?.name,
+        project_type: projectType?.name,
+        start_date: x.acf_fields.start_date,
+        deadline: x.acf_fields.end_date,
+      }
+    })
     setData(mainData)
   }, [projects])
 
@@ -60,9 +111,22 @@ const HomePage = ({ projects, filterType }) => {
     }
   }
 
+  const handlePagination = (pgNo, pgSize) => {
+    setPageNumber(pgNo)
+    setPostPerPage(pgSize)
+  }
+
   return (
     <>
-      <FilterSection styles={styles} filterType={filterType} />
+      <FilterSection
+        styles={styles}
+        filterType={filterType}
+        pageNumber={pageNumber}
+        pageSize={postPerPage}
+        filterProject={props.fetchFilteredProject}
+        setPageNumber={setPageNumber}
+        setPostPerPage={setPostPerPage}
+      />
       <PaginateTable
         tableBodyStyle={{
           background: 'white',
@@ -80,6 +144,10 @@ const HomePage = ({ projects, filterType }) => {
           { title: 'Deadline', keyIndex: 'deadline' },
         ]}
         data={data}
+        handlePagination={handlePagination}
+        currentPage={pageNumber}
+        postPerPage={postPerPage}
+        totalData={totalData}
       />
 
       <Modal
@@ -88,7 +156,7 @@ const HomePage = ({ projects, filterType }) => {
         handleCancel={handleModal}
         confirmText="Delete"
         cancelText="No"
-        variant="medium"
+        variant="large"
       >
         <div className={`${styles.containerFluid}`}>
           <Row>
@@ -102,6 +170,9 @@ const HomePage = ({ projects, filterType }) => {
                   { title: 'Start Date', keyIndex: 'start_date' },
                   { title: 'Deadline', keyIndex: 'deadline' },
                   { title: 'Project Type', keyIndex: 'project_type' },
+                  { title: 'Project Tags', keyIndex: 'project_tags' },
+                  { title: 'Developers', keyIndex: 'developers' },
+                  { title: 'Designers', keyIndex: 'designers' },
                   { title: 'Important Notes', keyIndex: 'important_notes' },
                 ]}
                 detail={detail}
@@ -114,4 +185,15 @@ const HomePage = ({ projects, filterType }) => {
   )
 }
 
-export default HomePage
+const mapStateToProps = ({
+  projectData: { projects, loading, error, totalData },
+  commonData: { filterType },
+}) => ({
+  projects,
+  loading,
+  error,
+  filterType,
+  totalData,
+})
+
+export default connect(mapStateToProps, { fetchFilteredProject })(HomePage)
