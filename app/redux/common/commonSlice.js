@@ -8,6 +8,7 @@ const initialState = {
     clients: [],
     developers: [],
     designers: [],
+    projectTags: [],
   },
   commonLoading: false,
   error: '',
@@ -28,6 +29,7 @@ export const commonSlice = createSlice({
         clients: payload.data[2],
         developers: payload.data[3],
         designers: payload.data[4],
+        projectTags: payload.data[5],
       }
     },
     filterOptionsFetchingError: (state, { payload }) => {

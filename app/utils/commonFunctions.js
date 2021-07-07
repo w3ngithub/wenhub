@@ -1,4 +1,5 @@
 import { Input } from 'antd'
+import parse from 'html-react-parser'
 
 export function setFilterOptions(x) {
   return {
@@ -7,7 +8,7 @@ export function setFilterOptions(x) {
   }
 }
 
-export function getDataDetail(x) {
+export function getDataDetail(x, pType, pStat, developer, designer, pTag) {
   return {
     name: x.title.rendered,
     path: (
@@ -33,14 +34,31 @@ export function getDataDetail(x) {
           : null}
       </ul>
     ),
-    project_status: 'On Going', // x._embedded['wp:term'][2][0]?.name,
-    project_type: 'Custom Build', // x._embedded['wp:term'][1][0]?.name,
+    project_status: pType?.name,
+    project_type: pStat?.name,
     start_date: x.acf_fields.start_date,
     deadline: x.acf_fields.end_date,
-    important_notes: (
-      <div
-        dangerouslySetInnerHTML={{ __html: x.acf_fields.important_notes }}
-      ></div>
+    project_tags: (
+      <ul style={{ listStyle: 'inside' }}>
+        {pTag.map((link) => (
+          <li key={link.id}>{link.name}</li>
+        ))}
+      </ul>
     ),
+    developers: (
+      <ul style={{ listStyle: 'inside' }}>
+        {developer.map((link) => (
+          <li key={link.id}>{link.name}</li>
+        ))}
+      </ul>
+    ),
+    designers: (
+      <ul style={{ listStyle: 'inside' }}>
+        {designer.map((link) => (
+          <li key={link.id}>{link.name}</li>
+        ))}
+      </ul>
+    ),
+    important_notes: parse(x.acf_fields.important_notes),
   }
 }

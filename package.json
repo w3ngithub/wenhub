@@ -17,6 +17,7 @@
     "axios": "^0.21.1",
     "chart.js": "^3.4.0",
     "classnames": "^2.2.6",
+    "html-react-parser": "^1.2.7",
     "moment": "^2.29.1",
     "next": "10.2.3",
     "next-images": "^1.8.1",

@@ -1,29 +1,29 @@
 import React from 'react'
 import Table from 'components/elements/Table'
-import { Paginate, listData } from 'components/elements/Pagination'
+import { Paginate } from 'components/elements/Pagination'
 
-const PaginateTable = ({ columns, data, tableBodyStyle }) => {
-  const [pageNumber, setPageNumber] = React.useState(1)
-  const [postPerPage, setPostPerPage] = React.useState(10)
-
+const PaginateTable = ({
+  columns,
+  data,
+  tableBodyStyle,
+  handlePagination,
+  postPerPage,
+  totalData,
+  currentPage,
+}) => {
   const changePage = (pageNo, pageSize) => {
-    if (pageNo !== 0) setPageNumber(pageNo)
-    setPostPerPage(pageSize)
+    handlePagination(pageNo, pageSize)
   }
-  const finalData = listData(data, postPerPage, pageNumber)
 
   return (
     <>
-      <Table
-        columns={columns}
-        data={finalData}
-        tableBodyStyle={tableBodyStyle}
-      />
-      <div style={{ marginTop: 10 }}></div>
+      <Table columns={columns} data={data} tableBodyStyle={tableBodyStyle} />
+      <div style={{ marginTop: 15 }}></div>
       <Paginate
         handlePageChange={changePage}
-        length={data.length}
+        length={+totalData}
         pageSize={postPerPage}
+        currentPage={currentPage}
       />
     </>
   )

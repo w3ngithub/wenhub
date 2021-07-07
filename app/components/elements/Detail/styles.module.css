@@ -1,20 +1,20 @@
 .detailTable {
   width: 100%;
   max-width: 100%;
-  margin: 20px 0;
+  margin: 10px 0;
   border: 1px solid #ddd;
 }
 
 .tableHead {
   border: 1px solid #ddd;
   text-align: left;
-  padding: 10px;
+  padding: 5px;
   color: rgba(0, 0, 0, 0.671);
   width: 30%;
 }
 
 .tableData {
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 5px;
   color: #000;
 }

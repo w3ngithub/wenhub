@@ -3,7 +3,7 @@ import axios from 'axios'
 axios.defaults.headers.common.Accept = 'application/json'
 axios.defaults.timeout = 12000
 
-const getHttpHeaders = (isAuthenticated = false) => {
+export const getHttpHeaders = (isAuthenticated = false) => {
   // Add your custom logic here, for example add a Token to the Headers
   if (isAuthenticated) {
     return {
