@@ -38,7 +38,7 @@ const SelectComponent = ({
       onBlur={onBlur}
       onSearch={onSearch}
       dropdownClassName={dropdownClassName}
-      value={Array.isArray(value) ? value.map((x) => x.value) : value.value}
+      value={Array.isArray(value) ? value.map((x) => x?.value) : value?.value}
       filterOption={(input, opt) =>
         opt.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
       }
@@ -55,7 +55,7 @@ const SelectComponent = ({
 
 SelectComponent.propTypes = {
   options: PropTypes.array.isRequired,
-  value: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired, // [{label:'',value:''}] for multiple
+  value: PropTypes.oneOfType([PropTypes.array, PropTypes.object]), // [{label:'',value:''}] for multiple
   style: PropTypes.object,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,

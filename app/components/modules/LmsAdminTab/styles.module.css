@@ -1,0 +1,88 @@
+.exportForm {
+  display: flex;
+  gap: 7px;
+  margin-top: 20px;
+}
+
+.labelStyle {
+  color: black;
+  font-weight: bold;
+  margin-top: 3px;
+}
+
+.viewButton {
+  background-color: #398439;
+  border-color: #255625;
+}
+
+.approveButton {
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+
+.cancelButton {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+.closeButton {
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.addLeaveForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: black;
+}
+
+.addLeaveInputs {
+  display: flex;
+  width: 100%;
+  gap: 25px;
+}
+
+.selectNText {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
+.addLeaveCalendar {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  font-weight: bold;
+}
+
+.addLeaveSelect {
+  display: flex;
+  gap: 15px;
+}
+
+.labelInputField {
+  font-weight: bold;
+  gap: 6px;
+  width: 100%;
+}
+
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .addLeaveSelect {
+    flex-direction: column;
+  }
+  .addLeaveInputs {
+    flex-direction: column;
+  }
+  .selectNText {
+    width: 100%;
+  }
+  .addLeaveCalendar {
+    width: 100%;
+  }
+}
+
+.buttons {
+  display: flex;
+  gap: 5px;
+}

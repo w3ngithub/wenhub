@@ -3,16 +3,17 @@ import PropTypes from 'prop-types'
 import { Table } from 'antd'
 
 const { Column } = Table
-const ListTable = ({ columns, data, tableBodyStyle }) => (
+const ListTable = ({ columns, data }) => (
   <Table dataSource={data} pagination={false}>
-    {columns.map((col) => (
+    {columns.map(({ title, keyIndex, style, ...col }) => (
       <Column
-        title={col.title}
-        dataIndex={col.keyIndex}
-        key={col.keyIndex}
+        title={title}
+        dataIndex={keyIndex}
+        key={keyIndex}
+        {...col}
         render={(text) => ({
           props: {
-            style: tableBodyStyle,
+            style: style,
           },
           children: text,
         })}
@@ -22,9 +23,6 @@ const ListTable = ({ columns, data, tableBodyStyle }) => (
 )
 
 ListTable.defaultProps = {
-  tableBodyStyle: {
-    background: '#ddd',
-  },
   columns: [
     {
       title: 'Name',
@@ -81,8 +79,7 @@ ListTable.defaultProps = {
 }
 
 ListTable.propTypes = {
-  columns: PropTypes.array,
-  tableBodyStyle: PropTypes.object,
+  columns: PropTypes.array.isRequired,
   data: PropTypes.array,
 }
 

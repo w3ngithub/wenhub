@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Row, Col, Input } from 'antd'
+import { Input } from 'antd'
 import PaginateTable from 'components/modules/PaginateTable'
-import Modal from 'components/elements/Modal'
 import { getDataDetail } from 'utils/commonFunctions'
 import { connect } from 'react-redux'
-import Detail from 'components/elements/Detail'
 import { fetchFilteredProject } from 'redux/project/projectActions'
-import FilterSection from './FilterSection'
+import HomePageForm from 'modules/HomePageForm'
 import styles from './HomePage.module.css'
+import ModalDetail from 'components/modules/ModalDetail'
+import { projectColumns, projectDetailColumns } from 'constants/homeConstants'
 
 const HomePage = ({ projects, filterType, totalData, ...props }) => {
   const [open, setOpen] = useState(false)
@@ -17,16 +17,11 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
   const [pageNumber, setPageNumber] = useState(1)
   const [postPerPage, setPostPerPage] = useState(20)
 
+  const { projectTypes, projectStatus, developers, designers, projectTags } =
+    filterType
+
   React.useEffect(() => {
     const mainData = projects.map((x, i) => {
-      const {
-        projectTypes,
-        projectStatus,
-        developers,
-        designers,
-        projectTags,
-      } = filterType
-
       const projectType = projectTypes.find(
         (y) => y?.id === x?.acf_fields?.project_type[0],
       )
@@ -51,8 +46,8 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
       )
 
       return {
-        key: i + 1,
-        id: x.id,
+        key: x.id,
+        dataId: postPerPage * pageNumber - postPerPage + (i + 1),
         name: (
           <span
             className={styles.timeloglink}
@@ -89,7 +84,7 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
             readOnly
             value={x.acf_fields.project_link}
             onFocus={(e) => e.target.select()}
-            style={{ backgroundColor: '#eee', width: '250px' }}
+            style={{ backgroundColor: '#eee', width: '220px' }}
           />
         ),
         project_status: projectStat?.name,
@@ -118,7 +113,7 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
 
   return (
     <>
-      <FilterSection
+      <HomePageForm
         styles={styles}
         filterType={filterType}
         pageNumber={pageNumber}
@@ -128,59 +123,21 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
         setPostPerPage={setPostPerPage}
       />
       <PaginateTable
-        tableBodyStyle={{
-          background: 'white',
-          fontWeight: 'bold',
-          fontSize: '0.8rem',
-        }}
-        columns={[
-          { title: '#', keyIndex: 'key' },
-          { title: 'Name', keyIndex: 'name' },
-          { title: 'Time Log', keyIndex: 'time_log' },
-          { title: 'Path', keyIndex: 'path' },
-          { title: 'Project Status', keyIndex: 'project_status' },
-          { title: 'Project Type', keyIndex: 'project_type' },
-          { title: 'Start Date', keyIndex: 'start_date' },
-          { title: 'Deadline', keyIndex: 'deadline' },
-        ]}
+        columns={projectColumns}
         data={data}
         handlePagination={handlePagination}
         currentPage={pageNumber}
         postPerPage={postPerPage}
         totalData={totalData}
       />
-
-      <Modal
+      <ModalDetail
         title={detail.name}
         visible={open}
         handleCancel={handleModal}
-        confirmText="Delete"
-        cancelText="No"
         variant="large"
-      >
-        <div className={`${styles.containerFluid}`}>
-          <Row>
-            <Col span={24}>
-              <Detail
-                columns={[
-                  { title: 'Path', keyIndex: 'path' },
-                  { title: 'Project Status', keyIndex: 'project_status' },
-                  { title: 'Live Url', keyIndex: 'live_url' },
-                  { title: 'Staging Url(s)', keyIndex: 'staging_url' },
-                  { title: 'Start Date', keyIndex: 'start_date' },
-                  { title: 'Deadline', keyIndex: 'deadline' },
-                  { title: 'Project Type', keyIndex: 'project_type' },
-                  { title: 'Project Tags', keyIndex: 'project_tags' },
-                  { title: 'Developers', keyIndex: 'developers' },
-                  { title: 'Designers', keyIndex: 'designers' },
-                  { title: 'Important Notes', keyIndex: 'important_notes' },
-                ]}
-                detail={detail}
-              />
-            </Col>
-          </Row>
-        </div>
-      </Modal>
+        columns={projectDetailColumns}
+        detail={detail}
+      />
     </>
   )
 }
