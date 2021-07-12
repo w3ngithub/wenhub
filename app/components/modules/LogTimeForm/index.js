@@ -149,6 +149,7 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
               onClick={resetForm}
               htmlType="button"
               isDisabled={formType === 'Edit'}
+              danger
             />
           </div>
         </Form.Item>

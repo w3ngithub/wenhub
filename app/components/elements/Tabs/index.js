@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Tabs } from 'antd'
-import useOutsideClick from 'hooks/outsideClickHook'
 import AddPane from './AddPane'
 
 const { TabPane } = Tabs
@@ -15,8 +14,6 @@ const Tab = ({ type, tabs, tabBarStyle, style, getKey }) => {
 
   useEffect(() => panes.length === 0 && setActiveKey('0'), [panes])
   useEffect(() => getKey(activeKey), [activeKey])
-
-  //useOutsideClick(ref, () => setActiveKey(panes[0].id))
 
   const add = () => setActiveKey('0')
 

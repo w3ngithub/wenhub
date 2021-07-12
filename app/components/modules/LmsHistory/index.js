@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Table } from 'antd'
 import { tableBodyStyle } from 'constants/constants'
 import Button from 'components/elements/Button'
-import MessageModal from 'components/modules/MessageModel'
+import MessageModal from 'components/modules/MessageModal'
 import styles from './styles.module.css'
 
 function LmsHistory() {
