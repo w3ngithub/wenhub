@@ -1,0 +1,43 @@
+.lms_apply_container {
+  width: 100%;
+}
+
+.lms_apply_form {
+  display: flex;
+  column-gap: 50px;
+}
+
+.calendar_form {
+  margin-bottom: 20px;
+}
+
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .lms_apply_form {
+    flex-direction: column;
+  }
+}
+
+.input_form {
+  width: 100%;
+}
+
+.leavetypes_leads {
+  width: 100%;
+  display: flex;
+  column-gap: 20px;
+}
+
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .leavetypes_leads {
+    flex-direction: column;
+  }
+}
+
+.leavetypes {
+  width: 100%;
+}
+
+.form_btns {
+  display: flex;
+  column-gap: 5px;
+}

@@ -40,3 +40,11 @@ export const navBarItems = [
   },
   { id: 8, item: 'WEEKLY REPORT', path: '/weekly-report' },
 ]
+
+// table body style
+
+export const tableBodyStyle = {
+  background: 'white',
+  fontWeight: 'bold',
+  fontSize: '0.8rem',
+}

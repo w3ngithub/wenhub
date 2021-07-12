@@ -1,0 +1,42 @@
+.lms_container {
+  width: 100%;
+}
+
+.leave_days_detail {
+  display: flex;
+  align-items: center;
+  column-gap: 25px;
+  /* margin-bottom: 20px; */
+}
+
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .leave_days_detail {
+    flex-direction: column;
+    margin-bottom: 0px;
+  }
+}
+
+.leave_days_item {
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 18px;
+  width: 100%;
+}
+
+.leave_days_remaining {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+
+.leave_days_applied {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.tab_container {
+  margin-top: 20px;
+}
