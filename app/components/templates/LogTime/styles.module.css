@@ -56,6 +56,9 @@
 
 .edit_table_row_data {
   cursor: pointer;
+  background: white;
+  font-weight: bold;
+  font-size: 0.8rem;
 }
 .edit_table_row_data:hover {
   color: var(--navbar-color);

@@ -77,7 +77,7 @@ MultiSelectCalendar.defaultProps = {
   range: false,
   onlyYearPicker: false,
   onlyMonthPicker: false,
-  format: 'YYYY/MM/DD',
+  format: 'DD/MM/YYYY',
   showOtherDays: false,
   sort: false,
   numberOfMonths: 1,

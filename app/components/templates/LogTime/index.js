@@ -3,6 +3,7 @@ import Link from 'next/link'
 import moment from 'moment'
 import { Table } from 'antd'
 import LogTimeForm from 'components/modules/LogTimeForm'
+import { tableBodyStyle } from 'constants/constants'
 import TimeSummaryTable from 'components/elements/TimeSummaryTable'
 import styles from './styles.module.css'
 
@@ -73,36 +74,72 @@ function LogTime() {
                     title: 'Project',
                     keyIndex: 'prproject_nameoject',
                     dataIndex: 'project_name',
+                    render: (text) => ({
+                      props: {
+                        style: tableBodyStyle,
+                      },
+                      children: text,
+                    }),
                   },
                   {
                     key: 'date',
                     title: 'DATE',
                     keyIndex: 'date',
                     dataIndex: 'date',
+                    render: (text) => ({
+                      props: {
+                        style: tableBodyStyle,
+                      },
+                      children: text,
+                    }),
                   },
                   {
                     key: 'hours',
                     title: 'HOURS',
                     keyIndex: 'hours',
                     dataIndex: 'hours',
+                    render: (text) => ({
+                      props: {
+                        style: tableBodyStyle,
+                      },
+                      children: text,
+                    }),
                   },
                   {
                     key: 'log_type',
                     title: 'LOG TYPE',
                     keyIndex: 'log_type',
                     dataIndex: 'log_type',
+                    render: (text) => ({
+                      props: {
+                        style: tableBodyStyle,
+                      },
+                      children: text,
+                    }),
                   },
                   {
                     key: 'remarks',
                     title: 'REMARKS/DESCRIPTION',
                     keyIndex: 'remarks',
                     dataIndex: 'remarks',
+                    render: (text) => ({
+                      props: {
+                        style: tableBodyStyle,
+                      },
+                      children: text,
+                    }),
                   },
                   {
                     key: 'added_by',
                     title: 'ADDED BY',
                     keyIndex: 'added_by',
                     dataIndex: 'added_by',
+                    render: (text) => ({
+                      props: {
+                        style: tableBodyStyle,
+                      },
+                      children: text,
+                    }),
                   },
                   {
                     key: '6',
@@ -169,7 +206,6 @@ function LogTime() {
                     added_by: 'Bijen Kumar',
                   },
                 ]}
-                tableBodyStyle={{ backgroundColor: '#fff' }}
                 pagination={false}
               />
             </div>

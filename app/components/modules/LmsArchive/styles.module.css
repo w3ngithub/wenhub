@@ -1,0 +1,25 @@
+.lsm_archive_container {
+  width: 100%;
+}
+
+.archive_filter {
+  color: #000;
+  display: flex;
+  column-gap: 3px;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .archive_filter {
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 15px;
+  }
+}
+
+.archive_table {
+  overflow-x: auto;
+  white-space: nowrap;
+}

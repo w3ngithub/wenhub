@@ -10,6 +10,7 @@ function ButtonComponent({
   onClick,
   isDisabled,
   htmlType,
+  ...rest
 }) {
   return (
     <Button
@@ -20,6 +21,7 @@ function ButtonComponent({
       style={style}
       onClick={onClick}
       htmlType={htmlType}
+      {...rest}
     >
       {btnText}
     </Button>

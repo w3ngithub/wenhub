@@ -5,6 +5,7 @@ import Select from 'components/elements/Select'
 import Button from 'components/elements/Button'
 import TimeSummaryTable from 'components/elements/TimeSummaryTable'
 import LogTimeForm from 'components/modules/LogTimeForm'
+import { tableBodyStyle } from 'constants/constants'
 import Chart from './LogtimeChart'
 import styles from './styles.module.css'
 
@@ -200,30 +201,60 @@ function TimeLog() {
                   title: 'DATE',
                   keyIndex: 'date',
                   dataIndex: 'date',
+                  render: (text) => ({
+                    props: {
+                      style: tableBodyStyle,
+                    },
+                    children: text,
+                  }),
                 },
                 {
                   key: 'hours',
                   title: 'HOURS',
                   keyIndex: 'hours',
                   dataIndex: 'hours',
+                  render: (text) => ({
+                    props: {
+                      style: tableBodyStyle,
+                    },
+                    children: text,
+                  }),
                 },
                 {
                   key: 'log_type',
                   title: 'LOG TYPE',
                   keyIndex: 'log_type',
                   dataIndex: 'log_type',
+                  render: (text) => ({
+                    props: {
+                      style: tableBodyStyle,
+                    },
+                    children: text,
+                  }),
                 },
                 {
                   key: 'remarks',
                   title: 'REMARKS/DESCRIPTION',
                   keyIndex: 'remarks',
                   dataIndex: 'remarks',
+                  render: (text) => ({
+                    props: {
+                      style: tableBodyStyle,
+                    },
+                    children: text,
+                  }),
                 },
                 {
                   key: 'added_by',
                   title: 'ADDED BY',
                   keyIndex: 'added_by',
                   dataIndex: 'added_by',
+                  render: (text) => ({
+                    props: {
+                      style: tableBodyStyle,
+                    },
+                    children: text,
+                  }),
                 },
                 {
                   key: '6',
