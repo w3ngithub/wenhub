@@ -191,7 +191,7 @@ function TimeLog() {
               ]}
               style={{ textAlign: 'left' }}
             />
-            <Button btnText="Reset" />
+            <Button btnText="Reset" danger />
           </div>
           <div className={styles.project_detail_table}>
             <Table

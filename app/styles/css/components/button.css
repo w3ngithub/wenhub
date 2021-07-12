@@ -4,12 +4,21 @@ button.ant-btn {
   align-items: center;
 }
 
+.ant-btn-primary {
+  color: #fff;
+  background: var(--navbar-color);
+  border-color: var(--navbar-color);
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+  -webkit-box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+}
+
 .ant-btn-primary[disabled],
 .ant-btn-primary[disabled]:hover,
 .ant-btn-primary[disabled]:focus,
 .ant-btn-primary[disabled]:active {
   color: rgba(0, 0, 0, 0.25);
-  background: var(--secondary-color);
+  background: var(--navbar-color);
   border-color: #d9d9d9;
   text-shadow: none;
   -webkit-box-shadow: none;

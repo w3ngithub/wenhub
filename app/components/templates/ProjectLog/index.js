@@ -73,6 +73,7 @@ function ProjectLog() {
           },
           { id: '3', tab: 'Checklist', content: <Checklist /> },
         ]}
+        getKey={() => {}}
       />
     </div>
   )

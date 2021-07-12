@@ -58,6 +58,7 @@ function Lms() {
             { id: '3', tab: 'FAQ', content: <FAQ /> },
             { id: '4', tab: 'Archive', content: <Archive /> },
           ]}
+          getKey={() => {}}
         />
       </div>
     </div>
