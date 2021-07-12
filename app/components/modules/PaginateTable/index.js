@@ -5,7 +5,6 @@ import { Paginate } from 'components/elements/Pagination'
 const PaginateTable = ({
   columns,
   data,
-  tableBodyStyle,
   handlePagination,
   postPerPage,
   totalData,
@@ -17,7 +16,7 @@ const PaginateTable = ({
 
   return (
     <>
-      <Table columns={columns} data={data} tableBodyStyle={tableBodyStyle} />
+      <Table columns={columns} data={data} />
       <div style={{ marginTop: 15 }}></div>
       <Paginate
         handlePageChange={changePage}
@@ -30,9 +29,6 @@ const PaginateTable = ({
 }
 
 PaginateTable.defaultProps = {
-  tableBodyStyle: {
-    background: '#ddd',
-  },
   columns: [
     {
       title: 'Name',

@@ -1,0 +1,13 @@
+.lmsAdminDashboard {
+  display: flex;
+  flex-direction: column;
+}
+
+.lmsAdminSearch {
+  padding: 20px 0;
+  margin-bottom: 10px;
+}
+
+.lmsAdminTab {
+  margin-top: 10px;
+}

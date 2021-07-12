@@ -32,7 +32,7 @@ export const navBarItems = [
     item: 'LMS',
     path: '/lms',
   },
-  { id: 6, item: 'LMS ADMIN', path: '/lsm-admin' },
+  { id: 6, item: 'LMS ADMIN', path: '/lms-admin' },
   {
     id: 7,
     item: 'EXPERTISE AREA',

@@ -1,7 +1,6 @@
 .timeloglink {
   text-decoration: none;
   color: #007cba;
-  white-space: nowrap;
 }
 
 .timeloglink:hover {
@@ -13,15 +12,9 @@
 .filterItems {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 5px;
   margin: 17px 0;
   align-items: center;
-}
-.containerFluid {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
 }
 
 .table {

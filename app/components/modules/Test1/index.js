@@ -46,7 +46,7 @@ const Test1 = () => {
       </div>
       <div>
         <h1>Table</h1>
-        <PaginateTable />
+        {/* <PaginateTable /> */}
       </div>
       <div>
         <h1>Dropdown</h1>
@@ -84,12 +84,12 @@ const Test1 = () => {
       </div>
       <div>
         <h1>Tabs</h1>
-        <Tab
+        {/* <Tab
           type="card"
           tabBarStyle={{ background: '#ddd', width: '100%' }}
           tabs={panes}
-          // style={{ backgroundColor: '#ddd' }}
-        />
+           style={{ backgroundColor: '#ddd' }}
+        /> */}
       </div>
     </div>
   )

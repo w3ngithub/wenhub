@@ -50,7 +50,7 @@ Modals.defaultProps = {
   visible: true,
   confirmText: 'Confirm',
   cancelText: 'Cancel',
-  footer: null,
+  footer: [],
   centered: true,
 }
 

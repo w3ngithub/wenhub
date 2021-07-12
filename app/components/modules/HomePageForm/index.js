@@ -11,7 +11,7 @@ const client = { label: 'Show All Clients', value: null }
 const developer = { label: 'Show All Developers', value: null }
 const designer = { label: 'Show All Designers', value: null }
 
-const FilterSection = ({
+const HomePageForm = ({
   styles,
   filterType, // : { projectTypes, projectStatus, clients, developers, designers },
   setPageNumber,
@@ -26,6 +26,7 @@ const FilterSection = ({
   const [allClients, setAllClients] = useState(client)
   const [allDevelopers, setAllDevelopers] = useState(developer)
   const [allDesigners, setAllDesigners] = useState(designer)
+  const [searchValue, setSearchValue] = useState('')
 
   useDidMountEffect(() => {
     filterProject(
@@ -39,6 +40,7 @@ const FilterSection = ({
       pageSize,
     )
   }, [
+    search_project,
     projectTypes,
     projectStatus,
     allClients,
@@ -57,20 +59,12 @@ const FilterSection = ({
     setPageNumber(1)
     setPostPerPage(20)
     setSearchProject('')
+    setSearchValue('')
   }
 
   const handleSearch = (e) => {
     e.preventDefault()
-    filterProject(
-      search_project,
-      projectTypes.value,
-      projectStatus.value,
-      allClients.value,
-      allDevelopers.value,
-      allDesigners.value,
-      pageNumber,
-      pageSize,
-    )
+    setSearchProject(searchValue)
   }
 
   return (
@@ -83,8 +77,8 @@ const FilterSection = ({
             borderRadius="3px"
             width="190px"
             padding="7px"
-            value={search_project}
-            onChange={(e) => setSearchProject(e.target.value)}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
         </div>
         <div>
@@ -146,4 +140,4 @@ const FilterSection = ({
   )
 }
 
-export default FilterSection
+export default HomePageForm

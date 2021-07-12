@@ -8,14 +8,15 @@ const { TabPane } = Tabs
 
 const renderTabBar = (props, DefaultTabBar) => <DefaultTabBar {...props} />
 
-const Tab = ({ type, tabs, tabBarStyle, style }) => {
+const Tab = ({ type, tabs, tabBarStyle, style, getKey }) => {
   const ref = useRef()
   const [activeKey, setActiveKey] = useState('1')
   const [panes, setPanes] = useState([...tabs])
 
   useEffect(() => panes.length === 0 && setActiveKey('0'), [panes])
+  useEffect(() => getKey(activeKey), [activeKey])
 
-  useOutsideClick(ref, () => setActiveKey(panes[0].id))
+  //useOutsideClick(ref, () => setActiveKey(panes[0].id))
 
   const add = () => setActiveKey('0')
 
@@ -35,9 +36,7 @@ const Tab = ({ type, tabs, tabBarStyle, style }) => {
         defaultActiveKey="1"
         type={type}
         renderTabBar={renderTabBar}
-        onChange={(key) => {
-          setActiveKey(key)
-        }}
+        onChange={(key) => setActiveKey(key)}
         tabBarStyle={tabBarStyle}
         style={style}
         activeKey={activeKey}
@@ -92,6 +91,7 @@ Tab.propTypes = {
   type: PropTypes.string,
   tabBarStyle: PropTypes.object,
   style: PropTypes.object,
+  getKey: PropTypes.func,
 }
 
 export default Tab

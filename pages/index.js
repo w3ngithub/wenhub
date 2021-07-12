@@ -14,4 +14,7 @@ export const getStaticProps = wrapper.getStaticProps((store) => async () => {
   const { dispatch } = store
   await dispatch(fetchFilterOptionLists())
   await dispatch(fetchProjects())
+  return {
+    revalidate: 60,
+  }
 })
