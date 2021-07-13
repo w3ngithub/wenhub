@@ -19,6 +19,7 @@ const HomePageForm = ({
   pageNumber,
   pageSize,
   filterProject,
+  pathname,
 }) => {
   const [search_project, setSearchProject] = useState('')
   const [projectTypes, setProjectTypes] = useState(type)
@@ -50,14 +51,18 @@ const HomePageForm = ({
     pageSize,
   ])
 
+  const resetPage = () => {
+    setPageNumber(1)
+    setPostPerPage(20)
+  }
+
   const handleReset = () => {
     setProjectTypes(type)
     setProjectStatus(status)
     setAllClients(client)
     setAllDevelopers(developer)
     setAllDesigners(designer)
-    setPageNumber(1)
-    setPostPerPage(20)
+    resetPage()
     setSearchProject('')
     setSearchValue('')
   }
@@ -65,6 +70,7 @@ const HomePageForm = ({
   const handleSearch = (e) => {
     e.preventDefault()
     setSearchProject(searchValue)
+    resetPage()
   }
 
   return (
@@ -91,7 +97,10 @@ const HomePageForm = ({
             placeholder="Show All Project Types"
             value={projectTypes}
             options={[type, ...filterType.projectTypes.map(setFilterOptions)]}
-            onChange={(d) => setProjectTypes(d)}
+            onChange={(d) => {
+              setProjectTypes(d)
+              resetPage()
+            }}
           />
         </div>
         <div>
@@ -102,7 +111,10 @@ const HomePageForm = ({
               status,
               ...filterType.projectStatus.map(setFilterOptions),
             ]}
-            onChange={(d) => setProjectStatus(d)}
+            onChange={(d) => {
+              setProjectStatus(d)
+              resetPage()
+            }}
           />
         </div>
         <div>
@@ -110,28 +122,44 @@ const HomePageForm = ({
             placeholder="Show All Clients"
             value={allClients}
             options={[client, ...filterType.clients.map(setFilterOptions)]}
-            onChange={(d) => setAllClients(d)}
+            onChange={(d) => {
+              setAllClients(d)
+              resetPage()
+            }}
           />
         </div>
-        <div>
-          <Select
-            placeholder="All Developers"
-            value={allDevelopers}
-            options={[
-              developer,
-              ...filterType.developers.map(setFilterOptions),
-            ]}
-            onChange={(d) => setAllDevelopers(d)}
-          />
-        </div>
-        <div>
-          <Select
-            placeholder="All Designers"
-            value={allDesigners}
-            options={[designer, ...filterType.designers.map(setFilterOptions)]}
-            onChange={(d) => setAllDesigners(d)}
-          />
-        </div>
+        {pathname && (
+          <>
+            <div>
+              <Select
+                placeholder="All Developers"
+                value={allDevelopers}
+                options={[
+                  developer,
+                  ...filterType.developers.map(setFilterOptions),
+                ]}
+                onChange={(d) => {
+                  setAllDevelopers(d)
+                  resetPage()
+                }}
+              />
+            </div>
+            <div>
+              <Select
+                placeholder="All Designers"
+                value={allDesigners}
+                options={[
+                  designer,
+                  ...filterType.designers.map(setFilterOptions),
+                ]}
+                onChange={(d) => {
+                  setAllDesigners(d)
+                  resetPage()
+                }}
+              />
+            </div>{' '}
+          </>
+        )}
         <div>
           <Button btnText="Reset" onClick={handleReset} />
         </div>

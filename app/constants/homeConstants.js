@@ -1,16 +1,15 @@
 export const projectColumns = [
-  { title: '#', keyIndex: 'dataId' },
+  { title: '#', keyIndex: 'dataId', width: '1px' },
   {
     title: 'Name',
     keyIndex: 'name',
-    style: { width: '160px' },
   },
   {
     title: 'Time Log',
     keyIndex: 'time_log',
     style: { whiteSpace: 'noWrap' },
   },
-  { title: 'Path', keyIndex: 'path', style: { width: '240px' } },
+  { title: 'Path', keyIndex: 'path', style: { width: '227px' } },
   {
     title: 'Project Status',
     keyIndex: 'project_status',
@@ -21,8 +20,8 @@ export const projectColumns = [
     keyIndex: 'project_type',
     style: { width: '120px' },
   },
-  { title: 'Start Date', keyIndex: 'start_date' },
-  { title: 'Deadline', keyIndex: 'deadline' },
+  { title: 'Start Date', keyIndex: 'start_date', style: { width: '96px' } },
+  { title: 'Deadline', keyIndex: 'deadline', style: { width: '96px' } },
 ]
 
 export const projectDetailColumns = [

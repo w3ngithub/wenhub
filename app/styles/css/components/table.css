@@ -9,7 +9,7 @@ thead.ant-table-thead th {
   padding: 11px 8px;
   text-transform: uppercase;
   text-align: left;
-  font-size: 0.79rem;
+  font-size: 0.81rem;
   font-weight: bold;
 }
 
@@ -17,8 +17,8 @@ tbody.ant-table-tbody td {
   text-align: left;
   background: white;
   font-weight: bold;
-  font-size: 0.8rem;
-  padding: 6px 11px;
+  font-size: 0.81rem;
+  padding: 10px 8px;
 }
 
 /* .ant-tabs-nav-operations {

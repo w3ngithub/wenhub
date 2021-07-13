@@ -9,13 +9,16 @@ import HomePageForm from 'modules/HomePageForm'
 import styles from './HomePage.module.css'
 import ModalDetail from 'components/modules/ModalDetail'
 import { projectColumns, projectDetailColumns } from 'constants/homeConstants'
+import { useRouter } from 'next/router'
 
 const HomePage = ({ projects, filterType, totalData, ...props }) => {
+  const router = useRouter()
   const [open, setOpen] = useState(false)
   const [detail, setDetail] = useState({})
   const [data, setData] = useState([])
   const [pageNumber, setPageNumber] = useState(1)
   const [postPerPage, setPostPerPage] = useState(20)
+  const pathname = !router.pathname.includes('my-projects')
 
   const { projectTypes, projectStatus, developers, designers, projectTags } =
     filterType
@@ -70,10 +73,10 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
         ),
         time_log: (
           <Link
-            href={`/project/${x.title.rendered
-              .split(' ')
-              .join('-')
-              .toLowerCase()}`}
+            href={{
+              pathname: `/project/${x.slug}`,
+              query: { project_id: x.id },
+            }}
           >
             <span className={styles.timeloglink}>Go to Log</span>
           </Link>
@@ -84,7 +87,7 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
             readOnly
             value={x.acf_fields.project_link}
             onFocus={(e) => e.target.select()}
-            style={{ backgroundColor: '#eee', width: '220px' }}
+            style={{ backgroundColor: '#eee', width: '205px' }}
           />
         ),
         project_status: projectStat?.name,
@@ -113,6 +116,11 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
 
   return (
     <>
+      {!pathname && (
+        <div className={styles.entry_header}>
+          <h1 style={{ margin: 0 }}>My Projects</h1>
+        </div>
+      )}
       <HomePageForm
         styles={styles}
         filterType={filterType}
@@ -121,6 +129,7 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
         filterProject={props.fetchFilteredProject}
         setPageNumber={setPageNumber}
         setPostPerPage={setPostPerPage}
+        pathname={pathname}
       />
       <PaginateTable
         columns={projectColumns}
@@ -130,6 +139,11 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
         postPerPage={postPerPage}
         totalData={totalData}
       />
+      {!pathname && (
+        <div>
+          <span>Edit</span>
+        </div>
+      )}
       <ModalDetail
         title={detail.name}
         visible={open}
