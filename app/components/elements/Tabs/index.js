@@ -81,6 +81,7 @@ Tab.defaultProps = {
       },
     },
   ],
+  getKey: () => {},
 }
 
 Tab.propTypes = {

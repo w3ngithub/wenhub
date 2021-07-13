@@ -3,7 +3,7 @@ import { API_URL } from 'constants/constants'
 
 // Fetching Sectionu
 const fetchProject = (page = 1, perPage = 20) =>
-  `${API_URL}/projects?page=${page}&per_page=${perPage}&_fields=id,title,link,excerpt,author,acf_fields,_links&_embed`
+  `${API_URL}/projects?page=${page}&per_page=${perPage}&_fields=id,title,link,slug,excerpt,author,acf_fields,_links&_embed`
 
 export function getProjects(page, perPage) {
   return api.get(fetchProject(page, perPage))
@@ -29,7 +29,7 @@ const projectType = (
     developer ? `&developer=${developer}` : ''
   }${
     designer ? `&designer=${designer}` : ''
-  }&_fields=id,title,link,excerpt,author,acf_fields,_links&_embed`
+  }&_fields=id,title,link,slug,excerpt,author,acf_fields,_links&_embed`
 
 export function filterProjects(
   search_project,

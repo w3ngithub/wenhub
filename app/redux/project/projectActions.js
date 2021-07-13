@@ -36,6 +36,7 @@ export const fetchFilteredProject =
   ) =>
   async (dispatch) => {
     dispatch(projectFetching())
+
     var params = new URLSearchParams()
     search_project?.length > 0 &&
       params.append('search_project', search_project)

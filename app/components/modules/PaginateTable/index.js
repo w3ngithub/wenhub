@@ -17,7 +17,7 @@ const PaginateTable = ({
   return (
     <>
       <Table columns={columns} data={data} />
-      <div style={{ marginTop: 15 }}></div>
+      <div style={{ marginTop: 25 }}></div>
       <Paginate
         handlePageChange={changePage}
         length={+totalData}
