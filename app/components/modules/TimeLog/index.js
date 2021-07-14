@@ -1,5 +1,7 @@
+import { shallowEqual, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
 import { Select as Choose, Table } from 'antd'
+import parse from 'html-react-parser'
 import moment from 'moment'
 import Select from 'components/elements/Select'
 import Button from 'components/elements/Button'
@@ -27,6 +29,29 @@ const labels = [
 const values = [12, 9, 5, 5, 6, 3, 3, 4, 6, 7, 4, 5, 7]
 
 function TimeLog() {
+  const { projectLogs, logTypes } = useSelector(
+    (state) => state.projectLog,
+    shallowEqual,
+  )
+  const cleanLogTypes = logTypes?.reduce(
+    (obj, log) => ({ ...obj, [log.id]: log.name }),
+    {},
+  )
+
+  const logTypesForDropDown = logTypes.map((log) => ({
+    label: log.name,
+    value: log.id,
+  }))
+
+  const dataSource = projectLogs?.map((log) => ({
+    key: log.id,
+    date: moment(log.meta.date, 'YYYYMMDD').format('YYYY-MM-DD'),
+    hours: log.meta.hours,
+    log_type: cleanLogTypes[log.log_type],
+    remarks: parse(log.content.rendered),
+    added_by: '',
+  }))
+
   const [chartType, setChartType] = useState({ label: 'Normal', value: '1' })
   const [ChartLogType, setChartLogType] = useState([])
   const [isChartGenerated, setIsChartGenerated] = useState(false)
@@ -172,24 +197,20 @@ function TimeLog() {
         )}
         <div className="time_log_table">
           <div className={styles.filter_table}>
-            <span>Filter By:</span>
+            <span style={{ minWidth: '65px' }}>Filter By:</span>
             <Select
-              value={{ label: 'Log Author', value: '1' }}
+              placeholder="Log Author"
               options={[
                 { label: 'Log Author', value: '1' },
                 { label: 'Subir Sakya', value: '2' },
                 { label: 'Biraj Dahal', value: '3' },
               ]}
-              style={{ textAlign: 'left' }}
+              style={{ textAlign: 'left', width: '100%' }}
             />
             <Select
-              value={{ label: 'Log Type', value: '1' }}
-              options={[
-                { label: 'Log Type', value: '1' },
-                { label: 'Subir Sakya', value: '2' },
-                { label: 'Biraj Dahal', value: '3' },
-              ]}
-              style={{ textAlign: 'left' }}
+              placeholder="Log Type"
+              options={logTypesForDropDown}
+              style={{ textAlign: 'left', width: '100%' }}
             />
             <Button btnText="Reset" danger />
           </div>
@@ -274,48 +295,7 @@ function TimeLog() {
                   ),
                 },
               ]}
-              dataSource={[
-                {
-                  key: '1',
-                  date: '06/03/2020',
-                  hours: '8.25',
-                  log_type: 'Migration',
-                  remarks: 'test saturday 1 hr log time,test  1 hr log time,',
-                  added_by: 'Bijen Kumar',
-                },
-                {
-                  key: '2',
-                  date: '06/03/2020',
-                  hours: '8.25',
-                  log_type: 'Migration',
-                  remarks: 'test saturday 1 hr log time',
-                  added_by: 'Bijen Kumar',
-                },
-                {
-                  key: '3',
-                  date: '06/03/2020',
-                  hours: '8.25',
-                  log_type: 'Migration',
-                  remarks: 'test saturday 1 hr log time',
-                  added_by: 'Bijen Kumar',
-                },
-                {
-                  key: '4',
-                  date: '06-03-2020',
-                  hours: '8.25',
-                  log_type: 'Migration',
-                  remarks: 'test saturday 1 hr log time',
-                  added_by: 'Bijen Kumar',
-                },
-                {
-                  key: '5',
-                  date: '06-03-2020',
-                  hours: '8.25',
-                  log_type: 'Migration',
-                  remarks: 'test saturday 1 hr log time',
-                  added_by: 'Bijen Kumar',
-                },
-              ]}
+              dataSource={dataSource}
               tableBodyStyle={{ backgroundColor: '#fff' }}
               pagination={false}
             />
