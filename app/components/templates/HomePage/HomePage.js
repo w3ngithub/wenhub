@@ -6,10 +6,10 @@ import { getDataDetail } from 'utils/commonFunctions'
 import { connect } from 'react-redux'
 import { fetchFilteredProject } from 'redux/project/projectActions'
 import HomePageForm from 'modules/HomePageForm'
-import styles from './HomePage.module.css'
 import ModalDetail from 'components/modules/ModalDetail'
 import { projectColumns, projectDetailColumns } from 'constants/homeConstants'
 import { useRouter } from 'next/router'
+import styles from './HomePage.module.css'
 
 const HomePage = ({ projects, filterType, totalData, ...props }) => {
   const router = useRouter()
@@ -72,12 +72,7 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
           </span>
         ),
         time_log: (
-          <Link
-            href={{
-              pathname: `/project/${x.slug}`,
-              query: { project_id: x.id },
-            }}
-          >
+          <Link href={{ pathname: `/project/${x.id}` }}>
             <span className={styles.timeloglink}>Go to Log</span>
           </Link>
         ),
