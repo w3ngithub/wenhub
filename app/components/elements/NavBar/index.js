@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { Menu, Layout } from 'antd'
 import { MenuFoldOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
@@ -11,10 +12,34 @@ const { SubMenu } = Menu
 const { Header } = Layout
 
 function NavBar({ navItems, backgroundColor, styles }) {
-  const [menuItemSelectedKey, setMenuItemSelecteKey] = useState('1')
+  const [menuItemSelectedKey, setMenuItemSelecteKey] = useState(null)
+  const router = useRouter()
+
   const handleMenuClicked = (navItem) => {
     setMenuItemSelecteKey(navItem.key)
   }
+  React.useEffect(() => {
+    const setActiveNavBarItem = () => {
+      const urlNav = navItems.reduce((obj, item) => {
+        if (item.subItem) {
+          return {
+            ...obj,
+            ...item.subItem.reduce(
+              (innerObj, innerItem) => ({
+                ...innerObj,
+                [innerItem.path]: innerItem.id,
+              }),
+              {},
+            ),
+          }
+        }
+        return { ...obj, [item.path]: item.id }
+      }, {})
+
+      setMenuItemSelecteKey(urlNav[router.pathname])
+    }
+    setActiveNavBarItem()
+  }, [])
 
   return (
     <Layout style={{ width: '100%' }}>
@@ -38,8 +63,8 @@ function NavBar({ navItems, backgroundColor, styles }) {
           onClick={handleMenuClicked}
           mode="horizontal"
           selectedKeys={[menuItemSelectedKey]}
-          defaultSelectedKeys={['1']}
           overflowedIndicator={<MenuFoldOutlined style={{ color: '#fff' }} />}
+          defaultSelectedKeys={['1']}
           style={{
             backgroundColor: 'inherit',
             padding: '32px',
