@@ -2,6 +2,7 @@
   min-width: 130px;
   display: flex;
   cursor: pointer;
+  padding-top: 20px;
 }
 .nav_item {
   color: #fff;

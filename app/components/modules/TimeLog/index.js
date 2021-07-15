@@ -38,7 +38,7 @@ function TimeLog() {
     {},
   )
 
-  const logTypesForDropDown = logTypes.map((log) => ({
+  const logTypesForDropDown = logTypes?.map((log) => ({
     label: log.name,
     value: log.id,
   }))
