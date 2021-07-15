@@ -10,6 +10,7 @@ const initialState = {
     designers: [],
     projectTags: [],
   },
+  categories: [],
   commonLoading: false,
   error: '',
 }
@@ -33,6 +34,17 @@ export const commonSlice = createSlice({
       }
     },
     filterOptionsFetchingError: (state, { payload }) => {
+      state.commonLoading = false
+      state.error = payload.error
+    },
+    categoriesFetching: (state) => {
+      state.commonLoading = true
+    },
+    categoriesFetchingSuccess: (state, { payload }) => {
+      state.commonLoading = false
+      state.categories = payload.data
+    },
+    categoriesFetchingError: (state, { payload }) => {
       state.commonLoading = false
       state.error = payload.error
     },

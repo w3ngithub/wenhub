@@ -22,7 +22,7 @@ export const navBarItems = [
     item: 'BLOG',
     subItem: [
       { id: 2.1, item: 'ADD NEW BLOG', path: '/add-new-blog' },
-      { id: 2.2, item: 'VIEW BLOG', path: '/view-blog' },
+      { id: 2.2, item: 'VIEW BLOG', path: '/blog' },
     ],
   },
   { id: 3, item: 'MY PROJECTS', path: '/my-projects' },
@@ -48,3 +48,18 @@ export const tableBodyStyle = {
   fontWeight: 'bold',
   fontSize: '0.8rem',
 }
+
+export const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+]

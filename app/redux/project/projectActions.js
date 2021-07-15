@@ -5,10 +5,10 @@ import { projectSlice } from './projectSlice'
 const { projectFetching, projectFetchSuccess, projectFetchError } =
   projectSlice.actions
 
-export const fetchProjects = (pgNo, pgSize) => (dispatch) => {
+export const fetchProjects = () => (dispatch) => {
   dispatch(projectFetching())
   return requestFromServer
-    .getProjects(pgNo, pgSize)
+    .getProjects()
     .then((res) => {
       dispatch(
         projectFetchSuccess({

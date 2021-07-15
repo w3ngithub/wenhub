@@ -5,63 +5,55 @@ import Select from 'components/elements/Select'
 import { setFilterOptions } from 'utils/commonFunctions'
 import useDidMountEffect from 'hooks/useDidMountEffect'
 
-const type = { label: 'Show All Project Types', value: null }
-const status = { label: 'Show All Project Status', value: null }
-const client = { label: 'Show All Clients', value: null }
-const developer = { label: 'Show All Developers', value: null }
-const designer = { label: 'Show All Designers', value: null }
+const projectTypes = { label: 'Show All Project Types', value: null }
+const projectStatus = { label: 'Show All Project Status', value: null }
+const allClients = { label: 'Show All Clients', value: null }
+const allDevelopers = { label: 'Show All Developers', value: null }
+const allDesigners = { label: 'Show All Designers', value: null }
 
 const HomePageForm = ({
   styles,
   filterType, // : { projectTypes, projectStatus, clients, developers, designers },
-  setPageNumber,
-  setPostPerPage,
-  pageNumber,
-  pageSize,
+  page,
+  setPage,
   filterProject,
   pathname,
 }) => {
   const [search_project, setSearchProject] = useState('')
-  const [projectTypes, setProjectTypes] = useState(type)
-  const [projectStatus, setProjectStatus] = useState(status)
-  const [allClients, setAllClients] = useState(client)
-  const [allDevelopers, setAllDevelopers] = useState(developer)
-  const [allDesigners, setAllDesigners] = useState(designer)
   const [searchValue, setSearchValue] = useState('')
-
-  useDidMountEffect(() => {
-    filterProject(
-      search_project,
-      projectTypes.value,
-      projectStatus.value,
-      allClients.value,
-      allDevelopers.value,
-      allDesigners.value,
-      pageNumber,
-      pageSize,
-    )
-  }, [
-    search_project,
+  const [select, setSelect] = useState({
     projectTypes,
     projectStatus,
     allClients,
     allDevelopers,
     allDesigners,
-    pageNumber,
-    pageSize,
-  ])
+  })
 
-  const resetPage = () => {
-    setPageNumber(1)
-    setPostPerPage(20)
-  }
+  useDidMountEffect(
+    () =>
+      filterProject(
+        search_project,
+        select.projectTypes.value,
+        select.projectStatus.value,
+        select.allClients.value,
+        select.allDevelopers.value,
+        select.allDesigners.value,
+        page.pageNumber,
+        page.postPerPage,
+      ),
+    [search_project, select, page],
+  )
+
+  const resetPage = () => setPage({ pageNumber: 1, postPerPage: 20 })
 
   const handleReset = () => {
-    setProjectTypes(type)
-    setProjectStatus(status)
-    setAllClients(client)
-    setAllDevelopers(developer)
-    setAllDesigners(designer)
+    setSelect({
+      projectTypes,
+      projectStatus,
+      allClients,
+      allDevelopers,
+      allDesigners,
+    })
     resetPage()
     setSearchProject('')
     setSearchValue('')
@@ -95,10 +87,13 @@ const HomePageForm = ({
         <div>
           <Select
             placeholder="Show All Project Types"
-            value={projectTypes}
-            options={[type, ...filterType.projectTypes.map(setFilterOptions)]}
+            value={select.projectTypes}
+            options={[
+              projectTypes,
+              ...filterType.projectTypes.map(setFilterOptions),
+            ]}
             onChange={(d) => {
-              setProjectTypes(d)
+              setSelect((th) => ({ ...th, projectTypes: d }))
               resetPage()
             }}
           />
@@ -106,13 +101,13 @@ const HomePageForm = ({
         <div>
           <Select
             placeholder="Show All Project Status"
-            value={projectStatus}
+            value={select.projectStatus}
             options={[
-              status,
+              projectStatus,
               ...filterType.projectStatus.map(setFilterOptions),
             ]}
             onChange={(d) => {
-              setProjectStatus(d)
+              setSelect((th) => ({ ...th, projectStatus: d }))
               resetPage()
             }}
           />
@@ -120,10 +115,10 @@ const HomePageForm = ({
         <div>
           <Select
             placeholder="Show All Clients"
-            value={allClients}
-            options={[client, ...filterType.clients.map(setFilterOptions)]}
+            value={select.allClients}
+            options={[allClients, ...filterType.clients.map(setFilterOptions)]}
             onChange={(d) => {
-              setAllClients(d)
+              setSelect((th) => ({ ...th, allClients: d }))
               resetPage()
             }}
           />
@@ -133,13 +128,13 @@ const HomePageForm = ({
             <div>
               <Select
                 placeholder="All Developers"
-                value={allDevelopers}
+                value={select.allDevelopers}
                 options={[
-                  developer,
+                  allDevelopers,
                   ...filterType.developers.map(setFilterOptions),
                 ]}
                 onChange={(d) => {
-                  setAllDevelopers(d)
+                  setSelect((th) => ({ ...th, allDevelopers: d }))
                   resetPage()
                 }}
               />
@@ -147,13 +142,13 @@ const HomePageForm = ({
             <div>
               <Select
                 placeholder="All Designers"
-                value={allDesigners}
+                value={select.allDesigners}
                 options={[
-                  designer,
+                  allDesigners,
                   ...filterType.designers.map(setFilterOptions),
                 ]}
                 onChange={(d) => {
-                  setAllDesigners(d)
+                  setSelect((th) => ({ ...th, allDesigners: d }))
                   resetPage()
                 }}
               />

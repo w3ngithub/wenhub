@@ -1,0 +1,46 @@
+.blogDetail {
+  padding: 0px 16px;
+}
+
+.blogDetail ul,
+.blogDetail ol {
+  margin: 0 0 20px 10px;
+  padding-left: 10px;
+}
+
+.header {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.entry_title {
+  margin: 0px;
+}
+
+.entry_content {
+  margin: 1.5em 0 0;
+  font-weight: bold;
+}
+
+.entry_footer {
+  display: block;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.navLinks {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin: 0 0 1.5em;
+}
+
+.navLink:hover {
+  color: #337ab7;
+  cursor: pointer;
+}
+
+.category:hover {
+  cursor: pointer;
+  color: #337ab7;
+}
