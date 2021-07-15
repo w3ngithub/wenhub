@@ -16,8 +16,7 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
   const [open, setOpen] = useState(false)
   const [detail, setDetail] = useState({})
   const [data, setData] = useState([])
-  const [pageNumber, setPageNumber] = useState(1)
-  const [postPerPage, setPostPerPage] = useState(20)
+  const [page, setPage] = useState({ pageNumber: 1, postPerPage: 20 })
   const pathname = !router.pathname.includes('my-projects')
 
   const { projectTypes, projectStatus, developers, designers, projectTags } =
@@ -50,7 +49,7 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
 
       return {
         key: x.id,
-        dataId: postPerPage * pageNumber - postPerPage + (i + 1),
+        dataId: page.postPerPage * page.pageNumber - page.postPerPage + (i + 1),
         name: (
           <span
             className={styles.timeloglink}
@@ -104,11 +103,6 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
     }
   }
 
-  const handlePagination = (pgNo, pgSize) => {
-    setPageNumber(pgNo)
-    setPostPerPage(pgSize)
-  }
-
   return (
     <>
       {!pathname && (
@@ -119,19 +113,19 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
       <HomePageForm
         styles={styles}
         filterType={filterType}
-        pageNumber={pageNumber}
-        pageSize={postPerPage}
         filterProject={props.fetchFilteredProject}
-        setPageNumber={setPageNumber}
-        setPostPerPage={setPostPerPage}
+        page={page}
+        setPage={setPage}
         pathname={pathname}
       />
       <PaginateTable
         columns={projectColumns}
         data={data}
-        handlePagination={handlePagination}
-        currentPage={pageNumber}
-        postPerPage={postPerPage}
+        handlePagination={(pgNo, pgSize) =>
+          setPage({ pageNumber: pgNo, postPerPage: pgSize })
+        }
+        currentPage={page.pageNumber}
+        postPerPage={page.postPerPage}
         totalData={totalData}
       />
       {!pathname && (

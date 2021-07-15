@@ -19,3 +19,9 @@ export function getProjectFilterTypes() {
     projectTags,
   ])
 }
+
+const categoriesUrl = `${API_URL}/categories?_field=id,count,description,name,slug,taxonomy,parent,meta`
+
+export function getCategories() {
+  return api.get(categoriesUrl)
+}

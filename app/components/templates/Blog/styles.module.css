@@ -1,0 +1,42 @@
+.blog {
+  padding: 0px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-weight: bold;
+}
+
+.heading {
+  font-weight: bold;
+}
+.heading:hover {
+  cursor: pointer;
+  color: #337ab7;
+}
+
+.paragraph {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.actionContent {
+  padding-bottom: 14px;
+}
+
+.category:hover {
+  cursor: pointer;
+  color: #337ab7;
+}

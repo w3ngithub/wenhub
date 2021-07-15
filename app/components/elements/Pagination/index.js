@@ -8,11 +8,12 @@ export const Paginate = ({
   pageSize,
   style,
   currentPage,
+  pageSizeOptions,
 }) => (
   <Pagination
     total={length}
     onChange={handlePageChange}
-    pageSizeOptions={[5, 10, 20]}
+    pageSizeOptions={pageSizeOptions}
     pageSize={pageSize}
     responsive
     style={style}
@@ -20,12 +21,18 @@ export const Paginate = ({
   />
 )
 
+Paginate.defaultProps = {
+  pageSizeOptions: [5, 10, 20],
+  currentPage: 1,
+}
+
 Paginate.propTypes = {
   handlePageChange: PropTypes.func.isRequired,
   length: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   style: PropTypes.object,
   currentPage: PropTypes.number,
+  pageSizeOptions: PropTypes.array,
 }
 
 // export const listData = (array = [], pageSize = 5, pageNumber = 1) => {

@@ -2,16 +2,15 @@ import api from 'api/restClient'
 import { API_URL } from 'constants/constants'
 
 // Fetching Sectionu
-const fetchProject = (page = 1, perPage = 20) =>
-  `${API_URL}/projects?page=${page}&per_page=${perPage}&_fields=id,title,link,slug,excerpt,author,acf_fields,_links&_embed`
+const fetchProject = `${API_URL}/projects?page=1&per_page=20&_fields=id,title,link,slug,excerpt,author,acf_fields,_links&_embed`
 
-export function getProjects(page, perPage) {
-  return api.get(fetchProject(page, perPage))
+export function getProjects() {
+  return api.get(fetchProject)
 }
 
 // Filtering Section
 
-const projectType = (
+function filterProject(
   search_project,
   project_type,
   project_status,
@@ -20,8 +19,8 @@ const projectType = (
   designer,
   page = 1,
   perPage = 20,
-) =>
-  `${API_URL}/projects?page=${page}&per_page=${perPage}${
+) {
+  return `${API_URL}/projects?page=${page}&per_page=${perPage}${
     search_project?.length > 0 ? `&search=${search_project}` : ''
   }${project_type ? `&project_type=${project_type}` : ''}${
     project_status ? `&project_status=${project_status}` : ''
@@ -30,6 +29,7 @@ const projectType = (
   }${
     designer ? `&designer=${designer}` : ''
   }&_fields=id,title,link,slug,excerpt,author,acf_fields,_links&_embed`
+}
 
 export function filterProjects(
   search_project,
@@ -42,7 +42,7 @@ export function filterProjects(
   perPage,
 ) {
   return api.get(
-    projectType(
+    filterProject(
       search_project,
       project_type,
       project_status,
