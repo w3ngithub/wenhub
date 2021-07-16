@@ -25,9 +25,9 @@ export const fetchProjects = () => (dispatch) => {
 
 export const fetchFilteredProject =
   (
-    search_project,
-    project_type,
-    project_status,
+    searchProject,
+    projectType,
+    projectStatus,
     client,
     developer,
     designer,
@@ -36,15 +36,14 @@ export const fetchFilteredProject =
   ) =>
   async (dispatch) => {
     dispatch(projectFetching())
-
-    var params = new URLSearchParams()
-    search_project?.length > 0 &&
-      params.append('search_project', search_project)
-    project_type && params.append('project_type', project_type)
-    project_status && params.append('project_status', project_status)
-    client && params.append('client', client)
-    developer && params.append('developer', developer)
-    designer && params.append('designer', designer)
+    const params = new URLSearchParams()
+    if (searchProject?.length > 0)
+      params.append('search_project', searchProject)
+    if (projectType) params.append('project_type', projectType)
+    if (projectStatus) params.append('project_status', projectStatus)
+    if (client) params.append('client', client)
+    if (developer) params.append('developer', developer)
+    if (designer) params.append('designer', designer)
     params.append('page', page)
     params.append('perPage', perPage)
     const request = { params }

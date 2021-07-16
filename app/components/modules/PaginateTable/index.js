@@ -18,12 +18,14 @@ const PaginateTable = ({
     <>
       <Table columns={columns} data={data} />
       <div style={{ marginTop: 25 }}></div>
-      <Paginate
-        handlePageChange={changePage}
-        length={+totalData}
-        pageSize={postPerPage}
-        currentPage={currentPage}
-      />
+      {data.length > 0 && (
+        <Paginate
+          handlePageChange={changePage}
+          length={+totalData}
+          pageSize={postPerPage}
+          currentPage={currentPage}
+        />
+      )}
     </>
   )
 }

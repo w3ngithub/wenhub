@@ -1,0 +1,35 @@
+.blog_editor {
+  padding: 20px 15px;
+}
+
+.form_editor {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.text_center {
+  text-align: center;
+}
+
+.blog_title {
+  font-weight: bold;
+}
+
+.blog_content {
+  font-weight: bold;
+}
+
+.blog_categories {
+  font-weight: bold;
+}
+
+.blog_categories {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.content_editor {
+  margin-bottom: 10px;
+}

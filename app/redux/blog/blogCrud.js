@@ -9,14 +9,14 @@ export function getBlogs() {
 }
 
 // Paginating and Searching Blogs
-function filterBlog(search_blog, page, perPage) {
+function filterBlog(searchBlog, page, perPage) {
   return `${API_URL}/posts?page=${page}&per_page=${perPage}${
-    search_blog?.length > 0 ? `&search=${search_blog}` : ''
+    searchBlog?.length > 0 ? `&search=${searchBlog}` : ''
   }`
 }
 
-export function filterBlogs(search_blog, page, perPage) {
-  return api.get(filterBlog(search_blog, page, perPage))
+export function filterBlogs(searchBlog, page, perPage) {
+  return api.get(filterBlog(searchBlog, page, perPage))
 }
 
 // Get Detail of Blog

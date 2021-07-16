@@ -1,8 +1,9 @@
+import axios from 'axios'
 import { blogSlice } from './blogSlice'
 import * as requestFromServer from './blogCrud'
-import axios from 'axios'
 
 const {
+  setPage,
   blogsFetching,
   blogsFetchSuccess,
   blogsFetchError,
@@ -10,6 +11,8 @@ const {
   blogDetailFetchSuccess,
   blogDetailFetchError,
 } = blogSlice.actions
+
+export const changePage = (data) => (dispatch) => dispatch(setPage({ data }))
 
 export const fetchBlogs = () => (dispatch) => {
   dispatch(blogsFetching())
@@ -25,14 +28,15 @@ export const fetchBlogs = () => (dispatch) => {
     })
     .catch((err) => {
       dispatch(blogsFetchError({ error: 'Sending Error' }))
+      console.log(err)
     })
 }
 
 export const fetchFilteredBlogs =
-  (search_blog, pageNo, pageSize) => async (dispatch) => {
+  (searchBlog, pageNo, pageSize) => async (dispatch) => {
     dispatch(blogsFetching())
-    var params = new URLSearchParams()
-    search_blog?.length > 0 && params.append('search_blog', search_blog)
+    const params = new URLSearchParams()
+    if (searchBlog?.length > 0) params.append('search_blog', searchBlog)
     params.append('page', pageNo)
     params.append('perPage', pageSize)
     const request = { params }

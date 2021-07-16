@@ -1,9 +1,9 @@
 import React from 'react'
 import SelectComponent from 'components/elements/Select'
-import styles from './styles.module.css'
 import FormField from 'components/elements/Form'
 import ButtonComponent from 'components/elements/Button'
 import { Form } from 'antd'
+import styles from './styles.module.css'
 
 const AddLeave = () => {
   const [form] = Form.useForm()
@@ -100,9 +100,9 @@ const AddLeave = () => {
             >
               <FormField component="MultiSelectCalendar" />
             </Form.Item>
-            <label style={{ color: 'red', margin: '-10px 12px' }}>
+            <span style={{ color: 'red', margin: '-10px 12px' }}>
               *Disabled dates are holidays
-            </label>
+            </span>
           </div>
         )}
       </div>

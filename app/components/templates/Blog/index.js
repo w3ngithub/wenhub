@@ -7,17 +7,17 @@ import { Paginate } from 'components/elements/Pagination'
 import parse from 'html-react-parser'
 import { connect } from 'react-redux'
 import { getDate } from 'utils/date'
-import styles from './styles.module.css'
 import useDidMountEffect from 'hooks/useDidMountEffect'
-import { fetchFilteredBlogs } from 'redux/blog/blogActions'
+import { fetchFilteredBlogs, changePage } from 'redux/blog/blogActions'
+import styles from './styles.module.css'
 
-const Blog = ({ blogs, totalData, categories, fetchFilteredBlogs }) => {
+const Blog = ({ blogs, totalData, categories, page, ...props }) => {
   const [searchBlog, setSearchBlog] = useState('')
   const [text, setText] = useState('')
-  const [page, setPage] = useState({ pageNumber: 1, postPerPage: 10 })
 
   useDidMountEffect(
-    () => fetchFilteredBlogs(searchBlog, page.pageNumber, page.postPerPage),
+    () =>
+      props.fetchFilteredBlogs(searchBlog, page.pageNumber, page.postPerPage),
     [searchBlog, page],
   )
 
@@ -26,7 +26,7 @@ const Blog = ({ blogs, totalData, categories, fetchFilteredBlogs }) => {
   const handleSearch = (e) => {
     e.preventDefault()
     setSearchBlog(text)
-    setPage({ pageNumber: 1, postPerPage: 10 })
+    props.changePage({ pageNumber: 1, postPerPage: 10 })
   }
 
   return (
@@ -98,7 +98,7 @@ const Blog = ({ blogs, totalData, categories, fetchFilteredBlogs }) => {
               length={+totalData}
               currentPage={page.pageNumber}
               handlePageChange={(pgNo, pgSz) =>
-                setPage({ pageNumber: pgNo, postPerPage: pgSz })
+                props.changePage({ pageNumber: pgNo, postPerPage: pgSz })
               }
             />
           </Col>
@@ -109,13 +109,16 @@ const Blog = ({ blogs, totalData, categories, fetchFilteredBlogs }) => {
 }
 
 const mapStateToProps = ({
-  blogData: { blogs, loading, totalData },
+  blogData: { blogs, loading, totalData, page },
   commonData: { categories },
 }) => ({
   blogs,
   loading,
   totalData,
   categories,
+  page,
 })
 
-export default connect(mapStateToProps, { fetchFilteredBlogs })(Blog)
+export default connect(mapStateToProps, { fetchFilteredBlogs, changePage })(
+  Blog,
+)
