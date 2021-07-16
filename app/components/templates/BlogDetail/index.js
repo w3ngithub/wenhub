@@ -37,6 +37,7 @@ const BlogDetail = ({ blogDetail, blogs, categories }) => {
             style={{ padding: '22px 0' }}
             onSubmit={(e) => {
               e.preventDefault()
+              console.log('Submited')
             }}
           >
             <p>

@@ -4,35 +4,40 @@ import SelectComponent from 'components/elements/Select'
 import ButtonComponent from 'components/elements/Button'
 import styles from './styles.module.css'
 
-const Export = () => {
-  return (
-    <form className={styles.exportForm}>
-      <label className={styles.labelStyle}>Date</label>
+const Export = () => (
+  <form className={styles.exportForm}>
+    <div>
+      <span className={styles.labelStyle}>Date</span>
       <FormField component="DatePicker" isRange />
-      <label className={styles.labelStyle}>Status</label>
+    </div>
+    <div>
+      <span className={styles.labelStyle}>Status</span>
       <SelectComponent
         placeholder="All"
-        value={{ label: 'All', value: null }}
+        // value={{ label: 'All', value: null }}
         options={[
           { label: 'All', value: null },
           { label: 'Rujal', value: 1 },
           { label: 'Ujjwal', value: 2 },
         ]}
       />
-      <label className={styles.labelStyle}>Select User</label>
+    </div>
+
+    <div>
+      <span className={styles.labelStyle}>Select User</span>
       <SelectComponent
         placeholder="All"
-        value={{ label: 'All', value: null }}
+        // value={{ label: 'All', value: null }}
         options={[
           { label: 'All', value: null },
           { label: 'Rujal', value: 1 },
           { label: 'Ujjwal', value: 2 },
         ]}
       />
-      <ButtonComponent htmlType="submit" btnText="Export" />
-      <ButtonComponent htmlType="submit" btnText="Reset" />
-    </form>
-  )
-}
+    </div>
+    <ButtonComponent htmlType="submit" btnText="Export" />
+    <ButtonComponent htmlType="submit" btnText="Reset" />
+  </form>
+)
 
 export default Export

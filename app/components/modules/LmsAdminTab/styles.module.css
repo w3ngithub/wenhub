@@ -1,7 +1,21 @@
 .exportForm {
   display: flex;
-  gap: 7px;
+  gap: 5px;
   margin-top: 20px;
+}
+
+.exportForm div {
+  display: flex;
+  gap: 5px;
+}
+
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .exportForm {
+    flex-direction: column;
+  }
+  .exportForm div {
+    flex-direction: column;
+  }
 }
 
 .labelStyle {

@@ -2,12 +2,13 @@ import React from 'react'
 import FormField from 'elements/Form'
 import SelectComponent from 'components/elements/Select'
 import ButtonComponent from 'components/elements/Button'
+import styles from './styles.module.css'
 
 const LmsAdminForm = () => {
   const [user, setUser] = React.useState({ label: 'All', value: null })
 
   return (
-    <form style={{ display: 'flex', gap: 5 }}>
+    <form className={styles.lms_admin_form}>
       <FormField component="DatePicker" isRange />
       <SelectComponent
         placeholder="All"

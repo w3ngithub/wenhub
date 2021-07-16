@@ -19,7 +19,7 @@ const HomePageForm = ({
   filterProject,
   pathname,
 }) => {
-  const [search_project, setSearchProject] = useState('')
+  const [searchProject, setSearchProject] = useState('')
   const [searchValue, setSearchValue] = useState('')
   const [select, setSelect] = useState({
     projectTypes,
@@ -32,7 +32,7 @@ const HomePageForm = ({
   useDidMountEffect(
     () =>
       filterProject(
-        search_project,
+        searchProject,
         select.projectTypes.value,
         select.projectStatus.value,
         select.allClients.value,
@@ -41,7 +41,7 @@ const HomePageForm = ({
         page.pageNumber,
         page.postPerPage,
       ),
-    [search_project, select, page],
+    [searchProject, select, page],
   )
 
   const resetPage = () => setPage({ pageNumber: 1, postPerPage: 20 })
@@ -96,6 +96,7 @@ const HomePageForm = ({
               setSelect((th) => ({ ...th, projectTypes: d }))
               resetPage()
             }}
+            className={styles.selectField}
           />
         </div>
         <div>
@@ -110,6 +111,7 @@ const HomePageForm = ({
               setSelect((th) => ({ ...th, projectStatus: d }))
               resetPage()
             }}
+            className={styles.selectField}
           />
         </div>
         <div>
@@ -121,6 +123,7 @@ const HomePageForm = ({
               setSelect((th) => ({ ...th, allClients: d }))
               resetPage()
             }}
+            className={styles.selectField}
           />
         </div>
         {pathname && (
@@ -137,6 +140,7 @@ const HomePageForm = ({
                   setSelect((th) => ({ ...th, allDevelopers: d }))
                   resetPage()
                 }}
+                className={styles.selectField}
               />
             </div>
             <div>
@@ -151,6 +155,7 @@ const HomePageForm = ({
                   setSelect((th) => ({ ...th, allDesigners: d }))
                   resetPage()
                 }}
+                className={styles.selectField}
               />
             </div>{' '}
           </>

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import ListTable from 'components/elements/Table'
 import ButtonComponent from 'components/elements/Button'
+import { userLeaveColumns } from 'constants/lmsAdminConstants'
 import styles from './styles.module.css'
 import ModalDetail from '../ModalDetail'
 import MessageModal from '../MessageModal'
-import { userLeaveColumns } from 'constants/lmsAdminConstants'
 
 const Approved = () => {
   const [detail, setDetail] = useState({})
@@ -22,10 +22,9 @@ const Approved = () => {
     }
   }
 
-  const handleCancel = (id) => {
+  const handleCancel = () => {
     setShowDetail(false)
     setShowMessageModal(true)
-    //console.log(id)
   }
 
   const handleCancelLeave = () => {
@@ -95,7 +94,6 @@ const Approved = () => {
             btnText="Close"
             onClick={handleDetailModal}
             className={styles.closeButton}
-            onClick={() => console.log('Close Clicked')}
             style={{ color: 'black' }}
           />,
         ]}

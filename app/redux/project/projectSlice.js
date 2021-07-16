@@ -5,7 +5,7 @@ const initialState = {
   projects: [],
   loading: false,
   error: '',
-  totalData: 20,
+  totalData: 0,
 }
 
 export const projectSlice = createSlice({

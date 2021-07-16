@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import ListTable from 'components/elements/Table'
 import ButtonComponent from 'components/elements/Button'
-import styles from './styles.module.css'
-import ModalDetail from '../ModalDetail'
-import MessageModal from '../MessageModal'
 import {
   pendingLeaveDetailColumns,
   userLeaveColumns,
 } from 'constants/lmsAdminConstants'
+import MessageModal from '../MessageModal'
+import ModalDetail from '../ModalDetail'
+import styles from './styles.module.css'
 
 const Pending = () => {
   const [detail, setDetail] = useState({})
@@ -37,7 +37,7 @@ const Pending = () => {
     // dispatch api for apply leave or cancel leave
   }
 
-  let action = leaveAction.action === 'approve'
+  const action = leaveAction.action === 'approve'
 
   return (
     <>

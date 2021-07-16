@@ -11,9 +11,9 @@ export function getProjects() {
 // Filtering Section
 
 function filterProject(
-  search_project,
-  project_type,
-  project_status,
+  searchProject,
+  projectType,
+  projectStatus,
   client,
   developer,
   designer,
@@ -21,9 +21,9 @@ function filterProject(
   perPage = 20,
 ) {
   return `${API_URL}/projects?page=${page}&per_page=${perPage}${
-    search_project?.length > 0 ? `&search=${search_project}` : ''
-  }${project_type ? `&project_type=${project_type}` : ''}${
-    project_status ? `&project_status=${project_status}` : ''
+    searchProject?.length > 0 ? `&search=${searchProject}` : ''
+  }${projectType ? `&project_type=${projectType}` : ''}${
+    projectStatus ? `&project_status=${projectStatus}` : ''
   }${client ? `&client=${client}` : ''}${
     developer ? `&developer=${developer}` : ''
   }${
@@ -32,9 +32,9 @@ function filterProject(
 }
 
 export function filterProjects(
-  search_project,
-  project_type,
-  project_status,
+  searchProject,
+  projectType,
+  projectStatus,
   client,
   developer,
   designer,
@@ -43,9 +43,9 @@ export function filterProjects(
 ) {
   return api.get(
     filterProject(
-      search_project,
-      project_type,
-      project_status,
+      searchProject,
+      projectType,
+      projectStatus,
       client,
       developer,
       designer,

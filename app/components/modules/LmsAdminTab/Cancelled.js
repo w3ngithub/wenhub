@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import ListTable from 'components/elements/Table'
+import { userLeaveColumns } from 'constants/lmsAdminConstants'
 import ButtonComponent from 'components/elements/Button'
 import styles from './styles.module.css'
 import ModalDetail from '../ModalDetail'
-import { userLeaveColumns } from 'constants/lmsAdminConstants'
 
 const Cancelled = () => {
   const [detail, setDetail] = useState({})

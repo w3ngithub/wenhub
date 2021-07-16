@@ -3,9 +3,10 @@ import { HYDRATE } from 'next-redux-wrapper'
 
 const initialState = {
   blogs: [],
+  page: { pageNumber: 1, postPerPage: 10 },
   blogDetail: {},
   loading: false,
-  totalData: 10,
+  totalData: 0,
   error: '',
 }
 
@@ -13,6 +14,9 @@ export const blogSlice = createSlice({
   name: 'blogData',
   initialState,
   reducers: {
+    setPage: (state, { payload }) => {
+      state.page = payload.data
+    },
     blogsFetching: (state) => {
       state.loading = true
     },
