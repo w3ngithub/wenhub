@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Form, Select, Checkbox } from 'antd'
+import { Form, Checkbox } from 'antd'
 import FormField from 'components/elements/Form'
+import Select from 'components/elements/Select'
 import Button from 'components/elements/Button'
 import styles from './styles.module.css'
 
@@ -9,7 +10,7 @@ function LmsApply({ setAlertVisible }) {
   const [isHallfLeave, setHalfLeave] = useState(false)
 
   const handleLeaveTypeChange = (e) => {
-    if (e === '2') setHalfLeave(true)
+    if (e.value === '2') setHalfLeave(true)
     else setHalfLeave(false)
   }
 
@@ -28,7 +29,7 @@ function LmsApply({ setAlertVisible }) {
         form={form}
         layout="vertical"
         onFinish={onSubmit}
-        initialValues={{ Half_day_type: '1' }}
+        initialValues={{ label: 'First Half', value: '1' }}
       >
         <div className={styles.lms_apply_form}>
           <div className={styles.calendar_form}>
@@ -58,18 +59,18 @@ function LmsApply({ setAlertVisible }) {
                   style={{ width: '100%' }}
                 >
                   <Select
-                    showSearch={false}
-                    placeholder={
-                      <div style={{ fontSize: '0.7rem', fontWeight: 'bold' }}>
-                        Select Leave Type
-                      </div>
-                    }
+                    placeholder="Select Leave Type"
                     options={[
                       { label: 'Causal', value: '1' },
                       { label: 'Half Day', value: '2' },
                       { label: 'Sick', value: '3' },
                     ]}
-                    style={{ width: '100%' }}
+                    style={{
+                      width: '100%',
+                      fontSize: '0.7rem',
+                      fontWeight: 'bold',
+                      textAlign: 'left',
+                    }}
                     onChange={handleLeaveTypeChange}
                   />
                 </Form.Item>
@@ -77,15 +78,21 @@ function LmsApply({ setAlertVisible }) {
                   <Form.Item
                     name="Half_day_type"
                     rules={[{ required: true }]}
-                    style={{ width: '100%' }}
+                    style={{
+                      width: '100%',
+                    }}
                   >
                     <Select
-                      showSearch={false}
                       options={[
                         { label: 'First Half', value: '1' },
                         { label: 'Second Half', value: '2' },
                       ]}
-                      style={{ width: '100%' }}
+                      style={{
+                        width: '100%',
+                        fontSize: '0.7rem',
+                        fontWeight: 'bold',
+                        textAlign: 'left',
+                      }}
                     />
                   </Form.Item>
                 )}

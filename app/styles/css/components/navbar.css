@@ -11,6 +11,19 @@
   justify-content: flex-end;
 }
 
+.ant-menu-item-selected {
+  color: var(--navbar-color);
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: var(--navbar-color);
+}
+
+.ant-menu-item:active,
+.ant-menu-submenu-title:active {
+  background: var(--navbar-color);
+}
+
 .ant-menu-submenu .ant-menu-title-content {
   margin-right: -15px;
   color: #fff;

@@ -1,0 +1,39 @@
+.weekly_reprot_form_container {
+  width: 100%;
+  text-align: center;
+  box-shadow: none !important;
+  background: rgba(206, 206, 206, 0.2) !important;
+  border: 1px solid #cecece !important;
+  padding: 30px;
+  margin: 20px 0;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  column-gap: 5px;
+}
+
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .form {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 30px;
+  }
+}
+
+.form_buttons {
+  display: flex;
+  column-gap: 5px;
+}
+
+@media only screen and (min-width: 0) and (max-width: 900px) {
+  .form_buttons {
+    justify-content: center;
+  }
+}

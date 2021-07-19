@@ -1,0 +1,12 @@
+.weekly_report_table_container {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.weekly_details {
+  cursor: pointer;
+}
+.weekly_details:hover {
+  color: var(--navbar-color);
+}

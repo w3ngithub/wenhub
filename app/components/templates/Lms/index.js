@@ -44,7 +44,7 @@ function Lms() {
           type="card"
           tabBarStyle={{
             background: '#fff',
-            width: '100%',
+            width: 'auto',
             overFlowX: 'scroll',
             whiteSpace: 'nowrap',
           }}

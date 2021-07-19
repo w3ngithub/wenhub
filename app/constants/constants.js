@@ -33,12 +33,8 @@ export const navBarItems = [
     path: '/lms',
   },
   { id: 6, item: 'LMS ADMIN', path: '/lms-admin' },
-  {
-    id: 7,
-    item: 'EXPERTISE AREA',
-    path: '/expertise-area',
-  },
-  { id: 8, item: 'WEEKLY REPORT', path: '/weekly-report' },
+
+  { id: 7, item: 'WEEKLY REPORT', path: '/weekly-report' },
 ]
 
 // table body style

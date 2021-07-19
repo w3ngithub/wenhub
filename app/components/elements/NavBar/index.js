@@ -13,11 +13,12 @@ const { Header } = Layout
 
 function NavBar({ navItems, backgroundColor, styles }) {
   const [menuItemSelectedKey, setMenuItemSelecteKey] = useState(null)
-  const router = useRouter()
+  const { pathname } = useRouter()
 
   const handleMenuClicked = (navItem) => {
     setMenuItemSelecteKey(navItem.key)
   }
+
   React.useEffect(() => {
     const setActiveNavBarItem = () => {
       const urlNav = navItems.reduce((obj, item) => {
@@ -36,10 +37,10 @@ function NavBar({ navItems, backgroundColor, styles }) {
         return { ...obj, [item.path]: item.id }
       }, {})
 
-      setMenuItemSelecteKey(urlNav[router.pathname])
+      setMenuItemSelecteKey(urlNav[pathname])
     }
     setActiveNavBarItem()
-  }, [])
+  }, [pathname])
 
   return (
     <Layout style={{ width: '100%' }}>
