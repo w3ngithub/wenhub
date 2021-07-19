@@ -13,11 +13,11 @@ function BlogDetailPage({ blogs }) {
 export default BlogDetailPage
 
 export const getStaticPaths = async () => {
-  const res = await api.get(`${API_URL}/posts?_fields=id`)
+  const res = await api.get(`${API_URL}/posts?&per_page=100&_fields=id`)
   const { data } = res
   return {
     paths: data.map((x) => ({ params: { id: `${x.id}` } })),
-    fallback: false,
+    fallback: true,
   }
 }
 
@@ -27,7 +27,7 @@ export const getStaticProps = wrapper.getStaticProps(
       const { dispatch } = store
       await dispatch(fetchCategories())
       await dispatch(fetchDetailBlog(params.id))
-      const blogs = await api.get(`${API_URL}/posts`)
+      const blogs = await api.get(`${API_URL}/posts?per_page=100`)
       return {
         props: {
           blogs: blogs.data,
