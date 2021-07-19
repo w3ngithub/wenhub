@@ -111,7 +111,12 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
               { label: 'Research', value: 'Research' },
               { label: 'RFE', value: 'RFE' },
             ]}
-            style={{ width: '100%', textAlign: 'left' }}
+            style={{
+              width: '100%',
+              textAlign: 'left',
+              fontSize: '0.7rem',
+              fontWeight: 'bold',
+            }}
           />
         </Form.Item>
         {isAdmin && (
@@ -130,7 +135,12 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
                 { label: 'kisok', value: 'Kisok' },
                 { label: 'Idonize', value: 'idonize' },
               ]}
-              style={{ width: '100%', textAlign: 'left' }}
+              style={{
+                width: '100%',
+                textAlign: 'left',
+                fontSize: '0.7rem',
+                fontWeight: 'bold',
+              }}
             />
           </Form.Item>
         )}
