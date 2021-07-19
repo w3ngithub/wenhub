@@ -1,29 +1,17 @@
 import { filterProjects } from 'redux/project/projectCrud'
 
-export default async (
-  {
-    query: {
-      search_project,
-      project_type,
-      project_status,
-      client,
-      developer,
-      designer,
-      page,
-      perPage,
-    },
-  },
-  res,
-) => {
+export default async ({ query }, res) => {
   const response = await filterProjects(
-    search_project,
-    project_type,
-    project_status,
-    client,
-    developer,
-    designer,
-    page,
-    perPage,
+    query.search_project,
+    query.project_type,
+    query.project_status,
+    query.client,
+    query.developer,
+    query.designer,
+    query.page,
+    query.perPage,
+    query.userType,
+    query.userId,
   )
   res
     .status(200)

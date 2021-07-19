@@ -15,6 +15,7 @@ export const projectSlice = createSlice({
   reducers: {
     projectFetching: (state) => {
       state.loading = true
+      state.projects = []
     },
 
     projectFetchSuccess: (state, { payload }) => {

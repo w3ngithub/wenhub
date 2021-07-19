@@ -4,8 +4,7 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 import { getDate } from 'utils/date'
 import HTMLReactParser from 'html-react-parser'
-import FormField from 'components/elements/Form'
-import ButtonComponent from 'components/elements/Button'
+import PasswordProtected from 'components/elements/PasswordProtected'
 import styles from './styles.module.css'
 
 const BlogDetail = ({ blogDetail, blogs, categories }) => {
@@ -33,23 +32,7 @@ const BlogDetail = ({ blogDetail, blogs, categories }) => {
       </div>
       <div className={styles.entry_content}>
         {blogDetail.content.protected ? (
-          <form
-            style={{ padding: '22px 0' }}
-            onSubmit={(e) => {
-              e.preventDefault()
-              console.log('Submited')
-            }}
-          >
-            <p>
-              This content is password protected. To view it please enter your
-              password below:
-            </p>
-            Password:{' '}
-            <FormField component="InputField" value="" width="200px" />
-            <br />
-            <br />
-            <ButtonComponent htmlType="submit" btnText="Enter" />
-          </form>
+          <PasswordProtected />
         ) : (
           HTMLReactParser(blogDetail.content.rendered)
         )}

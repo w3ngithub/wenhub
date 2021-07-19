@@ -5,22 +5,25 @@ import { projectSlice } from './projectSlice'
 const { projectFetching, projectFetchSuccess, projectFetchError } =
   projectSlice.actions
 
-export const fetchProjects = () => (dispatch) => {
+export const fetchProjects = (userType, userId) => (dispatch) => {
   dispatch(projectFetching())
-  return requestFromServer
-    .getProjects()
-    .then((res) => {
-      dispatch(
-        projectFetchSuccess({
-          data: res.data,
-          totalData: res.headers['x-wp-total'],
-        }),
-      )
-    })
-    .catch((err) => {
-      dispatch(projectFetchError({ error: 'Sending Error' }))
-      console.log(err)
-    })
+  return new Promise((resolve) => {
+    requestFromServer
+      .getProjects(userType, userId)
+      .then((res) => {
+        dispatch(
+          projectFetchSuccess({
+            data: res.data,
+            totalData: res.headers['x-wp-total'],
+          }),
+        )
+        resolve(res.data)
+      })
+      .catch((err) => {
+        dispatch(projectFetchError({ error: 'Sending Error' }))
+        console.log(err)
+      })
+  })
 }
 
 export const fetchFilteredProject =
@@ -33,6 +36,8 @@ export const fetchFilteredProject =
     designer,
     page,
     perPage,
+    userType,
+    userId,
   ) =>
   async (dispatch) => {
     dispatch(projectFetching())
@@ -46,6 +51,8 @@ export const fetchFilteredProject =
     if (designer) params.append('designer', designer)
     params.append('page', page)
     params.append('perPage', perPage)
+    if (userType) params.append('userType', userType)
+    if (userId) params.append('userId', userId)
     const request = { params }
 
     try {

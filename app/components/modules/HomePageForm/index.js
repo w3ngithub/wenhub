@@ -29,8 +29,8 @@ const HomePageForm = ({
     allDesigners,
   })
 
-  useDidMountEffect(
-    () =>
+  useDidMountEffect(() => {
+    if (pathname) {
       filterProject(
         searchProject,
         select.projectTypes.value,
@@ -40,9 +40,22 @@ const HomePageForm = ({
         select.allDesigners.value,
         page.pageNumber,
         page.postPerPage,
-      ),
-    [searchProject, select, page],
-  )
+      )
+    } else {
+      filterProject(
+        searchProject,
+        select.projectTypes.value,
+        select.projectStatus.value,
+        select.allClients.value,
+        select.allDevelopers.value,
+        select.allDesigners.value,
+        page.pageNumber,
+        page.postPerPage,
+        'developer',
+        31,
+      )
+    }
+  }, [searchProject, select, page])
 
   const resetPage = () => setPage({ pageNumber: 1, postPerPage: 20 })
 
