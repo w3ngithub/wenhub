@@ -57,3 +57,10 @@ button.ant-tabs-nav-add {
   border-bottom-color: #fff;
   background-color: #163f63;
 }
+
+.modal_container_add_media > .ant-tabs-top > .ant-tabs-nav,
+.ant-tabs-bottom > .ant-tabs-nav,
+.ant-tabs-top > div > .ant-tabs-nav,
+.ant-tabs-bottom > div > .ant-tabs-nav {
+  margin: 0 0 0 0;
+}

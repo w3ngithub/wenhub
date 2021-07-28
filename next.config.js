@@ -10,4 +10,7 @@ module.exports = withImages({
     locales: ['en-US'],
     defaultLocale: 'en-US',
   },
+  images: {
+    domains: ['wendevs.com'],
+  },
 })
