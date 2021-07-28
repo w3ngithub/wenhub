@@ -1,15 +1,22 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Form, Input, Checkbox } from 'antd'
 import ButtonComponent from 'components/elements/Button'
 import FormField from 'components/elements/Form'
+import { connect } from 'react-redux'
+import { loginUser } from 'redux/user/userActions'
 import styles from './styles.module.css'
 
-function Login() {
+function Login(props) {
   const [form] = Form.useForm()
+  const { push } = useRouter()
 
-  const onSubmit = (values) => {
-    console.log(values)
+  const onSubmit = async (values) => {
+    const data = await props.loginUser(values)
+    if (data) {
+      push({ pathname: '/' })
+    }
   }
   return (
     <div className={styles.login_container}>
@@ -75,4 +82,4 @@ function Login() {
   )
 }
 
-export default Login
+export default connect(null, { loginUser })(Login)
