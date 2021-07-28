@@ -1,0 +1,34 @@
+.images_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #000;
+  overflow-y: scroll;
+  height: 160px;
+}
+
+.file_selected {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.file_selected_list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.remove {
+  color: red;
+  font-family: bold;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.remove:hover {
+  text-decoration: underline;
+}
+
+.upload_files_container {
+}
