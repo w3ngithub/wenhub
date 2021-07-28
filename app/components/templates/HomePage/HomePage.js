@@ -1,17 +1,23 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Input } from 'antd'
+import { connect } from 'react-redux'
 import PaginateTable from 'components/modules/PaginateTable'
 import { getDataDetail } from 'utils/commonFunctions'
-import { connect } from 'react-redux'
 import { fetchFilteredProject } from 'redux/project/projectActions'
 import HomePageForm from 'modules/HomePageForm'
 import ModalDetail from 'components/modules/ModalDetail'
 import { projectColumns, projectDetailColumns } from 'constants/homeConstants'
-import { useRouter } from 'next/router'
 import styles from './HomePage.module.css'
 
-const HomePage = ({ projects, filterType, totalData, ...props }) => {
+const HomePage = ({
+  projects,
+  filterType,
+  totalData,
+  userDetail,
+  ...props
+}) => {
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [detail, setDetail] = useState({})
@@ -117,6 +123,9 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
         page={page}
         setPage={setPage}
         pathname={pathname}
+        userDetail={userDetail}
+        developers={developers}
+        designers={designers}
       />
       <PaginateTable
         columns={projectColumns}
@@ -148,12 +157,14 @@ const HomePage = ({ projects, filterType, totalData, ...props }) => {
 const mapStateToProps = ({
   projectData: { projects, loading, error, totalData },
   commonData: { filterType },
+  userData: { userDetail },
 }) => ({
   projects,
   loading,
   error,
   filterType,
   totalData,
+  userDetail,
 })
 
 export default connect(mapStateToProps, { fetchFilteredProject })(HomePage)

@@ -28,6 +28,9 @@ export const projectSlice = createSlice({
       state.loading = false
       state.error = payload.error
     },
+    projectInitial: (state, { payload }) => {
+      state.projects = payload.data
+    },
   },
 
   extraReducers: {

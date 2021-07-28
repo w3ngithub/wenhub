@@ -4,7 +4,7 @@ import { API_URL } from 'constants/constants'
 // Fetching Sectionu
 const fetchProject = (userType, userId) =>
   `${API_URL}/projects?page=1&per_page=20${
-    userType && userId ? `&${userType}=${userId}` : ''
+    userType ? `&${userType}=${userId}` : ''
   }&_fields=id,title,link,slug,excerpt,author,acf_fields,_links&_embed`
 
 export function getProjects(userType, userId) {
@@ -26,7 +26,7 @@ function filterProject(
   userId,
 ) {
   return `${API_URL}/projects?page=${page}&per_page=${perPage}${
-    userType && userId ? `&${userType}=${userId}` : ''
+    userType ? `&${userType}=${userId}` : ''
   }${searchProject?.length > 0 ? `&search=${searchProject}` : ''}${
     projectType ? `&project_type=${projectType}` : ''
   }${projectStatus ? `&project_status=${projectStatus}` : ''}${

@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { blogSlice } from './blogSlice'
 import * as requestFromServer from './blogCrud'
 
@@ -35,17 +34,17 @@ export const fetchBlogs = () => (dispatch) => {
 export const fetchFilteredBlogs =
   (searchBlog, pageNo, pageSize) => async (dispatch) => {
     dispatch(blogsFetching())
-    const params = new URLSearchParams()
-    if (searchBlog?.length > 0) params.append('search_blog', searchBlog)
-    params.append('page', pageNo)
-    params.append('perPage', pageSize)
-    const request = { params }
+
     try {
-      const response = await axios('/api/blog', request)
+      const res = await requestFromServer.filterBlogs(
+        searchBlog,
+        pageNo,
+        pageSize,
+      )
       dispatch(
         blogsFetchSuccess({
-          data: response.data.data,
-          totalData: response.data.totalData,
+          data: res.data,
+          totalData: res.headers['x-wp-total'],
         }),
       )
     } catch (err) {

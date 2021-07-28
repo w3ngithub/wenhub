@@ -13,19 +13,21 @@ const {
 
 export const fetchFilterOptionLists = () => (dispatch) => {
   dispatch(filterOptionsFetching())
-  return requestFromServer
-    .getProjectFilterTypes()
-    .then(
-      axios.spread((...response) => {
-        dispatch(
-          filterOptionsFetchingSuccess({ data: response.map((x) => x.data) }),
-        )
-      }),
-    )
-    .catch((err) => {
-      dispatch(filterOptionsFetchingError({ error: 'Error Fetching' }))
-      console.log(err)
-    })
+  return new Promise((resolve) => {
+    requestFromServer
+      .getProjectFilterTypes()
+      .then(
+        axios.spread((...response) => {
+          const data = response.map((x) => x.data)
+          dispatch(filterOptionsFetchingSuccess({ data }))
+          resolve(data)
+        }),
+      )
+      .catch((err) => {
+        dispatch(filterOptionsFetchingError({ error: 'Error Fetching' }))
+        console.log(err)
+      })
+  })
 }
 
 export const fetchCategories = () => (dispatch) => {

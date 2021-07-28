@@ -18,6 +18,9 @@ const HomePageForm = ({
   setPage,
   filterProject,
   pathname,
+  userDetail,
+  developers,
+  designers,
 }) => {
   const [searchProject, setSearchProject] = useState('')
   const [searchValue, setSearchValue] = useState('')
@@ -42,19 +45,29 @@ const HomePageForm = ({
         page.postPerPage,
       )
     } else {
-      filterProject(
-        searchProject,
-        select.projectTypes.value,
-        select.projectStatus.value,
-        select.allClients.value,
-        select.allDevelopers.value,
-        select.allDesigners.value,
-        page.pageNumber,
-        page.postPerPage,
-        'developer',
-        31,
-      )
+      let userType = ''
+      const developer = developers.some((x) => x.id === userDetail.id)
+      const designer = designers.some((x) => x.id === userDetail.id)
+      if (designer) userType = 'designer'
+      if (developer) userType = 'developer'
+      if (designer || developer) {
+        filterProject(
+          searchProject,
+          select.projectTypes.value,
+          select.projectStatus.value,
+          select.allClients.value,
+          select.allDevelopers.value,
+          select.allDesigners.value,
+          page.pageNumber,
+          page.postPerPage,
+          userType,
+          userDetail.user_id,
+        )
+      } else {
+        return null
+      }
     }
+    return false
   }, [searchProject, select, page])
 
   const resetPage = () => setPage({ pageNumber: 1, postPerPage: 20 })

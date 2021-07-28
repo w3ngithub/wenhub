@@ -1,9 +1,15 @@
-import axios from 'axios'
 import * as requestFromServer from './projectCrud'
 import { projectSlice } from './projectSlice'
 
-const { projectFetching, projectFetchSuccess, projectFetchError } =
-  projectSlice.actions
+const {
+  projectFetching,
+  projectFetchSuccess,
+  projectFetchError,
+  projectInitial,
+} = projectSlice.actions
+
+export const resetProject = () => (dispatch) =>
+  dispatch(projectInitial({ data: [] }))
 
 export const fetchProjects = (userType, userId) => (dispatch) => {
   dispatch(projectFetching())
@@ -41,26 +47,23 @@ export const fetchFilteredProject =
   ) =>
   async (dispatch) => {
     dispatch(projectFetching())
-    const params = new URLSearchParams()
-    if (searchProject?.length > 0)
-      params.append('search_project', searchProject)
-    if (projectType) params.append('project_type', projectType)
-    if (projectStatus) params.append('project_status', projectStatus)
-    if (client) params.append('client', client)
-    if (developer) params.append('developer', developer)
-    if (designer) params.append('designer', designer)
-    params.append('page', page)
-    params.append('perPage', perPage)
-    if (userType) params.append('userType', userType)
-    if (userId) params.append('userId', userId)
-    const request = { params }
-
     try {
-      const res = await axios.get('/api/project', request)
+      const res = await requestFromServer.filterProjects(
+        searchProject,
+        projectType,
+        projectStatus,
+        client,
+        developer,
+        designer,
+        page,
+        perPage,
+        userType,
+        userId,
+      )
       dispatch(
         projectFetchSuccess({
-          data: res.data.data,
-          totalData: res.data.totalData,
+          data: res.data,
+          totalData: res.headers['x-wp-total'],
         }),
       )
     } catch (err) {
