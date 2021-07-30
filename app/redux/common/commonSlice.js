@@ -13,6 +13,7 @@ const initialState = {
   categories: [],
   commonLoading: false,
   error: '',
+  category: {},
 }
 
 export const commonSlice = createSlice({
@@ -45,6 +46,17 @@ export const commonSlice = createSlice({
       state.categories = payload.data
     },
     categoriesFetchingError: (state, { payload }) => {
+      state.commonLoading = false
+      state.error = payload.error
+    },
+    categoryFetching: (state) => {
+      state.commonLoading = true
+    },
+    categoryFetchingSuccess: (state, { payload }) => {
+      state.commonLoading = false
+      state.category = payload.data
+    },
+    categoryFetchError: (state, { payload }) => {
       state.commonLoading = false
       state.error = payload.error
     },

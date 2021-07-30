@@ -1,15 +1,10 @@
 import React, { useEffect } from 'react'
 import { Card } from 'antd'
 import { connect } from 'react-redux'
-import { setDetailUser, checkToken } from 'redux/user/userActions'
+import { setDetailUser } from 'redux/user/userActions'
 import styles from './styles.module.css'
 
 function CardComponent(props) {
-  useEffect(() => {
-    const userDetail = JSON.parse(localStorage.getItem('userDetail'))
-    props.checkToken(userDetail?.token)
-  }, [])
-
   useEffect(() => {
     const detail = JSON.parse(localStorage.getItem('userDetail'))
     if (detail) {
@@ -24,4 +19,4 @@ function CardComponent(props) {
   )
 }
 
-export default connect(null, { setDetailUser, checkToken })(CardComponent)
+export default connect(null, { setDetailUser })(CardComponent)

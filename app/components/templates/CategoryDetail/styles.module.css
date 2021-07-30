@@ -1,0 +1,22 @@
+.categoryHead {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 22px;
+}
+
+.category:hover {
+  cursor: pointer;
+  color: #337ab7;
+}
+
+.postHead {
+  border-bottom: 1px solid #ccc;
+}
+
+.head {
+  margin-bottom: 0px;
+}
+
+.head:hover {
+  cursor: pointer;
+  color: #337ab7;
+}

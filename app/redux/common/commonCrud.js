@@ -25,3 +25,9 @@ const categoriesUrl = `${API_URL}/categories?_field=id,count,description,name,sl
 export function getCategories() {
   return api.get(categoriesUrl)
 }
+
+const categoryIdUrl = (id) => `${API_URL}/categories/${id}?_fields=name`
+
+export function getCategoryById(id) {
+  return api.get(categoryIdUrl(id))
+}

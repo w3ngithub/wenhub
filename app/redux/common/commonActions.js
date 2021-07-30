@@ -9,6 +9,9 @@ const {
   categoriesFetching,
   categoriesFetchingSuccess,
   categoriesFetchingError,
+  categoryFetching,
+  categoryFetchingSuccess,
+  categoryFetchError,
 } = commonSlice.actions
 
 export const fetchFilterOptionLists = () => (dispatch) => {
@@ -40,5 +43,18 @@ export const fetchCategories = () => (dispatch) => {
     .catch((err) => {
       dispatch(categoriesFetchingError({ error: 'Sending Error' }))
       console.log(err)
+    })
+}
+
+export const fetchCategoryById = (id) => (dispatch) => {
+  dispatch(categoryFetching())
+  return requestFromServer
+    .getCategoryById(id)
+    .then((res) => {
+      dispatch(categoryFetchingSuccess({ data: res.data }))
+    })
+    .catch((err) => {
+      dispatch(categoryFetchError({ error: 'Sending Error' }))
+      console.log(err.response)
     })
 }

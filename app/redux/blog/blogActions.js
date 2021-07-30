@@ -65,3 +65,21 @@ export const fetchDetailBlog = (id) => (dispatch) => {
       console.log(err)
     })
 }
+
+export const fetchBlogsByCategory = (categoryId) => (dispatch) => {
+  dispatch(blogsFetching())
+  return requestFromServer
+    .getBlogByCategory(categoryId)
+    .then((res) => {
+      dispatch(
+        blogsFetchSuccess({
+          data: res.data,
+          totalData: res.headers['x-wp-total'],
+        }),
+      )
+    })
+    .catch((err) => {
+      dispatch(blogsFetchError({ error: 'Sending Error' }))
+      console.log(err)
+    })
+}

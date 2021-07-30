@@ -33,24 +33,26 @@ export const setDetailUser = (data) => (dispatch) =>
 
 export const checkToken = (token) => (dispatch) => {
   dispatch(tokenCheckStart())
-  axios
-    .post(
-      'https://wendevs.com/wenhub-rt/wp-json/jwt-auth/v1/token/validate',
-      null,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        'https://wendevs.com/wenhub-rt/wp-json/jwt-auth/v1/token/validate',
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      },
-    )
-    .then((res) => {
-      if (res) dispatch(tokenCheckFinish())
-    })
-    .catch((err) => {
-      if (err.response.data.data.status === 403) {
+      )
+      .then((res) => {
         dispatch(tokenCheckFinish())
-        localStorage.removeItem('userDetail')
-        window.location = 'wp-login'
-      }
-    })
+        resolve(res)
+      })
+      .catch((err) => {
+        if (err.response.data.data.status === 403) {
+          dispatch(tokenCheckFinish())
+          reject(err)
+        }
+      })
+  })
 }

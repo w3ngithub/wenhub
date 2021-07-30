@@ -43,7 +43,7 @@ const BlogDetail = ({ blogDetail, blogs, categories }) => {
           <Link
             key={y.id}
             href={{
-              pathname: `/category/${y.slug}`,
+              pathname: `/category/${y.id}`,
             }}
           >
             <span className={styles.category}>{y.name},&nbsp;</span>

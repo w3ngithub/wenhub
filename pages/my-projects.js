@@ -4,20 +4,24 @@ import { fetchProjects } from 'redux/project/projectActions'
 import HomePage from 'components/templates/HomePage/HomePage'
 import { fetchFilterOptionLists } from 'redux/common/commonActions'
 import { useDispatch } from 'react-redux'
+import useTokenValidation from 'hooks/useTokenValidation'
 
 function MyProjectsPage() {
   const dispatch = useDispatch()
+  useTokenValidation()
   React.useEffect(() => {
     const fetchUserData = async () => {
       const user = localStorage.getItem('userDetail')
-      const data = await dispatch(fetchFilterOptionLists())
-      const designers = data[4]
-      const developers = data[3]
-      if (designers.some((x) => x.id === user.user_id)) {
-        await dispatch(fetchProjects('designer', user.user_id))
-      }
-      if (developers.some((x) => x.id === user.user_id)) {
-        await dispatch(fetchProjects('developer', user.user_id))
+      if (user) {
+        const data = await dispatch(fetchFilterOptionLists())
+        const designers = data[4]
+        const developers = data[3]
+        if (designers.some((x) => x.id === user.user_id)) {
+          await dispatch(fetchProjects('designer', user.user_id))
+        }
+        if (developers.some((x) => x.id === user.user_id)) {
+          await dispatch(fetchProjects('developer', user.user_id))
+        }
       }
     }
     fetchUserData()
