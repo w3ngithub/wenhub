@@ -20,10 +20,11 @@ export function filterBlogs(searchBlog, page, perPage) {
 }
 
 // Get Detail of Blog
-function fetchDetailBlog(id) {
-  return `${API_URL}/posts/${id}`
-}
 
 export function getDetailBlog(id) {
-  return api.get(fetchDetailBlog(id))
+  return api.get(`${API_URL}/posts/${id}`)
+}
+
+export function getBlogByCategory(id) {
+  return api.get(`${API_URL}/posts?categories=${id}`)
 }
