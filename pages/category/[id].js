@@ -28,5 +28,8 @@ export const getStaticProps = wrapper.getStaticProps(
       await dispatch(fetchCategoryById(params.id))
       await dispatch(fetchCategories())
       await dispatch(fetchBlogsByCategory(params.id))
+      return {
+        revalidate: 60,
+      }
     },
 )
