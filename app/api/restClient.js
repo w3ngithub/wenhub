@@ -8,7 +8,9 @@ export const getHttpHeaders = (isAuthenticated = false) => {
   if (isAuthenticated) {
     return {
       headers: {
-        Authorization: `Bearer YOUR_TOKEN`,
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem('userDetail')).token
+        }`,
       },
     }
   }
@@ -25,7 +27,8 @@ const get = (path) => axios.get(path, getHttpHeaders())
 
 const del = (path) => axios.delete(path, getHttpHeaders())
 
-const post = (path, data) => axios.post(path, data, getHttpHeaders())
+const post = (path, data, isAuthenticated) =>
+  axios.post(path, data, getHttpHeaders(isAuthenticated))
 
 const put = (path, data) => axios.post(path, data, getHttpHeaders())
 

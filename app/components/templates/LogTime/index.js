@@ -1,20 +1,53 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import Link from 'next/link'
 import moment from 'moment'
 import { Table } from 'antd'
+import parse from 'html-react-parser'
 import LogTimeForm from 'components/modules/LogTimeForm'
-import { tableBodyStyle } from 'constants/constants'
 import TimeSummaryTable from 'components/elements/TimeSummaryTable'
+import { FetchLogTImeOfUser } from 'redux/logTime/logTimeActions'
+import { logTimeTableColumns } from 'constants/logTimeConstants'
 import styles from './styles.module.css'
 
 function LogTime() {
   const [rowDataForEdit, setRowDataForEdit] = useState(null)
   const [formType, setFormType] = useState('Add')
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(FetchLogTImeOfUser())
+  }, [])
 
   const handlesetRowDataForEdit = (rowData) => {
     setRowDataForEdit(rowData)
     setFormType('Edit')
   }
+
+  const { logsOfUser } = useSelector((state) => state.logTime, shallowEqual)
+  const { logTypes, projectsOfUser } = useSelector(
+    (state) => state.projectLog,
+    shallowEqual,
+  )
+  const cleanLogTypes = logTypes?.reduce(
+    (obj, log) => ({ ...obj, [log.id]: log.name }),
+    {},
+  )
+  const cleanProjectsOfUser = projectsOfUser.reduce(
+    (obj, project) => ({ ...obj, [project?.id]: project?.title?.rendered }),
+    {},
+  )
+
+  const dataSource = logsOfUser?.map((log) => ({
+    key: log.id,
+    date: moment(log?.meta?.date, 'YYYYMMDD').format('YYYY-MM-DD'),
+    hours: log?.meta?.hours,
+    log_type: cleanLogTypes[log?.log_type],
+    remarks: parse(log?.content?.rendered),
+    added_by: log?.meta?.display_name,
+    project_name:
+      cleanProjectsOfUser[log?.meta?.project_id] || 'Additional Time',
+  }))
 
   const initialValues =
     formType === 'Add'
@@ -68,144 +101,8 @@ function LogTime() {
           <div className="time_log_table">
             <div className={styles.project_detail_table}>
               <Table
-                columns={[
-                  {
-                    key: 'project_name',
-                    title: 'Project',
-                    keyIndex: 'prproject_nameoject',
-                    dataIndex: 'project_name',
-                    render: (text) => ({
-                      props: {
-                        style: tableBodyStyle,
-                      },
-                      children: text,
-                    }),
-                  },
-                  {
-                    key: 'date',
-                    title: 'DATE',
-                    keyIndex: 'date',
-                    dataIndex: 'date',
-                    render: (text) => ({
-                      props: {
-                        style: tableBodyStyle,
-                      },
-                      children: text,
-                    }),
-                  },
-                  {
-                    key: 'hours',
-                    title: 'HOURS',
-                    keyIndex: 'hours',
-                    dataIndex: 'hours',
-                    render: (text) => ({
-                      props: {
-                        style: tableBodyStyle,
-                      },
-                      children: text,
-                    }),
-                  },
-                  {
-                    key: 'log_type',
-                    title: 'LOG TYPE',
-                    keyIndex: 'log_type',
-                    dataIndex: 'log_type',
-                    render: (text) => ({
-                      props: {
-                        style: tableBodyStyle,
-                      },
-                      children: text,
-                    }),
-                  },
-                  {
-                    key: 'remarks',
-                    title: 'REMARKS/DESCRIPTION',
-                    keyIndex: 'remarks',
-                    dataIndex: 'remarks',
-                    render: (text) => ({
-                      props: {
-                        style: tableBodyStyle,
-                      },
-                      children: text,
-                    }),
-                  },
-                  {
-                    key: 'added_by',
-                    title: 'ADDED BY',
-                    keyIndex: 'added_by',
-                    dataIndex: 'added_by',
-                    render: (text) => ({
-                      props: {
-                        style: tableBodyStyle,
-                      },
-                      children: text,
-                    }),
-                  },
-                  {
-                    key: '6',
-                    title: 'EDIT',
-                    keyIndex: 'edit',
-                    dataIndex: 'edit',
-                    render: (_, rowData) => (
-                      <span
-                        onClick={() => handlesetRowDataForEdit(rowData)}
-                        onKeyDown={() => handlesetRowDataForEdit(rowData)}
-                        role="button"
-                        tabIndex="0"
-                        className={styles.edit_table_row_data}
-                      >
-                        Edit
-                      </span>
-                    ),
-                  },
-                ]}
-                dataSource={[
-                  {
-                    key: '1',
-                    date: '06/03/2020',
-                    hours: '8.25',
-                    log_type: 'Migration',
-                    remarks: 'test saturday 1 hr log time,test  1 hr log time,',
-                    added_by: 'Bijen Kumar',
-                    project_name: 'Kisok',
-                  },
-                  {
-                    key: '2',
-                    date: '06/03/2020',
-                    hours: '8.25',
-                    log_type: 'Migration',
-                    remarks: 'test saturday 1 hr log time',
-                    added_by: 'Bijen Kumar',
-                    project_name: 'Idonize',
-                  },
-                  {
-                    key: '3',
-                    date: '06/03/2020',
-                    hours: '8.25',
-                    log_type: 'Migration',
-                    remarks: 'test saturday 1 hr log time',
-                    project_name: 'Idonize',
-                    added_by: 'Bijen Kumar',
-                  },
-                  {
-                    key: '4',
-                    date: '06-03-2020',
-                    hours: '8.25',
-                    log_type: 'Migration',
-                    remarks: 'test saturday 1 hr log time',
-                    project_name: 'Idonize',
-                    added_by: 'Bijen Kumar',
-                  },
-                  {
-                    key: '5',
-                    date: '06-03-2020',
-                    hours: '8.25',
-                    log_type: 'Migration',
-                    remarks: 'test saturday 1 hr log time',
-                    project_name: 'Idonize',
-                    added_by: 'Bijen Kumar',
-                  },
-                ]}
+                columns={logTimeTableColumns(handlesetRowDataForEdit, styles)}
+                dataSource={dataSource}
                 pagination={false}
               />
             </div>

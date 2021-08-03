@@ -1,9 +1,9 @@
 import React from 'react'
 import { Row, Col } from 'antd'
-import styles from './styles.module.css'
 import Modal from 'components/elements/Modal'
 import Detail from 'components/elements/Detail'
 import PropTypes from 'prop-types'
+import styles from './styles.module.css'
 
 function ModalDetail({
   title,

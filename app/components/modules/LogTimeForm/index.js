@@ -1,13 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import { Form, Alert, Select } from 'antd'
 import PropTypes from 'prop-types'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import {
+  fetchProjectsOfUser,
+  fetchLogTypes,
+  fetchFilteredProjectLogs,
+} from 'redux/projectLog/projectLogAction'
 import FormField from 'components/elements/Form'
 import Button from 'components/elements/Button'
+import { API_URL } from 'constants/constants'
+import restClient from 'api/restClient'
+import { FetchLogTImeOfUser } from 'redux/logTime/logTimeActions'
 import styles from './styles.module.css'
 
 function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
   const [visible, setVisible] = useState(false)
+  const [isSubmitting, setSubmitting] = useState(false)
   const [form] = Form.useForm()
+  const { query } = useRouter()
+
+  const dispatch = useDispatch()
+  const { projectsOfUser, logTypes } = useSelector(
+    (state) => state.projectLog,
+    shallowEqual,
+  )
+
+  useEffect(() => {
+    if (isAdmin) {
+      dispatch(fetchProjectsOfUser())
+      dispatch(fetchLogTypes())
+    }
+  }, [isAdmin])
 
   React.useEffect(() => {
     form.resetFields()
@@ -22,10 +47,42 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
   }
 
   const onSubmit = (values) => {
-    const formatedValues = values
-    formatedValues.date = formatedValues.date.format('DD/MM/YYYY')
+    setSubmitting(true)
+    const projectId = isAdmin ? values.project_name || '' : +query.id
+    const cleanValues = {
+      status: 'publish',
+      title: '',
+      content: values.remarks,
+      meta: {
+        hours: values.hours.concat(
+          `${
+            +values.minutes >= 15
+              ? `.${(values.minutes / 60).toString().split('.')[1]}`
+              : ''
+          }`,
+        ),
+        date: values.date.format('YYYYMMDD'),
+        project_id: projectId,
+      },
+      log_type: [values.log_type],
+    }
+
+    restClient
+      .post(`${API_URL}/timelogs`, cleanValues, true)
+      .then((res) => {
+        if (!isAdmin) {
+          dispatch(fetchFilteredProjectLogs(projectId))
+        } else {
+          dispatch(FetchLogTImeOfUser())
+        }
+        resetForm()
+        setVisible(true)
+        console.log(res.data)
+      })
+      .catch((err) => console.log(err.response.data.message))
+      .finally(() => setSubmitting(false))
+
     setFormType('Add')
-    setVisible(true)
   }
 
   return (
@@ -97,20 +154,10 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
               </div>
             }
             allowClear
-            options={[
-              { label: 'Bug', value: 'Bug' },
-              { label: 'Change Request', value: 'Change Request' },
-              { label: 'Data Entry', value: 'Data Entry' },
-              { label: 'Debugging', value: 'Debugging' },
-              { label: 'Fixing', value: 'Fixing' },
-              { label: 'Maintenance', value: 'Maintenance' },
-              { label: 'Migration', value: 'Migration' },
-              { label: 'New Request', value: 'New Request' },
-              { label: 'QA', value: 'QA' },
-              { label: 'QA Fixing', value: 'AQ Fixing' },
-              { label: 'Research', value: 'Research' },
-              { label: 'RFE', value: 'RFE' },
-            ]}
+            options={logTypes.map((log) => ({
+              label: log.name,
+              value: log.id,
+            }))}
             style={{
               width: '100%',
               textAlign: 'left',
@@ -120,21 +167,18 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
           />
         </Form.Item>
         {isAdmin && (
-          <Form.Item
-            label="Project Name"
-            name="project_name"
-            rules={[{ required: true }]}
-          >
+          <Form.Item label="Project Name" name="project_name">
             <Select
               placeholder={
                 <div style={{ fontSize: '0.7rem', fontWeight: 'bold' }}>
                   Choose Project
                 </div>
               }
-              options={[
-                { label: 'kisok', value: 'Kisok' },
-                { label: 'Idonize', value: 'idonize' },
-              ]}
+              showSearch
+              options={projectsOfUser.map((project) => ({
+                label: project.title.rendered,
+                value: project.id,
+              }))}
               style={{
                 width: '100%',
                 textAlign: 'left',
@@ -150,7 +194,8 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
         <Form.Item>
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             <Button
-              btnText="Submit"
+              isDisabled={isSubmitting}
+              btnText={isSubmitting ? 'Submitting...' : 'Submit'}
               style={{ marginRight: '5px' }}
               htmlType="submit"
             />

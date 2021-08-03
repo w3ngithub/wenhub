@@ -2,7 +2,11 @@ import React from 'react'
 import { wrapper } from 'redux/store'
 import ProjectLog from 'components/templates/ProjectLog'
 import httpCall from 'api/restClient'
-import { fetchProjectLogs } from 'redux/projectLog/projectLogAction'
+import {
+  fetchProjectLogs,
+  fetchProjectDetailForTimeLog,
+} from 'redux/projectLog/projectLogAction'
+import { fetchFilterOptionLists } from 'redux/common/commonActions'
 import { API_URL } from 'constants/constants'
 
 function GotoLogPage() {
@@ -28,6 +32,8 @@ export const getStaticProps = wrapper.getStaticProps(
   (store) =>
     async ({ params }) => {
       await store.dispatch(fetchProjectLogs(params.id))
+      await store.dispatch(fetchProjectDetailForTimeLog(params.id))
+      await store.dispatch(fetchFilterOptionLists())
       return {
         revalidate: 60,
       }

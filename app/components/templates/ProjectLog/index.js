@@ -1,18 +1,72 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { shallowEqual, useSelector } from 'react-redux'
+import { projectDetailColumns } from 'constants/homeConstants'
+import { getDataDetail } from 'utils/commonFunctions'
 import TimeLog from 'components/modules/TimeLog'
 import Tab from 'components/elements/Tabs'
 import Details from 'components/elements/Detail'
-import FormField from 'components/elements/Form'
 import Checklist from 'components/modules/CheckList'
 import styles from './styles.module.css'
 
 function ProjectLog() {
+  const [cleanProjectDetail, setCleanProjectDetail] = useState({})
+  const { projectDetailForTimeLog } = useSelector(
+    (state) => state.projectLog,
+    shallowEqual,
+  )
+  const {
+    filterType: {
+      projectTypes,
+      projectStatus,
+      developers,
+      designers,
+      projectTags,
+    },
+  } = useSelector((state) => state.commonData, shallowEqual)
+
+  useEffect(() => {
+    const projectType = projectTypes.find(
+      (y) => y?.id === projectDetailForTimeLog?.acf_fields?.project_type[0],
+    )
+    const projectStat = projectStatus.find(
+      (y) => y?.id === projectDetailForTimeLog?.acf_fields?.project_status,
+    )
+    const developer = developers.filter(
+      (y) =>
+        projectDetailForTimeLog?.acf_fields?.developers !== false &&
+        projectDetailForTimeLog?.acf_fields?.developers.includes(y?.id),
+    )
+    const designer = designers.filter(
+      (y) =>
+        projectDetailForTimeLog?.acf_fields?.designers !== false &&
+        projectDetailForTimeLog?.acf_fields?.designers?.includes(y?.id),
+    )
+    const projectTag = projectTags.filter(
+      (y) =>
+        projectDetailForTimeLog?.acf_fields?.project_tags !== false &&
+        projectDetailForTimeLog?.acf_fields?.project_tags?.includes(y?.id),
+    )
+
+    setCleanProjectDetail(
+      getDataDetail(
+        projectDetailForTimeLog,
+        projectType,
+        projectStat,
+        developer,
+        designer,
+        projectTag,
+      ),
+    )
+  }, [])
+
   return (
     <div className={styles.time_log_container}>
       <div className={styles.time_log_header}>
-        <h3>Kiosk</h3>
-        <Link href="https://developer.wordpress.org/rest-api/">
+        <h3>{projectDetailForTimeLog?.title?.rendered}</h3>
+        <Link
+          href={`https://wendevs.com/wenhub-rt/wp-admin/post.php?post=${projectDetailForTimeLog?.id}&action=edit`}
+        >
           <h3 className={styles.timelog_edit}>Edit</h3>
         </Link>
       </div>
@@ -34,41 +88,12 @@ function ProjectLog() {
             id: '2',
             tab: 'Project Details',
             content: (
-              <Details
-                columns={[
-                  { title: 'PATH', keyIndex: 'path' },
-                  { title: 'STATUS', keyIndex: 'status' },
-                  { title: 'LIVE URL', keyIndex: 'live_url' },
-                  { title: 'STAGING URL(S)', keyIndex: 'staging_urls' },
-                  { title: 'START DATE', keyIndex: 'start_date' },
-                  { title: 'DEADLINE', keyIndex: 'deadline' },
-                  { title: 'PROJECT TAGS', keyIndex: 'project_tags' },
-                  { title: 'DEVELPOERS', keyIndex: 'developers' },
-                  { title: 'DESIGNERS', keyIndex: 'designers' },
-                  { title: 'IMPORTANT NOTES', keyIndex: 'notes' },
-                ]}
-                detail={{
-                  path: (
-                    <FormField
-                      component="InputField"
-                      size="large"
-                      readOnly
-                      value="W:\kickstartup-projects\combier"
-                      onFocus={(e) => e.target.select()}
-                      styles={{ backgroundColor: '#eee', width: '100%' }}
-                    />
-                  ),
-                  status: 'New Project',
-                  live_url: 'fdsfdf',
-                  staging_urls: 'dsdfdsfd',
-                  start_date: 'On Going',
-                  deadline: 'Custom Build',
-                  project_tags: '06/08/2021',
-                  developers: '06/30/2021',
-                  designers: '06/30/2021',
-                  notes: '06/30/2021',
-                }}
-              />
+              <>
+                <Details
+                  columns={projectDetailColumns}
+                  detail={cleanProjectDetail}
+                />
+              </>
             ),
           },
           { id: '3', tab: 'Checklist', content: <Checklist /> },
