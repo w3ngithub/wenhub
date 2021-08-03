@@ -13,7 +13,7 @@ const CategoryDetail = ({ category, blogs, categories }) => {
         <h1>Category: {category.name}</h1>
       </div>
       {blogs.map((blog) => (
-        <div className={styles.blog}>
+        <div className={styles.blog} key={blog.id}>
           <div className={styles.postHead}>
             <Link
               href={{
