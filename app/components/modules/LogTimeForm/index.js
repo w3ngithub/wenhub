@@ -109,6 +109,7 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
           rules={[
             {
               required: true,
+              message: 'Required',
             },
           ]}
         >
@@ -122,7 +123,26 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
           <Form.Item
             label="Hours"
             name="hours"
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                message: 'Required',
+                validateTrigger: 'onSubmit',
+              },
+              {
+                validator: (_, value) => {
+                  try {
+                    if (value <= 9) {
+                      return Promise.resolve()
+                    }
+                    throw new Error('Value must be less than or equal to 9')
+                  } catch (err) {
+                    return Promise.reject(err)
+                  }
+                },
+                validateTrigger: 'onSubmit',
+              },
+            ]}
             style={{ width: '100%' }}
           >
             <FormField
@@ -135,7 +155,34 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
           <Form.Item
             label="Minutes"
             name="minutes"
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                message: 'Required',
+                validateTrigger: 'onSubmit',
+              },
+              {
+                validator: (_, value) => {
+                  try {
+                    if (value) {
+                      if (value > 60)
+                        throw new Error(
+                          'Value must be less than or equal to 60',
+                        )
+                      if (value < 15)
+                        throw new Error(
+                          'Value must be more than or equal to 15',
+                        )
+                    }
+
+                    return Promise.resolve()
+                  } catch (err) {
+                    return Promise.reject(err)
+                  }
+                },
+                validateTrigger: 'onSubmit',
+              },
+            ]}
             style={{ width: '100%' }}
           >
             <FormField
@@ -146,7 +193,11 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
             />
           </Form.Item>
         </div>
-        <Form.Item label="Type" name="log_type" rules={[{ required: true }]}>
+        <Form.Item
+          label="Type"
+          name="log_type"
+          rules={[{ required: true, message: 'Required' }]}
+        >
           <Select
             placeholder={
               <div style={{ fontSize: '0.7rem', fontWeight: 'bold' }}>
@@ -188,7 +239,11 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
             />
           </Form.Item>
         )}
-        <Form.Item label="Remarks" name="remarks" rules={[{ required: true }]}>
+        <Form.Item
+          label="Remarks"
+          name="remarks"
+          rules={[{ required: true, message: 'Required' }]}
+        >
           <FormField component="TextAreaField" rows={5} />
         </Form.Item>
         <Form.Item>
