@@ -34,6 +34,7 @@ function UplaodFiles({ clearUploadFiles }) {
     multiple: true,
     listType: 'picture',
     onChange,
+    action: '/api/uploadFiles',
     beforeUpload: (file) => {
       if (!allowedFileTypes.includes(file.type.split('/')[0])) {
         warning('Invalid File.Only images and vedios are allowed')

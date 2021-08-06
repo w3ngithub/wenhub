@@ -8,14 +8,14 @@ export function setFilterOptions(x) {
   }
 }
 
-export function getDataDetail(x, pType, pStat, developer, designer, pTag) {
+export function getDataDetail(x = {}, pType, pStat, developer, designer, pTag) {
   return {
-    name: x.title.rendered,
+    name: x?.title?.rendered,
     path: (
       <Input
         size="large"
         readOnly
-        value={x.acf_fields.project_link}
+        value={x?.acf_fields?.project_link}
         onFocus={(e) => e.target.select()}
         style={{
           backgroundColor: '#eee',
@@ -24,11 +24,11 @@ export function getDataDetail(x, pType, pStat, developer, designer, pTag) {
         }}
       />
     ),
-    live_url: x.acf_fields.live_url,
+    live_url: x?.acf_fields?.live_url,
     staging_url: (
       <ul style={{ listStyle: 'inside' }}>
-        {x.acf_fields.staging_links !== false
-          ? x.acf_fields.staging_links.map((link) => (
+        {x?.acf_fields?.staging_links !== false
+          ? x?.acf_fields?.staging_links.map((link) => (
               <li key={link.staging_link}>{link.staging_link}</li>
             ))
           : null}
@@ -36,8 +36,8 @@ export function getDataDetail(x, pType, pStat, developer, designer, pTag) {
     ),
     project_status: pType?.name,
     project_type: pStat?.name,
-    start_date: x.acf_fields.start_date,
-    deadline: x.acf_fields.end_date,
+    start_date: x?.acf_fields?.start_date,
+    deadline: x?.acf_fields?.end_date,
     project_tags: (
       <ul style={{ listStyle: 'inside' }}>
         {pTag.map((link) => (
@@ -59,6 +59,6 @@ export function getDataDetail(x, pType, pStat, developer, designer, pTag) {
         ))}
       </ul>
     ),
-    important_notes: parse(x.acf_fields.important_notes),
+    important_notes: parse(x?.acf_fields?.important_notes || ''),
   }
 }

@@ -1,7 +1,8 @@
 import api from 'api/restClient'
 import { API_URL } from 'constants/constants'
 
-const urls = (type) => api.get(`${API_URL}/${type}?_fields=id,count,name,link`)
+const urls = (type) =>
+  api.get(`${API_URL}/${type}?per_page=100&_fields=id,count,name,link`)
 
 export function getProjectFilterTypes() {
   const projectType = urls('project_type')

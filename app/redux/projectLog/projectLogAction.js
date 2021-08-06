@@ -85,3 +85,18 @@ export const fetchFilteredProjectLogs =
       dispatch(actions.projectLogFetchError(error.response.data.message))
     }
   }
+
+export const fetchProjectLogsFilteredByAuthorAndLogType =
+  (projectId, logType = '') =>
+  async (dispatch) => {
+    dispatch(actions.startProjectLogCall())
+    try {
+      const response = await requestFromServer.fetchAllProjectLogsFiltered(
+        projectId,
+        logType,
+      )
+      dispatch(actions.LogTypeFilteredProjectLogFetched(response.data))
+    } catch (error) {
+      dispatch(actions.projectLogFetchError(error.response.data.message))
+    }
+  }

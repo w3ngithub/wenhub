@@ -55,4 +55,8 @@ NormalChart.defaultProps = {
   chartType: 1,
 }
 
-export default React.memo(NormalChart)
+const AreDataAndChartTypeEqual = (prevProp, nextProp) =>
+  prevProp.chartType === nextProp.chartType &&
+  JSON.stringify(prevProp.data) === JSON.stringify(nextProp.data)
+
+export default React.memo(NormalChart, AreDataAndChartTypeEqual)

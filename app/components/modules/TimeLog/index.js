@@ -1,6 +1,9 @@
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
-import { fetchFilteredProjectLogs } from 'redux/projectLog/projectLogAction'
+import {
+  fetchFilteredProjectLogs,
+  fetchProjectLogsFilteredByAuthorAndLogType,
+} from 'redux/projectLog/projectLogAction'
 import { Pagination, Select as Choose, Table } from 'antd'
 import { useRouter } from 'next/router'
 import parse from 'html-react-parser'
@@ -22,16 +25,35 @@ import {
 import Chart from './LogtimeChart'
 import styles from './styles.module.css'
 
-function TimeLog() {
-  const { projectLogs, logTypes, totalLogsOfProject, loading } = useSelector(
-    (state) => state.projectLog,
-    shallowEqual,
-  )
+function TimeLog({ estimatedHours }) {
+  let logs = []
+  const [developersIds, setDevelopersId] = useState([])
+  const [DesignersIds, setDesignersId] = useState([])
+
+  const {
+    projectLogs,
+    logTypes,
+    totalLogsOfProject,
+    projectDetailForTimeLog,
+    loading,
+  } = useSelector((state) => state.projectLog, shallowEqual)
   const cleanLogTypes = logTypes?.reduce(
-    (obj, log) => ({ ...obj, [log.id]: log.name }),
+    (obj, log) => ({ ...obj, [log.id]: log?.name }),
     {},
   )
+  const {
+    filterType: { developers, designers },
+  } = useSelector((state) => state.commonData, shallowEqual)
+
   const dispatch = useDispatch()
+  const [logAuthorFiltered, setLogAuthorFiltered] = useState({
+    label: 'Log Author',
+    value: '',
+  })
+  const [logTypeFiltered, setLogTypeFiltered] = useState({
+    label: 'Log Type',
+    value: '',
+  })
   const [page, setPage] = useState(1)
   const [perPage, setPerPage] = useState(10)
   const {
@@ -78,6 +100,49 @@ function TimeLog() {
     setFormType('Edit')
   }
 
+  const handleResetLogsTable = () => {
+    setLogTypeFiltered({
+      label: 'Log Type',
+      value: '',
+    })
+    setLogAuthorFiltered({
+      label: 'Log Author',
+      value: '',
+    })
+    setPage(1)
+    setPerPage(10)
+  }
+
+  useDidMountEffect(() => {
+    if (logAuthorFiltered.value !== '' || logTypeFiltered.value !== '') {
+      dispatch(
+        fetchProjectLogsFilteredByAuthorAndLogType(id, logTypeFiltered.value),
+      )
+    } else {
+      dispatch(fetchFilteredProjectLogs(id, page, perPage))
+    }
+  }, [logTypeFiltered.value, logAuthorFiltered.value, page, perPage])
+
+  useEffect(() => {
+    const DevelopersIds = developers
+      .filter(
+        (dv) =>
+          Array.isArray(projectDetailForTimeLog.acf_fields.developers) &&
+          projectDetailForTimeLog.acf_fields.developers?.indexOf(dv.id) > -1,
+      )
+      .map((d) => ({ label: d.name, value: d.name }))
+
+    const designersIds = designers
+      .filter(
+        (dv) =>
+          Array.isArray(projectDetailForTimeLog.acf_fields.designers) &&
+          projectDetailForTimeLog.acf_fields.designers.indexOf(dv.id) > -1,
+      )
+      .map((d) => ({ label: d.name, value: d.name }))
+    setDesignersId(designersIds)
+    setDevelopersId(DevelopersIds)
+  }, [developers, designers, projectDetailForTimeLog])
+
   useEffect(() => {
     if (!ChartLogType.length) setIsChartGenerated(false)
     if (ChartLogType.includes('0')) {
@@ -89,10 +154,6 @@ function TimeLog() {
     }
   }, [ChartLogType])
 
-  useDidMountEffect(() => {
-    dispatch(fetchFilteredProjectLogs(id, page, perPage))
-  }, [page, perPage])
-
   const initialValues =
     formType === 'Add'
       ? {
@@ -103,10 +164,23 @@ function TimeLog() {
         }
       : {
           ...rowDataForEdit,
-          date: moment(rowDataForEdit.date, 'DD/MM/YYYY'),
+          date: moment(rowDataForEdit.date, 'YYYY-MM-DD'),
           hours: rowDataForEdit.hours.split('.')[0],
-          minutes: rowDataForEdit.hours.split('.')[1] || '',
+          minutes: rowDataForEdit.hours.includes('.')
+            ? ((+rowDataForEdit.hours.split('.')[1] / 100) * 60).toString()
+            : '0',
+          remarks: rowDataForEdit?.remarks[0]?.props?.children,
+          log_type: logTypes.find((log) => log.name === rowDataForEdit.log_type)
+            .id,
         }
+
+  if (logAuthorFiltered.value !== '') {
+    logs = dataSource.filter((data) =>
+      new RegExp(logAuthorFiltered.value, 'gi').test(data.added_by),
+    )
+  } else {
+    logs = dataSource
+  }
 
   return (
     <div className={styles.timelog_container}>
@@ -118,7 +192,16 @@ function TimeLog() {
         />
       </div>
       <div className={styles.time_summary}>
-        <TimeSummaryTable data={TimeSummaryTableData} />
+        <TimeSummaryTable
+          data={[
+            {
+              id: '1',
+              name: 'Estimated Hours',
+              time: estimatedHours,
+            },
+            ...TimeSummaryTableData,
+          ]}
+        />
         <div className={styles.chart_container}>
           <div className={styles.chart_type}>
             <Select
@@ -127,7 +210,12 @@ function TimeLog() {
                 { label: 'Normal', value: '1' },
                 { label: 'Stacked', value: '2' },
               ]}
-              style={{ textAlign: 'left', width: '100%' }}
+              style={{
+                textAlign: 'left',
+                width: '100%',
+                fontSize: '0.7rem',
+                fontWeight: 'bold',
+              }}
               onChange={handleChangeChartType}
             />
           </div>
@@ -137,7 +225,12 @@ function TimeLog() {
               mode="multiple"
               placeholder="Select Log Types To Generate Bar Chart"
               options={chartLogTypesOptions}
-              style={{ textAlign: 'left', width: '100%' }}
+              style={{
+                textAlign: 'left',
+                width: '100%',
+                fontSize: '0.7rem',
+                fontWeight: 'bold',
+              }}
               onChange={handleChangeChartLogType}
             />
           </div>
@@ -164,20 +257,39 @@ function TimeLog() {
           <div className={styles.filter_table}>
             <span style={{ minWidth: '65px' }}>Filter By:</span>
             <Select
-              placeholder="Log Author"
+              value={logAuthorFiltered}
               options={[
-                { label: 'Log Author', value: '1' },
-                { label: 'Subir Sakya', value: '2' },
-                { label: 'Biraj Dahal', value: '3' },
+                { label: 'Log Author', value: '' },
+                ...developersIds,
+                ...DesignersIds,
               ]}
-              style={{ textAlign: 'left', width: '100%' }}
+              style={{
+                textAlign: 'left',
+                width: '100%',
+                fontSize: '0.7rem',
+                fontWeight: 'bold',
+              }}
+              onChange={(value) => {
+                setLogAuthorFiltered(value)
+              }}
             />
             <Select
-              placeholder="Log Type"
-              options={logTypesForDropDown}
-              style={{ textAlign: 'left', width: '100%' }}
+              value={logTypeFiltered}
+              options={[
+                { label: 'Log Type', value: '' },
+                ...logTypesForDropDown,
+              ]}
+              style={{
+                textAlign: 'left',
+                width: '100%',
+                fontSize: '0.7rem',
+                fontWeight: 'bold',
+              }}
+              onChange={(value) => {
+                setLogTypeFiltered(value)
+              }}
             />
-            <Button btnText="Reset" danger />
+            <Button btnText="Reset" danger onClick={handleResetLogsTable} />
           </div>
           <div className={styles.project_detail_table}>
             {loading ? (
@@ -189,26 +301,31 @@ function TimeLog() {
               <>
                 <Table
                   columns={logTimeTableColumns(handlesetRowDataForEdit, styles)}
-                  dataSource={dataSource}
+                  dataSource={logs}
                   tableBodyStyle={{ backgroundColor: '#fff' }}
                   pagination={false}
                 />
-                <div style={{ marginTop: 25 }}></div>
-                <Pagination
-                  current={page}
-                  total={totalLogsOfProject}
-                  showSizeChanger
-                  pageSize={perPage}
-                  pageSizeOptions={[5, 10, 20]}
-                  onChange={(pageNo, perPageNo) => {
-                    setPage(pageNo)
-                    setPerPage(perPageNo)
-                  }}
-                  defaultPageSize={10}
-                  responsive
-                  hideOnSinglePage
-                />
-                <div style={{ marginTop: 25 }}></div>
+                {logAuthorFiltered.value === '' &&
+                  logTypeFiltered.value === '' && (
+                    <>
+                      <div style={{ marginTop: 25 }}></div>
+                      <Pagination
+                        current={page}
+                        total={totalLogsOfProject}
+                        showSizeChanger
+                        pageSize={perPage}
+                        pageSizeOptions={[5, 10, 20]}
+                        onChange={(pageNo, perPageNo) => {
+                          setPage(pageNo)
+                          setPerPage(perPageNo)
+                        }}
+                        defaultPageSize={10}
+                        responsive
+                        hideOnSinglePage
+                      />
+                      <div style={{ marginTop: 25 }}></div>
+                    </>
+                  )}
               </>
             )}
           </div>

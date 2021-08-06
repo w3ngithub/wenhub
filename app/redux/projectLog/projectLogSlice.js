@@ -46,6 +46,10 @@ export const projectLogSlice = createSlice({
       state.projectLogs = payload.data
       state.totalLogsOfProject = payload.total
     },
+    LogTypeFilteredProjectLogFetched: (state, { payload }) => {
+      state.loading = false
+      state.projectLogs = payload
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => ({

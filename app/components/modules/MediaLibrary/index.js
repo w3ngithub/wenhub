@@ -61,6 +61,16 @@ function MediaLibrary({ clearUploadFiles }) {
     setSelectedKeys(selectedKeyss)
   }
 
+  const mediaDetailsStyle = () => {
+    if (window.matchMedia('(max-width: 726px)').matches) {
+      if (remoteSelectedFiles.length > 0) {
+        return 'block'
+      }
+      return 'none'
+    }
+    return 'block'
+  }
+
   // selection of files by clicking
   const handleSelectImageByClick = (id) => {
     if (selectedKeys.indexOf(id) > -1) {
@@ -128,7 +138,6 @@ function MediaLibrary({ clearUploadFiles }) {
                     ]}
                     style={{
                       width: '100%',
-                      minWidth: '170px',
                       fontSize: '0.7rem',
                       fontWeight: 'bold',
                       textAlign: 'left',
@@ -202,7 +211,12 @@ function MediaLibrary({ clearUploadFiles }) {
               </SelectableGroup>
             </div>
           </div>
-          <div className={styles.media_details}>
+          <div
+            className={styles.media_details}
+            style={{
+              display: mediaDetailsStyle(),
+            }}
+          >
             {remoteSelectedFiles.length > 0 && (
               <>
                 {' '}
