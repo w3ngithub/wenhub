@@ -18,7 +18,6 @@ export const labels = [
 export const values = [12, 9, 5, 5, 6, 3, 3, 4, 6, 7, 4, 5, 7]
 
 export const TimeSummaryTableData = [
-  { id: '1', name: 'Estimated Hours', time: 50 },
   {
     id: '2',
     name: 'Time Spent',

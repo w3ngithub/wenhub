@@ -66,21 +66,24 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
       },
       log_type: [values.log_type],
     }
-
-    restClient
-      .post(`${API_URL}/timelogs`, cleanValues, true)
-      .then((res) => {
-        if (!isAdmin) {
-          dispatch(fetchFilteredProjectLogs(projectId))
-        } else {
-          dispatch(FetchLogTImeOfUser())
-        }
-        resetForm()
-        setVisible(true)
-        console.log(res.data)
-      })
-      .catch((err) => console.log(err.response.data.message))
-      .finally(() => setSubmitting(false))
+    if (formType === 'Add') {
+      restClient
+        .post(`${API_URL}/timelogs`, cleanValues, true)
+        .then(() => {
+          if (!isAdmin) {
+            dispatch(fetchFilteredProjectLogs(projectId))
+          } else {
+            dispatch(FetchLogTImeOfUser())
+          }
+          resetForm()
+          setVisible(true)
+        })
+        .catch((err) => console.log(err.response.data.message))
+        .finally(() => setSubmitting(false))
+    } else {
+      console.log(cleanValues)
+      setSubmitting(false)
+    }
 
     setFormType('Add')
   }

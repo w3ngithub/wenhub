@@ -61,7 +61,12 @@ function LogTime() {
           ...rowDataForEdit,
           date: moment(rowDataForEdit.date, 'DD/MM/YYYY'),
           hours: rowDataForEdit.hours.split('.')[0],
-          minutes: rowDataForEdit.hours.split('.')[1] || '',
+          minutes: rowDataForEdit.hours.includes('.')
+            ? ((+rowDataForEdit.hours.split('.')[1] / 100) * 60).toString()
+            : '0',
+          remarks: rowDataForEdit?.remarks[0]?.props?.children,
+          log_type: logTypes.find((log) => log.name === rowDataForEdit.log_type)
+            .id,
         }
 
   return (

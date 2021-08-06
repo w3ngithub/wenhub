@@ -11,6 +11,13 @@ export const fetchProjectLogs = (projectId) =>
     ),
   ])
 
+export const fetchAllProjectLogsFiltered = (projectId, logType) =>
+  api.get(
+    `${API_URL}/timelogs?filter[meta_key]=project_id&filter[meta_value]=${projectId}&per_page=100${
+      logType !== '' ? `&log_type=${logType}` : ''
+    }&_fields=id,title,link,content,log_type,meta`,
+  )
+
 export const fetchFilteredProjectLogs = (projectId, page, perPage) =>
   api.get(
     `${API_URL}/timelogs?filter[meta_key]=project_id&filter[meta_value]=${projectId}&page=${page}&per_page=${perPage}&_fields=id,title,link,content,log_type,meta`,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { shallowEqual, useSelector } from 'react-redux'
 import { projectDetailColumns } from 'constants/homeConstants'
@@ -10,7 +10,6 @@ import Checklist from 'components/modules/CheckList'
 import styles from './styles.module.css'
 
 function ProjectLog() {
-  const [cleanProjectDetail, setCleanProjectDetail] = useState({})
   const { projectDetailForTimeLog } = useSelector(
     (state) => state.projectLog,
     shallowEqual,
@@ -25,40 +24,35 @@ function ProjectLog() {
     },
   } = useSelector((state) => state.commonData, shallowEqual)
 
-  useEffect(() => {
-    const projectType = projectTypes.find(
-      (y) => y?.id === projectDetailForTimeLog?.acf_fields?.project_type[0],
-    )
-    const projectStat = projectStatus.find(
-      (y) => y?.id === projectDetailForTimeLog?.acf_fields?.project_status,
-    )
-    const developer = developers.filter(
-      (y) =>
-        projectDetailForTimeLog?.acf_fields?.developers !== false &&
-        projectDetailForTimeLog?.acf_fields?.developers.includes(y?.id),
-    )
-    const designer = designers.filter(
-      (y) =>
-        projectDetailForTimeLog?.acf_fields?.designers !== false &&
-        projectDetailForTimeLog?.acf_fields?.designers?.includes(y?.id),
-    )
-    const projectTag = projectTags.filter(
-      (y) =>
-        projectDetailForTimeLog?.acf_fields?.project_tags !== false &&
-        projectDetailForTimeLog?.acf_fields?.project_tags?.includes(y?.id),
-    )
-
-    setCleanProjectDetail(
-      getDataDetail(
-        projectDetailForTimeLog,
-        projectType,
-        projectStat,
-        developer,
-        designer,
-        projectTag,
-      ),
-    )
-  }, [])
+  const projectType = projectTypes.find(
+    (y) => y?.id === projectDetailForTimeLog?.acf_fields?.project_type[0],
+  )
+  const projectStat = projectStatus.find(
+    (y) => y?.id === projectDetailForTimeLog?.acf_fields?.project_status,
+  )
+  const developer = developers.filter(
+    (y) =>
+      projectDetailForTimeLog?.acf_fields?.developers !== false &&
+      projectDetailForTimeLog?.acf_fields?.developers.includes(y?.id),
+  )
+  const designer = designers.filter(
+    (y) =>
+      projectDetailForTimeLog?.acf_fields?.designers !== false &&
+      projectDetailForTimeLog?.acf_fields?.designers?.includes(y?.id),
+  )
+  const projectTag = projectTags.filter(
+    (y) =>
+      projectDetailForTimeLog?.acf_fields?.project_tags !== false &&
+      projectDetailForTimeLog?.acf_fields?.project_tags?.includes(y?.id),
+  )
+  const details = getDataDetail(
+    projectDetailForTimeLog,
+    projectType,
+    projectStat,
+    developer,
+    designer,
+    projectTag,
+  )
 
   return (
     <div className={styles.time_log_container}>
@@ -70,6 +64,7 @@ function ProjectLog() {
           <h3 className={styles.timelog_edit}>Edit</h3>
         </Link>
       </div>
+
       <Tab
         type="card"
         tabBarStyle={{
@@ -82,17 +77,20 @@ function ProjectLog() {
           {
             id: '1',
             tab: 'Time Log',
-            content: <TimeLog />,
+            content: (
+              <TimeLog
+                estimatedHours={
+                  projectDetailForTimeLog.acf_fields?.estimated_hours
+                }
+              />
+            ),
           },
           {
             id: '2',
             tab: 'Project Details',
             content: (
               <>
-                <Details
-                  columns={projectDetailColumns}
-                  detail={cleanProjectDetail}
-                />
+                <Details columns={projectDetailColumns} detail={details} />
               </>
             ),
           },
