@@ -5,13 +5,29 @@
   height: 365px;
 }
 
+@media only screen and (max-width: 676px) {
+  .add_media_container {
+    display: flex;
+    color: #000;
+    /* background-color: red; */
+    height: 75vh;
+  }
+}
+
 .media_view {
   width: 70%;
 }
 
 .media_list {
   overflow-y: scroll;
-  height: 325px;
+  height: 300px;
+}
+
+@media only screen and (min-width: 0px) and (max-width: 767px) {
+  .media_list {
+    overflow-y: scroll;
+    height: 55vh;
+  }
 }
 .selectable_group {
   display: flex;
@@ -26,7 +42,7 @@
   border-left: 1px solid #dcdcde;
 }
 
-@media only screen and (min-width: 0) and (max-width: 726px) {
+@media only screen and (min-width: 0) and (max-width: 767px) {
   .media_details {
     z-index: 100;
     width: 230px;

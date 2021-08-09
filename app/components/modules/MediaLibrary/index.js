@@ -59,6 +59,7 @@ function MediaLibrary({ clearUploadFiles }) {
   // selection of files by dragging
   const handleSelection = (selectedKeyss) => {
     setSelectedKeys(selectedKeyss)
+    console.log(selectedKeyss)
   }
 
   const mediaDetailsStyle = () => {

@@ -74,7 +74,7 @@ MultiSelectCalendar.propTypes = {
 }
 MultiSelectCalendar.defaultProps = {
   multiple: false,
-  range: false,
+  range: true,
   onlyYearPicker: false,
   onlyMonthPicker: false,
   format: 'DD/MM/YYYY',
