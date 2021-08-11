@@ -68,7 +68,7 @@ function NavBar({ navItems, backgroundColor, styles }) {
           defaultSelectedKeys={['1']}
           style={{
             backgroundColor: 'inherit',
-            padding: '32px',
+            padding: '32px 0',
             ...styles,
           }}
         >
