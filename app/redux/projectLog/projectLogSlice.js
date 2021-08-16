@@ -9,6 +9,8 @@ const initialProjectLogState = {
   logTypes: [],
   projectsOfUser: [],
   totalLogsOfProject: 0,
+  weeklyTimeSpent: '',
+  totalTimeSpent: '',
 }
 
 export const projectLogSlice = createSlice({
@@ -49,6 +51,14 @@ export const projectLogSlice = createSlice({
     LogTypeFilteredProjectLogFetched: (state, { payload }) => {
       state.loading = false
       state.projectLogs = payload
+    },
+    weeklyTimeSpentFetched: (state, { payload }) => {
+      state.loading = false
+      state.weeklyTimeSpent = payload
+    },
+    totalTimeSpentFetched: (state, { payload }) => {
+      state.loading = false
+      state.totalTimeSpent = payload
     },
   },
   extraReducers: {

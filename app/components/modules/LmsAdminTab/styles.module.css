@@ -4,17 +4,18 @@
   margin-top: 20px;
 }
 
-.exportForm div {
+.exportFormAction,
+.exportForm {
   display: flex;
-  gap: 5px;
+  row-gap: 10px;
+  column-gap: 5px;
+  flex-wrap: wrap;
 }
 
-@media only screen and (min-width: 0) and (max-width: 900px) {
+@media only screen and (min-width: 0) and (max-width: 600px) {
   .exportForm {
     flex-direction: column;
-  }
-  .exportForm div {
-    flex-direction: column;
+    gap: 15px;
   }
 }
 
@@ -49,12 +50,13 @@
   flex-direction: column;
   gap: 12px;
   color: black;
+  width: 100%;
 }
 
 .addLeaveInputs {
   display: flex;
   width: 100%;
-  gap: 25px;
+  gap: 20px;
 }
 
 .selectNText {
@@ -81,7 +83,19 @@
   width: 100%;
 }
 
-@media only screen and (min-width: 0) and (max-width: 900px) {
+@media only screen and (min-width: 601px) and (max-width: 988px) {
+  .addLeaveInputs {
+    flex-wrap: wrap;
+  }
+  .selectNText {
+    width: 100%;
+  }
+  .addLeaveCalendar {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 0) and (max-width: 600px) {
   .addLeaveSelect {
     flex-direction: column;
   }
@@ -99,4 +113,11 @@
 .buttons {
   display: flex;
   gap: 5px;
+  margin-top: 5px;
+}
+
+.responsiveLmsAdminTable {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
 }

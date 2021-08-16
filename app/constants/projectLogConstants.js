@@ -17,13 +17,22 @@ export const labels = [
 ]
 export const values = [12, 9, 5, 5, 6, 3, 3, 4, 6, 7, 4, 5, 7]
 
-export const TimeSummaryTableData = [
+export const TimeSummaryTableData = (
+  estimatedHours,
+  totalTimeSpent,
+  weeklyTimeSpent,
+) => [
+  {
+    id: '1',
+    name: 'Estimated Hours',
+    time: estimatedHours || '',
+  },
   {
     id: '2',
     name: 'Time Spent',
-    time: 30,
+    time: totalTimeSpent || '',
   },
-  { id: '3', name: 'Time Spent This Weeks', time: 10 },
+  { id: '3', name: 'Time Spent This Week', time: weeklyTimeSpent || '' },
 ]
 
 export const chartLogTypesOptions = [

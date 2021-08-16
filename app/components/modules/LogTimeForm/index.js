@@ -7,6 +7,8 @@ import {
   fetchProjectsOfUser,
   fetchLogTypes,
   fetchFilteredProjectLogs,
+  fetchTotalTimeSpent,
+  fetchWeeklyTimeSpent,
 } from 'redux/projectLog/projectLogAction'
 import FormField from 'components/elements/Form'
 import Button from 'components/elements/Button'
@@ -72,6 +74,8 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
         .then(() => {
           if (!isAdmin) {
             dispatch(fetchFilteredProjectLogs(projectId))
+            dispatch(fetchTotalTimeSpent(projectId))
+            dispatch(fetchWeeklyTimeSpent(projectId))
           } else {
             dispatch(FetchLogTImeOfUser())
           }
@@ -257,13 +261,7 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
               style={{ marginRight: '5px' }}
               htmlType="submit"
             />
-            <Button
-              btnText="Cancel"
-              onClick={resetForm}
-              htmlType="button"
-              isDisabled={formType === 'Edit'}
-              danger
-            />
+            <Button btnText="Cancel" onClick={resetForm} danger />
           </div>
         </Form.Item>
       </Form>

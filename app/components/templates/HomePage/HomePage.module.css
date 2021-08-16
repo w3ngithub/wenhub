@@ -1,6 +1,7 @@
 .entry_header {
   padding-bottom: 10px;
   border-bottom: 1px solid #ccc;
+  margin-bottom: 30px;
 }
 
 .timeloglink {
@@ -19,17 +20,23 @@
   flex-wrap: wrap;
   gap: 5px;
   margin: 17px 0;
-  align-items: center;
 }
 
-.table {
+@media only screen and (min-width: 0) and (max-width: 767px) {
+  .filterItems {
+    flex-direction: column;
+  }
+}
+
+/* .table {
   width: '100%';
   overflow-x: auto;
   overflow-y: hidden;
-}
+} */
 
 .selectField {
-  width: 190px;
+  min-width: 190px;
   font-weight: bold;
   font-size: 0.7rem;
+  width: 100%;
 }

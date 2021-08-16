@@ -18,10 +18,18 @@ const LmsAdminForm = () => {
           { label: 'Rujal', value: 1 },
           { label: 'Ujjwal', value: 2 },
         ]}
+        style={{
+          fontSize: '0.7rem',
+          fontWeight: 'bold',
+          textAlign: 'left',
+          minWidth: '190px',
+        }}
         onChange={(d) => setUser(d)}
       />
-      <ButtonComponent htmlType="submit" btnText="Filter" />
-      <ButtonComponent htmlType="submit" btnText="Reset" />
+      <div className={styles.lms_admin_form_action}>
+        <ButtonComponent htmlType="submit" btnText="Filter" />
+        <ButtonComponent htmlType="button" btnText="Reset" danger />
+      </div>
     </form>
   )
 }

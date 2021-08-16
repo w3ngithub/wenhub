@@ -1,10 +1,17 @@
 .lms_admin_form {
   display: flex;
   gap: 5px;
+  flex-wrap: wrap;
 }
 
 @media only screen and (min-width: 0) and (max-width: 600px) {
   .lms_admin_form {
     flex-direction: column;
+    gap: 15px;
   }
+}
+
+.lms_admin_form_action {
+  display: flex;
+  gap: 5px;
 }

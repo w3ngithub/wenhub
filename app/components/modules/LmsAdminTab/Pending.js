@@ -41,45 +41,47 @@ const Pending = () => {
 
   return (
     <>
-      <ListTable
-        columns={userLeaveColumns}
-        data={[
-          {
-            key: 1,
-            applicant: 'Ashok Ganika',
-            leave_dates: '07-07-21',
-            leave_type: 'Casual',
-            action: (
-              <div style={{ display: 'flex', gap: 5 }}>
-                <ButtonComponent
-                  btnText="View Details"
-                  className={styles.viewButton}
-                  onClick={() =>
-                    handleDetailModal({
-                      key: 1,
-                      applicant: 'Ashok Ganika',
-                      dates: '07-07-21',
-                      leave_type: 'Casual',
-                      reason: 'sjdlfksjdfl',
-                      team_leads: 'Rujal Sapkota',
-                    })
-                  }
-                />
-                <ButtonComponent
-                  btnText="Approve"
-                  className={styles.approveButton}
-                  onClick={() => handleApproveCancel(1, 'approve')}
-                />
-                <ButtonComponent
-                  btnText="Cancel"
-                  className={styles.cancelButton}
-                  onClick={() => handleApproveCancel(1, 'cancel')}
-                />
-              </div>
-            ),
-          },
-        ]}
-      />
+      <div className={styles.responsiveLmsAdminTable}>
+        <ListTable
+          columns={userLeaveColumns}
+          data={[
+            {
+              key: 1,
+              applicant: 'Ashok Ganika',
+              leave_dates: '07-07-21',
+              leave_type: 'Casual',
+              action: (
+                <div style={{ display: 'flex', gap: 5 }}>
+                  <ButtonComponent
+                    btnText="View Details"
+                    className={styles.viewButton}
+                    onClick={() =>
+                      handleDetailModal({
+                        key: 1,
+                        applicant: 'Ashok Ganika',
+                        dates: '07-07-21',
+                        leave_type: 'Casual',
+                        reason: 'sjdlfksjdfl',
+                        team_leads: 'Rujal Sapkota',
+                      })
+                    }
+                  />
+                  <ButtonComponent
+                    btnText="Approve"
+                    className={styles.approveButton}
+                    onClick={() => handleApproveCancel(1, 'approve')}
+                  />
+                  <ButtonComponent
+                    btnText="Cancel"
+                    className={styles.cancelButton}
+                    onClick={() => handleApproveCancel(1, 'cancel')}
+                  />
+                </div>
+              ),
+            },
+          ]}
+        />
+      </div>
       <ModalDetail
         title="Pending Leave Detail"
         visible={showDetail}

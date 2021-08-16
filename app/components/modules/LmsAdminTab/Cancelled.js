@@ -21,36 +21,38 @@ const Cancelled = () => {
 
   return (
     <>
-      <ListTable
-        columns={userLeaveColumns}
-        data={[
-          {
-            key: 1,
-            applicant: 'Ashok Ganika',
-            leave_dates: '07-07-21',
-            leave_type: 'Casual',
-            action: (
-              <>
-                <ButtonComponent
-                  btnText="View Details"
-                  className={styles.viewButton}
-                  onClick={() =>
-                    handleDetailModal({
-                      key: 1,
-                      applicant: 'Ashok Ganika',
-                      dates: '07-07-21',
-                      leave_type: 'Casual',
-                      reason: 'sjdlfksjdfl',
-                      team_leads: 'Rujal Sapkota',
-                      cancel_message: 'sdfjsdhfksdfhsdf',
-                    })
-                  }
-                />
-              </>
-            ),
-          },
-        ]}
-      />
+      <div className={styles.responsiveLmsAdminTable}>
+        <ListTable
+          columns={userLeaveColumns}
+          data={[
+            {
+              key: 1,
+              applicant: 'Ashok Ganika',
+              leave_dates: '07-07-21',
+              leave_type: 'Casual',
+              action: (
+                <>
+                  <ButtonComponent
+                    btnText="View Details"
+                    className={styles.viewButton}
+                    onClick={() =>
+                      handleDetailModal({
+                        key: 1,
+                        applicant: 'Ashok Ganika',
+                        dates: '07-07-21',
+                        leave_type: 'Casual',
+                        reason: 'sjdlfksjdfl',
+                        team_leads: 'Rujal Sapkota',
+                        cancel_message: 'sdfjsdhfksdfhsdf',
+                      })
+                    }
+                  />
+                </>
+              ),
+            },
+          ]}
+        />
+      </div>
       <ModalDetail
         title="Cancelled Leave Details"
         visible={showDetail}

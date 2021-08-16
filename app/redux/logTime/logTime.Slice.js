@@ -5,6 +5,8 @@ const initialProjectLogState = {
   loading: false,
   error: null,
   logsOfUser: [],
+  userTimeSpentThisWeek: '',
+  userTimeSpentToday: '',
 }
 
 export const logTimeSlice = createSlice({
@@ -21,6 +23,14 @@ export const logTimeSlice = createSlice({
     logsOfUserFetched: (state, action) => {
       state.loading = false
       state.logsOfUser = action.payload
+    },
+    fetchWeeklyTimeSpentOfUser: (state, action) => {
+      state.loading = false
+      state.userTimeSpentThisWeek = action.payload
+    },
+    fetchUserTimeSpentToday: (state, action) => {
+      state.loading = false
+      state.userTimeSpentToday = action.payload
     },
   },
   extraReducers: {
