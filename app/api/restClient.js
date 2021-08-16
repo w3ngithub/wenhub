@@ -23,7 +23,8 @@ export const getHttpHeaders = (isAuthenticated = false) => {
   }
 }
 
-const get = (path) => axios.get(path, getHttpHeaders())
+const get = (path, isAuthenticated) =>
+  axios.get(path, getHttpHeaders(isAuthenticated))
 
 const del = (path) => axios.delete(path, getHttpHeaders())
 

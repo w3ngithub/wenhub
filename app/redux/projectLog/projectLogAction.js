@@ -100,3 +100,23 @@ export const fetchProjectLogsFilteredByAuthorAndLogType =
       dispatch(actions.projectLogFetchError(error.response.data.message))
     }
   }
+
+export const fetchWeeklyTimeSpent = (projectId) => async (dispatch) => {
+  dispatch(actions.startProjectLogCall())
+  try {
+    const response = await requestFromServer.fetchWeeklyTimeSpent(projectId)
+    dispatch(actions.weeklyTimeSpentFetched(response.data))
+  } catch (error) {
+    dispatch(actions.projectLogFetchError(error.response.data.message))
+  }
+}
+
+export const fetchTotalTimeSpent = (projectId) => async (dispatch) => {
+  dispatch(actions.startProjectLogCall())
+  try {
+    const response = await requestFromServer.fecthTotalTimeSpent(projectId)
+    dispatch(actions.totalTimeSpentFetched(response.data))
+  } catch (error) {
+    dispatch(actions.projectLogFetchError(error.response.data.message))
+  }
+}

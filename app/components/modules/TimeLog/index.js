@@ -36,6 +36,8 @@ function TimeLog({ estimatedHours }) {
     totalLogsOfProject,
     projectDetailForTimeLog,
     loading,
+    weeklyTimeSpent,
+    totalTimeSpent,
   } = useSelector((state) => state.projectLog, shallowEqual)
   const cleanLogTypes = logTypes?.reduce(
     (obj, log) => ({ ...obj, [log.id]: log?.name }),
@@ -193,14 +195,11 @@ function TimeLog({ estimatedHours }) {
       </div>
       <div className={styles.time_summary}>
         <TimeSummaryTable
-          data={[
-            {
-              id: '1',
-              name: 'Estimated Hours',
-              time: estimatedHours,
-            },
-            ...TimeSummaryTableData,
-          ]}
+          data={TimeSummaryTableData(
+            estimatedHours,
+            totalTimeSpent,
+            weeklyTimeSpent,
+          )}
         />
         <div className={styles.chart_container}>
           <div className={styles.chart_type}>
@@ -292,40 +291,31 @@ function TimeLog({ estimatedHours }) {
             <Button btnText="Reset" danger onClick={handleResetLogsTable} />
           </div>
           <div className={styles.project_detail_table}>
-            {loading ? (
-              <div style={{ marginTop: '10%' }}>
-                {' '}
-                <Loader />
-              </div>
-            ) : (
+            <Table
+              columns={logTimeTableColumns(handlesetRowDataForEdit, styles)}
+              dataSource={logs}
+              tableBodyStyle={{ backgroundColor: '#fff' }}
+              pagination={false}
+              loading={{ spinning: loading, indicator: <Loader /> }}
+            />
+            {logAuthorFiltered.value === '' && logTypeFiltered.value === '' && (
               <>
-                <Table
-                  columns={logTimeTableColumns(handlesetRowDataForEdit, styles)}
-                  dataSource={logs}
-                  tableBodyStyle={{ backgroundColor: '#fff' }}
-                  pagination={false}
+                <div style={{ marginTop: 25 }}></div>
+                <Pagination
+                  current={page}
+                  total={totalLogsOfProject}
+                  showSizeChanger
+                  pageSize={perPage}
+                  pageSizeOptions={[5, 10, 20]}
+                  onChange={(pageNo, perPageNo) => {
+                    setPage(pageNo)
+                    setPerPage(perPageNo)
+                  }}
+                  defaultPageSize={10}
+                  responsive
+                  hideOnSinglePage
                 />
-                {logAuthorFiltered.value === '' &&
-                  logTypeFiltered.value === '' && (
-                    <>
-                      <div style={{ marginTop: 25 }}></div>
-                      <Pagination
-                        current={page}
-                        total={totalLogsOfProject}
-                        showSizeChanger
-                        pageSize={perPage}
-                        pageSizeOptions={[5, 10, 20]}
-                        onChange={(pageNo, perPageNo) => {
-                          setPage(pageNo)
-                          setPerPage(perPageNo)
-                        }}
-                        defaultPageSize={10}
-                        responsive
-                        hideOnSinglePage
-                      />
-                      <div style={{ marginTop: 25 }}></div>
-                    </>
-                  )}
+                <div style={{ marginTop: 25 }}></div>
               </>
             )}
           </div>

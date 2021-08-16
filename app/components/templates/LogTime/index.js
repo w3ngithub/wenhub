@@ -6,7 +6,11 @@ import { Table } from 'antd'
 import parse from 'html-react-parser'
 import LogTimeForm from 'components/modules/LogTimeForm'
 import TimeSummaryTable from 'components/elements/TimeSummaryTable'
-import { FetchLogTImeOfUser } from 'redux/logTime/logTimeActions'
+import {
+  FetchLogTImeOfUser,
+  fetchUserTimeSpentToday,
+  fetchWeeklyTimeSpentOfUser,
+} from 'redux/logTime/logTimeActions'
 import { logTimeTableColumns } from 'constants/logTimeConstants'
 import styles from './styles.module.css'
 
@@ -16,7 +20,10 @@ function LogTime() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(FetchLogTImeOfUser())
+    const userId = JSON.parse(localStorage.getItem('userDetail'))?.user_id
+    dispatch(FetchLogTImeOfUser(userId))
+    dispatch(fetchWeeklyTimeSpentOfUser(userId))
+    dispatch(fetchUserTimeSpentToday(userId))
   }, [])
 
   const handlesetRowDataForEdit = (rowData) => {
@@ -24,7 +31,10 @@ function LogTime() {
     setFormType('Edit')
   }
 
-  const { logsOfUser } = useSelector((state) => state.logTime, shallowEqual)
+  const { logsOfUser, userTimeSpentThisWeek, userTimeSpentToday } = useSelector(
+    (state) => state.logTime,
+    shallowEqual,
+  )
   const { logTypes, projectsOfUser } = useSelector(
     (state) => state.projectLog,
     shallowEqual,
@@ -92,14 +102,15 @@ function LogTime() {
               {
                 id: '1',
                 name: 'Time Spent This Week',
-                time: 30,
+                time: userTimeSpentThisWeek,
               },
               {
                 id: '2',
                 name: 'Time Spent Today',
-                time: 0,
-                backgroundColor: '#f2dede',
-                color: '#a94442',
+                time: userTimeSpentToday,
+                backgroundColor:
+                  +userTimeSpentToday === 0 ? '#f2dede' : 'green',
+                color: +userTimeSpentToday === 0 ? '#a94442' : 'green',
               },
             ]}
           />

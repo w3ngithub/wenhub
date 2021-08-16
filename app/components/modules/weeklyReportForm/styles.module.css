@@ -13,7 +13,7 @@
   column-gap: 5px;
 }
 
-@media only screen and (min-width: 0) and (max-width: 900px) {
+@media only screen and (min-width: 0) and (max-width: 600px) {
   .form {
     flex-direction: column;
     align-items: stretch;
@@ -29,6 +29,6 @@
 
 @media only screen and (min-width: 0) and (max-width: 900px) {
   .form_buttons {
-    justify-content: center;
+    justify-content: flex-start;
   }
 }

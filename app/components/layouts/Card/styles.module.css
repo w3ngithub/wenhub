@@ -1,7 +1,7 @@
 .container {
   padding: 18px 29px;
 }
-@media screen and (max-width: 624px) {
+@media only screen and (min-width: 0) and (max-width: 624px) {
   .container {
     padding: 0;
   }
@@ -15,23 +15,27 @@
 @media only screen and (min-width: 0) and (max-width: 599px) {
   .cardResponsive {
     width: 90%;
+    margin: auto;
   }
 }
 
 @media only screen and (min-width: 1200px) {
   .cardResponsive {
-    width: 90%;
+    width: 85%;
+    margin: auto;
   }
 }
 
 @media only screen and (min-width: 1440px) {
   .cardResponsive {
     width: 80%;
+    margin: auto;
   }
 }
 
 @media only screen and (min-width: 1800px) {
   .cardResponsive {
     width: 65%;
+    margin: auto;
   }
 }

@@ -5,6 +5,8 @@ import httpCall from 'api/restClient'
 import {
   fetchProjectLogs,
   fetchProjectDetailForTimeLog,
+  fetchWeeklyTimeSpent,
+  fetchTotalTimeSpent,
 } from 'redux/projectLog/projectLogAction'
 import { fetchFilterOptionLists } from 'redux/common/commonActions'
 import { API_URL } from 'constants/constants'
@@ -34,6 +36,9 @@ export const getStaticProps = wrapper.getStaticProps(
       await store.dispatch(fetchProjectLogs(params.id))
       await store.dispatch(fetchProjectDetailForTimeLog(params.id))
       await store.dispatch(fetchFilterOptionLists())
+      await store.dispatch(fetchTotalTimeSpent(params.id))
+      await store.dispatch(fetchWeeklyTimeSpent(params.id))
+
       return {
         revalidate: 60,
       }

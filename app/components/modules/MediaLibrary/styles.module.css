@@ -15,7 +15,7 @@
 }
 
 .media_view {
-  width: 70%;
+  width: 80%;
 }
 
 .media_list {
@@ -36,7 +36,7 @@
 }
 
 .media_details {
-  width: 30%;
+  width: 20%;
   background-color: #f5f5f5;
   padding: 20px;
   border-left: 1px solid #dcdcde;

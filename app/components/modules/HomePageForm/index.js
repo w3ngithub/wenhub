@@ -99,7 +99,8 @@ const HomePageForm = ({
             component="InputField"
             placeholder="Search Projects"
             borderRadius="3px"
-            width="190px"
+            width="100%"
+            styles={{ minWidth: '190px' }}
             padding="7px"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
@@ -187,7 +188,7 @@ const HomePageForm = ({
           </>
         )}
         <div>
-          <Button btnText="Reset" onClick={handleReset} />
+          <Button btnText="Reset" danger onClick={handleReset} />
         </div>
       </div>
     </>
