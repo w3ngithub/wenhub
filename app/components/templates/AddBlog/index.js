@@ -92,53 +92,55 @@ const AddBlog = () => {
           />
         </form>
       </div>
-      <Modal
-        visible={modelOpen}
-        handleCancel={() => setModelOPen(false)}
-        title="Add Media"
-        footer={[
-          <ButtonComponent
-            key="insert_into_page"
-            btnText="Insert Into Page"
-            onClick={handleInsertIntoPage}
-            isDisabled={
-              +getKey === 1 ? !isFilesSelected : !isRemoteFileSelected
-            }
-          />,
-        ]}
-      >
-        <div
-          className={classNames(
-            styles.modal_container,
-            'modal_container_add_media',
-          )}
+      <div className="add_Blog_modal">
+        <Modal
+          visible={modelOpen}
+          handleCancel={() => setModelOPen(false)}
+          title="Add Media"
+          footer={[
+            <ButtonComponent
+              key="insert_into_page"
+              btnText="Insert Into Page"
+              onClick={handleInsertIntoPage}
+              isDisabled={
+                +getKey === 1 ? !isFilesSelected : !isRemoteFileSelected
+              }
+            />,
+          ]}
         >
-          <Tab
-            type="card"
-            tabBarStyle={{
-              background: '#fff',
-              width: 'auto',
-              overFlowX: 'scroll',
-              whiteSpace: 'nowrap',
-            }}
-            tabs={[
-              {
-                id: '1',
-                tab: 'Upload Files',
-                content: <UploadFiles clearUploadFiles={clearUploadFiles} />,
-              },
-              {
-                id: '2',
-                tab: 'Media Library',
-                content: <MediaLibrary clearUploadFiles={clearUploadFiles} />,
-              },
-            ]}
-            getKey={(key) => {
-              setGetKey(key)
-            }}
-          />
-        </div>
-      </Modal>
+          <div
+            className={classNames(
+              styles.modal_container,
+              'modal_container_add_media',
+            )}
+          >
+            <Tab
+              type="card"
+              tabBarStyle={{
+                background: '#fff',
+                width: 'auto',
+                overFlowX: 'scroll',
+                whiteSpace: 'nowrap',
+              }}
+              tabs={[
+                {
+                  id: '1',
+                  tab: 'Upload Files',
+                  content: <UploadFiles clearUploadFiles={clearUploadFiles} />,
+                },
+                {
+                  id: '2',
+                  tab: 'Media Library',
+                  content: <MediaLibrary clearUploadFiles={clearUploadFiles} />,
+                },
+              ]}
+              getKey={(key) => {
+                setGetKey(key)
+              }}
+            />
+          </div>
+        </Modal>
+      </div>
     </>
   )
 }

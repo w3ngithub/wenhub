@@ -1,7 +1,6 @@
 .add_media_container {
   display: flex;
   color: #000;
-  /* background-color: red; */
   height: 365px;
 }
 
@@ -9,7 +8,6 @@
   .add_media_container {
     display: flex;
     color: #000;
-    /* background-color: red; */
     height: 75vh;
   }
 }
@@ -19,7 +17,7 @@
 }
 
 .media_list {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 300px;
 }
 
