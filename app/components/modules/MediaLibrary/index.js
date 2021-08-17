@@ -14,10 +14,13 @@ import FormField from 'components/elements/Form'
 import styles from './styles.module.css'
 import style from './styles.module.scss'
 
-const SelectableFile = ({ children, selected }) => (
+const SelectableFile = ({ children, selected, onClick }) => (
   <div className={style.card}>
     <div
       className={classNames(style.selectable, { [style.selected]: selected })}
+      onClick={onClick}
+      onKeyDown={onClick}
+      aria-hidden="true"
     >
       {children}
       <div className={style.check}>
@@ -158,7 +161,7 @@ function MediaLibrary({ clearUploadFiles }) {
                     ]}
                     style={{
                       width: '100%',
-                      minWidth: '170px',
+                      minWidth: '150px',
                       fontSize: '0.7rem',
                       fontWeight: 'bold',
                       textAlign: 'left',
@@ -197,13 +200,13 @@ function MediaLibrary({ clearUploadFiles }) {
                         key={item.id}
                         selected={selected}
                         selectableKey={item.id}
+                        onClick={() => handleSelectImageByClick(item.id)}
                       >
                         <Image
                           src={item.media_details?.sizes?.thumbnail?.source_url}
                           alt={item.alt_text}
                           height={100}
                           width={100}
-                          onClick={() => handleSelectImageByClick(item.id)}
                         />
                       </SelectableComponent>
                     )

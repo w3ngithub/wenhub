@@ -1,0 +1,51 @@
+@media (max-width: 767px) {
+  .all_blogs .ant-card-bordered {
+    border: none;
+  }
+  .all_blogs .ant-card-head {
+    min-height: 48px;
+    margin-bottom: -1px;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 500;
+    font-size: 16px;
+    background: transparent;
+    border-bottom: 1px solid #f0f0f0;
+    border-radius: 2px 2px 0 0;
+  }
+  .all_blogs .ant-card-body {
+    padding: 15px 0px;
+  }
+}
+
+.ant-upload-list {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.85);
+  height: 210px;
+  overflow-y: auto;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: 'tnum', 'tnum';
+  line-height: 1.5715;
+}
+
+@media only screen and (max-width: 767px) {
+  .ant-upload-list {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.85);
+    height: 420px;
+    overflow-y: auto;
+    font-size: 14px;
+    font-variant: tabular-nums;
+    list-style: none;
+    font-feature-settings: 'tnum', 'tnum';
+    line-height: 1.5715;
+  }
+}
