@@ -14,7 +14,11 @@ import FormField from 'components/elements/Form'
 import Button from 'components/elements/Button'
 import { API_URL } from 'constants/constants'
 import restClient from 'api/restClient'
-import { FetchLogTImeOfUser } from 'redux/logTime/logTimeActions'
+import {
+  FetchLogTImeOfUser,
+  fetchUserTimeSpentToday,
+  fetchWeeklyTimeSpentOfUser,
+} from 'redux/logTime/logTimeActions'
 import styles from './styles.module.css'
 
 function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
@@ -77,7 +81,21 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
             dispatch(fetchTotalTimeSpent(projectId))
             dispatch(fetchWeeklyTimeSpent(projectId))
           } else {
-            dispatch(FetchLogTImeOfUser())
+            dispatch(
+              FetchLogTImeOfUser(
+                JSON.parse(localStorage.getItem('userDetail'))?.user_id,
+              ),
+            )
+            dispatch(
+              fetchWeeklyTimeSpentOfUser(
+                JSON.parse(localStorage.getItem('userDetail'))?.user_id,
+              ),
+            )
+            dispatch(
+              fetchUserTimeSpentToday(
+                JSON.parse(localStorage.getItem('userDetail'))?.user_id,
+              ),
+            )
           }
           resetForm()
           setVisible(true)

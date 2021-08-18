@@ -3,7 +3,7 @@ import restClient from 'api/restClient'
 
 export const getLogTimeOfUser = (userId) =>
   restClient.get(
-    `${API_URL}/timelogs?author=${userId}&_fields=id,title,link,content,log_type,author,meta,_links&_embed`,
+    `${API_URL}/timelogs?author=${userId}&per_page=100&_fields=id,title,link,content,log_type,author,meta,_links&_embed`,
   )
 
 export const getUserTimeSpentThisWeek = (userId) =>
