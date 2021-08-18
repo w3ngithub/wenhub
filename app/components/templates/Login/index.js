@@ -10,12 +10,19 @@ import styles from './styles.module.css'
 
 function Login(props) {
   const [form] = Form.useForm()
-  const { push } = useRouter()
+  const router = useRouter()
 
   const onSubmit = async (values) => {
     const data = await props.loginUser(values)
     if (data) {
-      push({ pathname: '/' })
+      if (
+        window.history.length > 1 &&
+        document.referrer.indexOf(window.location.host) !== -1
+      ) {
+        router.back()
+      } else {
+        router.replace('/')
+      }
     }
   }
   return (

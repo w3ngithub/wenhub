@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { Row, Col, Card } from 'antd'
+import useScreenWidthHeightHook from 'hooks/useScreenWidthHeightHook'
 import FormField from 'elements/Form'
 import ButtonComponent from 'components/elements/Button'
 import { Paginate } from 'components/elements/Pagination'
@@ -14,22 +15,15 @@ import styles from './styles.module.css'
 
 const Blog = ({ blogs, totalData, categories, page, ...props }) => {
   const [searchBlog, setSearchBlog] = useState('')
-  const [screenWidth, setScreenWidth] = useState(null)
   const [text, setText] = useState('')
+
+  const [screenWidth] = useScreenWidthHeightHook()
 
   useDidMountEffect(
     () =>
       props.fetchFilteredBlogs(searchBlog, page.pageNumber, page.postPerPage),
     [searchBlog, page],
   )
-  useEffect(() => {
-    const HandleScreenWidthChange = () => {
-      setScreenWidth(window.innerWidth)
-    }
-    window.addEventListener('resize', HandleScreenWidthChange)
-    HandleScreenWidthChange()
-    return () => window.removeEventListener('resize', HandleScreenWidthChange)
-  }, [])
 
   const getCategories = (ids) => categories.filter((x) => ids.includes(x.id))
 
