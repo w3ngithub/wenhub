@@ -23,6 +23,7 @@ function MultiSelectCalendar({
   shadow,
   children,
   style,
+  ...rest
 }) {
   return (
     <Calendar
@@ -45,6 +46,7 @@ function MultiSelectCalendar({
       numberOfMonths={numberOfMonths}
       shadow={shadow}
       style={style}
+      {...rest}
     >
       {children}
     </Calendar>

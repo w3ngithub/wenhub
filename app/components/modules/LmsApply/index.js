@@ -43,7 +43,7 @@ function LmsApply({ setAlertVisible }) {
               ]}
               style={{ marginLeft: '3px' }}
             >
-              <FormField component="MultiSelectCalendar" multiple />
+              <FormField component="MultiSelectCalendar" />
             </Form.Item>
             <small style={{ color: 'red', fontSize: '14px' }}>
               *Disabled dates are holidays

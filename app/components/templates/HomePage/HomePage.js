@@ -31,7 +31,7 @@ const HomePage = ({
   React.useEffect(() => {
     const mainData = projects.map((x, i) => {
       const projectType = projectTypes.find(
-        (y) => y?.id === x?.acf_fields?.project_type[0],
+        (y) => y?.id === x?.acf_fields?.project_type?.[0],
       )
       const projectStat = projectStatus.find(
         (y) => y?.id === x?.acf_fields?.project_status,
@@ -40,7 +40,7 @@ const HomePage = ({
       const developer = developers.filter(
         (y) =>
           x?.acf_fields?.developers !== false &&
-          x?.acf_fields?.developers.includes(y?.id),
+          x?.acf_fields?.developers?.includes(y?.id),
       )
       const designer = designers.filter(
         (y) =>

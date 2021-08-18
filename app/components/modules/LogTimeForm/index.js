@@ -7,12 +7,18 @@ import {
   fetchProjectsOfUser,
   fetchLogTypes,
   fetchFilteredProjectLogs,
+  fetchTotalTimeSpent,
+  fetchWeeklyTimeSpent,
 } from 'redux/projectLog/projectLogAction'
 import FormField from 'components/elements/Form'
 import Button from 'components/elements/Button'
 import { API_URL } from 'constants/constants'
 import restClient from 'api/restClient'
-import { FetchLogTImeOfUser } from 'redux/logTime/logTimeActions'
+import {
+  FetchLogTImeOfUser,
+  fetchUserTimeSpentToday,
+  fetchWeeklyTimeSpentOfUser,
+} from 'redux/logTime/logTimeActions'
 import styles from './styles.module.css'
 
 function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
@@ -72,8 +78,24 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
         .then(() => {
           if (!isAdmin) {
             dispatch(fetchFilteredProjectLogs(projectId))
+            dispatch(fetchTotalTimeSpent(projectId))
+            dispatch(fetchWeeklyTimeSpent(projectId))
           } else {
-            dispatch(FetchLogTImeOfUser())
+            dispatch(
+              FetchLogTImeOfUser(
+                JSON.parse(localStorage.getItem('userDetail'))?.user_id,
+              ),
+            )
+            dispatch(
+              fetchWeeklyTimeSpentOfUser(
+                JSON.parse(localStorage.getItem('userDetail'))?.user_id,
+              ),
+            )
+            dispatch(
+              fetchUserTimeSpentToday(
+                JSON.parse(localStorage.getItem('userDetail'))?.user_id,
+              ),
+            )
           }
           resetForm()
           setVisible(true)
@@ -257,13 +279,7 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
               style={{ marginRight: '5px' }}
               htmlType="submit"
             />
-            <Button
-              btnText="Cancel"
-              onClick={resetForm}
-              htmlType="button"
-              isDisabled={formType === 'Edit'}
-              danger
-            />
+            <Button btnText="Cancel" onClick={resetForm} danger />
           </div>
         </Form.Item>
       </Form>

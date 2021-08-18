@@ -3,19 +3,23 @@
   justify-content: flex-end;
 }
 
+.add_Blog_modal {
+  width: 100%;
+}
+
 @media only screen and (max-width: 767px) {
-  .ant-modal-centered .ant-modal {
+  .add_Blog_modal .ant-modal-centered .ant-modal {
     top: 0;
     display: inline-block;
     text-align: left;
     vertical-align: top;
     width: 100%;
   }
-  .ant-modal {
+  .add_Blog_modal .ant-modal {
     max-width: 100%;
     margin: 0px auto;
   }
-  .ant-modal-content {
+  .add_Blog_modal .ant-modal-content {
     position: relative;
     background-color: #fff;
     background-clip: padding-box;

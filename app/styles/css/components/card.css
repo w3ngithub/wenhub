@@ -5,3 +5,7 @@
 .ant-card-head-title {
   white-space: normal;
 }
+
+.ant-card {
+  margin: auto;
+}

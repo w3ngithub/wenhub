@@ -6,8 +6,13 @@ import { Table } from 'antd'
 import parse from 'html-react-parser'
 import LogTimeForm from 'components/modules/LogTimeForm'
 import TimeSummaryTable from 'components/elements/TimeSummaryTable'
-import { FetchLogTImeOfUser } from 'redux/logTime/logTimeActions'
+import {
+  FetchLogTImeOfUser,
+  fetchUserTimeSpentToday,
+  fetchWeeklyTimeSpentOfUser,
+} from 'redux/logTime/logTimeActions'
 import { logTimeTableColumns } from 'constants/logTimeConstants'
+import Loader from 'components/elements/Loader'
 import styles from './styles.module.css'
 
 function LogTime() {
@@ -16,7 +21,10 @@ function LogTime() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(FetchLogTImeOfUser())
+    const userId = JSON.parse(localStorage.getItem('userDetail'))?.user_id
+    dispatch(FetchLogTImeOfUser(userId))
+    dispatch(fetchWeeklyTimeSpentOfUser(userId))
+    dispatch(fetchUserTimeSpentToday(userId))
   }, [])
 
   const handlesetRowDataForEdit = (rowData) => {
@@ -24,7 +32,8 @@ function LogTime() {
     setFormType('Edit')
   }
 
-  const { logsOfUser } = useSelector((state) => state.logTime, shallowEqual)
+  const { logsOfUser, userTimeSpentThisWeek, userTimeSpentToday, loading } =
+    useSelector((state) => state.logTime, shallowEqual)
   const { logTypes, projectsOfUser } = useSelector(
     (state) => state.projectLog,
     shallowEqual,
@@ -38,16 +47,22 @@ function LogTime() {
     {},
   )
 
-  const dataSource = logsOfUser?.map((log) => ({
-    key: log.id,
-    date: moment(log?.meta?.date, 'YYYYMMDD').format('YYYY-MM-DD'),
-    hours: log?.meta?.hours,
-    log_type: cleanLogTypes[log?.log_type],
-    remarks: parse(log?.content?.rendered),
-    added_by: log?.meta?.display_name,
-    project_name:
-      cleanProjectsOfUser[log?.meta?.project_id] || 'Additional Time',
-  }))
+  // filtered logs of user showing logs of only 1 week
+  const dataSource = logsOfUser
+    ?.filter(
+      (logs) =>
+        moment().startOf('isoWeek') <= moment(logs.meta.date, 'YYYYMMDD'),
+    )
+    .map((log) => ({
+      key: log.id,
+      date: moment(log?.meta?.date, 'YYYYMMDD').format('YYYY-MM-DD'),
+      hours: log?.meta?.hours,
+      log_type: cleanLogTypes[log?.log_type],
+      remarks: parse(log?.content?.rendered),
+      added_by: log?.meta?.display_name,
+      project_name:
+        cleanProjectsOfUser[log?.meta?.project_id] || 'Additional Time',
+    }))
 
   const initialValues =
     formType === 'Add'
@@ -87,31 +102,41 @@ function LogTime() {
           />
         </div>
         <div className={styles.time_summary}>
-          <TimeSummaryTable
-            data={[
-              {
-                id: '1',
-                name: 'Time Spent This Week',
-                time: 30,
-              },
-              {
-                id: '2',
-                name: 'Time Spent Today',
-                time: 0,
-                backgroundColor: '#f2dede',
-                color: '#a94442',
-              },
-            ]}
-          />
-          <div className="time_log_table">
-            <div className={styles.project_detail_table}>
-              <Table
-                columns={logTimeTableColumns(handlesetRowDataForEdit, styles)}
-                dataSource={dataSource}
-                pagination={false}
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              <TimeSummaryTable
+                data={[
+                  {
+                    id: '1',
+                    name: 'Time Spent This Week',
+                    time: userTimeSpentThisWeek,
+                  },
+                  {
+                    id: '2',
+                    name: 'Time Spent Today',
+                    time: userTimeSpentToday,
+                    backgroundColor:
+                      +userTimeSpentToday === 0 ? '#f2dede' : '#dff0d8',
+                    color: +userTimeSpentToday === 0 ? '#a94442' : '#3c763d',
+                  },
+                ]}
               />
-            </div>
-          </div>
+              <div className="time_log_table">
+                <div className={styles.project_detail_table}>
+                  <Table
+                    columns={logTimeTableColumns(
+                      handlesetRowDataForEdit,
+                      styles,
+                    )}
+                    dataSource={dataSource}
+                    pagination={false}
+                  />
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

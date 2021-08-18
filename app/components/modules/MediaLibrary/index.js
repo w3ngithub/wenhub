@@ -8,16 +8,20 @@ import {
 } from 'redux/addMedia/addMediaActions'
 import classNames from 'classnames'
 import moment from 'moment'
+import useScreenWidthHeightHook from 'hooks/useScreenWidthHeightHook'
 import Loader from 'components/elements/Loader'
 import SelectComponent from 'components/elements/Select'
 import FormField from 'components/elements/Form'
 import styles from './styles.module.css'
 import style from './styles.module.scss'
 
-const SelectableFile = ({ children, selected }) => (
+const SelectableFile = ({ children, selected, onClick }) => (
   <div className={style.card}>
     <div
       className={classNames(style.selectable, { [style.selected]: selected })}
+      onClick={onClick}
+      onKeyDown={onClick}
+      aria-hidden="true"
     >
       {children}
       <div className={style.check}>
@@ -38,6 +42,7 @@ function MediaLibrary({ clearUploadFiles }) {
     label: 'All Dates',
     value: 'all',
   })
+  const [screenWidth] = useScreenWidthHeightHook()
 
   const { loading, remoteMedialFiles, remoteSelectedFiles } = useSelector(
     (state) => state.addMedia,
@@ -59,11 +64,10 @@ function MediaLibrary({ clearUploadFiles }) {
   // selection of files by dragging
   const handleSelection = (selectedKeyss) => {
     setSelectedKeys(selectedKeyss)
-    console.log(selectedKeyss)
   }
 
   const mediaDetailsStyle = () => {
-    if (window.matchMedia('(max-width: 726px)').matches) {
+    if (screenWidth < 767) {
       if (remoteSelectedFiles.length > 0) {
         return 'block'
       }
@@ -158,7 +162,7 @@ function MediaLibrary({ clearUploadFiles }) {
                     ]}
                     style={{
                       width: '100%',
-                      minWidth: '170px',
+                      minWidth: '155px',
                       fontSize: '0.7rem',
                       fontWeight: 'bold',
                       textAlign: 'left',
@@ -197,13 +201,13 @@ function MediaLibrary({ clearUploadFiles }) {
                         key={item.id}
                         selected={selected}
                         selectableKey={item.id}
+                        onClick={() => handleSelectImageByClick(item.id)}
                       >
                         <Image
                           src={item.media_details?.sizes?.thumbnail?.source_url}
                           alt={item.alt_text}
-                          height={100}
-                          width={100}
-                          onClick={() => handleSelectImageByClick(item.id)}
+                          height={125}
+                          width={125}
                         />
                       </SelectableComponent>
                     )
@@ -222,23 +226,29 @@ function MediaLibrary({ clearUploadFiles }) {
               <>
                 {' '}
                 <h3>ATTACHMENT DETAILS</h3>
-                <Image
-                  src={
-                    remoteSelectedFiles[remoteSelectedFiles.length - 1]
-                      .media_details?.sizes?.thumbnail?.source_url
-                  }
-                  alt={
-                    remoteSelectedFiles[remoteSelectedFiles.length - 1].alt_text
-                  }
-                  height={
-                    remoteSelectedFiles[remoteSelectedFiles.length - 1]
-                      .media_details?.sizes?.thumbnail?.height
-                  }
-                  width={
-                    remoteSelectedFiles[remoteSelectedFiles.length - 1]
-                      .media_details?.sizes?.thumbnail?.width
-                  }
-                />
+                <div
+                  className={style.card}
+                  style={{ border: '4px solid transparent', margin: '0' }}
+                >
+                  <Image
+                    src={
+                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                        .media_details?.sizes?.thumbnail?.source_url
+                    }
+                    alt={
+                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                        .alt_text
+                    }
+                    height={
+                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                        .media_details?.sizes?.thumbnail?.height
+                    }
+                    width={
+                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                        .media_details?.sizes?.thumbnail?.width
+                    }
+                  />
+                </div>
                 <p>
                   {
                     remoteSelectedFiles[remoteSelectedFiles.length - 1].title

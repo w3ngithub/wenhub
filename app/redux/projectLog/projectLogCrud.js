@@ -38,3 +38,9 @@ export const fetchLogTypes = () =>
 
 export const fetchProjectDetailForTimeLog = (projectId) =>
   api.get(`${API_URL}/projects/${projectId}`)
+
+export const fetchWeeklyTimeSpent = (projectId) =>
+  api.get(`${API_URL}/project/weekly_time_spent/${projectId}`)
+
+export const fecthTotalTimeSpent = (projectId) =>
+  api.get(`${API_URL}/project/time_spent/${projectId}`)

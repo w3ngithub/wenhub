@@ -25,7 +25,7 @@ function ProjectLog() {
   } = useSelector((state) => state.commonData, shallowEqual)
 
   const projectType = projectTypes.find(
-    (y) => y?.id === projectDetailForTimeLog?.acf_fields?.project_type[0],
+    (y) => y?.id === projectDetailForTimeLog?.acf_fields?.project_type?.[0],
   )
   const projectStat = projectStatus.find(
     (y) => y?.id === projectDetailForTimeLog?.acf_fields?.project_status,
@@ -33,7 +33,7 @@ function ProjectLog() {
   const developer = developers.filter(
     (y) =>
       projectDetailForTimeLog?.acf_fields?.developers !== false &&
-      projectDetailForTimeLog?.acf_fields?.developers.includes(y?.id),
+      projectDetailForTimeLog?.acf_fields?.developers?.includes(y?.id),
   )
   const designer = designers.filter(
     (y) =>

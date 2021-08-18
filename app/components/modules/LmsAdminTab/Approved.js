@@ -34,41 +34,43 @@ const Approved = () => {
 
   return (
     <>
-      <ListTable
-        columns={userLeaveColumns}
-        data={[
-          {
-            key: 1,
-            applicant: 'Ashok Ganika',
-            leave_dates: '07-07-21',
-            leave_type: 'Casual',
-            action: (
-              <div style={{ display: 'flex', gap: 5 }}>
-                <ButtonComponent
-                  btnText="View Details"
-                  className={styles.viewButton}
-                  onClick={() =>
-                    handleDetailModal({
-                      key: 1,
-                      applicant: 'Ashok Ganika',
-                      dates: '07-07-21',
-                      leave_type: 'Casual',
-                      reason: 'sjdlfksjdfl',
-                      approve_message: 'Anything',
-                      team_leads: 'Rujal Sapkota',
-                    })
-                  }
-                />
-                <ButtonComponent
-                  btnText="Cancel"
-                  className={styles.cancelButton}
-                  onClick={handleCancel}
-                />
-              </div>
-            ),
-          },
-        ]}
-      />
+      <div className={styles.responsiveLmsAdminTable}>
+        <ListTable
+          columns={userLeaveColumns}
+          data={[
+            {
+              key: 1,
+              applicant: 'Ashok Ganika',
+              leave_dates: '07-07-21',
+              leave_type: 'Casual',
+              action: (
+                <div style={{ display: 'flex', gap: 5 }}>
+                  <ButtonComponent
+                    btnText="View Details"
+                    className={styles.viewButton}
+                    onClick={() =>
+                      handleDetailModal({
+                        key: 1,
+                        applicant: 'Ashok Ganika',
+                        dates: '07-07-21',
+                        leave_type: 'Casual',
+                        reason: 'sjdlfksjdfl',
+                        approve_message: 'Anything',
+                        team_leads: 'Rujal Sapkota',
+                      })
+                    }
+                  />
+                  <ButtonComponent
+                    btnText="Cancel"
+                    className={styles.cancelButton}
+                    onClick={handleCancel}
+                  />
+                </div>
+              ),
+            },
+          ]}
+        />
+      </div>
       <ModalDetail
         title="Approved Leave Detail"
         visible={showDetail}

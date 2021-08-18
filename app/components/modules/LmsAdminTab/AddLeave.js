@@ -115,7 +115,8 @@ const AddLeave = () => {
         />
         <ButtonComponent
           btnText="Reset"
-          className={styles.cancelButton}
+          htmlType="button"
+          danger
           onClick={resetForm}
         />
       </div>

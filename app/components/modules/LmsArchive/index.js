@@ -20,6 +20,12 @@ function LmsArchive() {
           placeholder="Select From Past Archive"
           options={[{ label: 'Archived 07-15-19', value: 'Archived 07-15-19' }]}
           onChange={handleArchiveChange}
+          style={{
+            fontSize: '0.7rem',
+            fontWeight: 'bold',
+            textAlign: 'left',
+            minWidth: '190px',
+          }}
         />
       </div>
       {archive.value && archiveData && (
