@@ -44,3 +44,16 @@ export const fetchWeeklyTimeSpent = (projectId) =>
 
 export const fecthTotalTimeSpent = (projectId) =>
   api.get(`${API_URL}/project/time_spent/${projectId}`)
+
+export const fetchProjectChartData = (projectDetail) =>
+  api.post(`${API_URL}/timelogs/chart`, projectDetail)
+
+export const fetchClientCheckList = (clientId) =>
+  api.get(
+    `${API_URL}/checklist?filter[meta_query]=checklist_client&filter[meta_value]=${clientId}&_fields=id,date,modified,title,acf_fields`,
+  )
+
+export const fetchGeneralCheckList = () =>
+  api.get(
+    `${API_URL}/checklist?filter[meta_query]=checklist_type&filter[meta_value]=general&_fields=id,date,modified,title,acf_fields`,
+  )

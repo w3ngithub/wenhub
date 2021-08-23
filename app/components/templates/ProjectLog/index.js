@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
-import { shallowEqual, useSelector } from 'react-redux'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { projectDetailColumns } from 'constants/homeConstants'
 import { getDataDetail } from 'utils/commonFunctions'
+import { fetchCheckList } from 'redux/projectLog/projectLogAction'
 import TimeLog from 'components/modules/TimeLog'
 import Tab from 'components/elements/Tabs'
 import Details from 'components/elements/Detail'
@@ -14,6 +15,8 @@ function ProjectLog() {
     (state) => state.projectLog,
     shallowEqual,
   )
+  const dispatch = useDispatch()
+
   const {
     filterType: {
       projectTypes,
@@ -23,6 +26,10 @@ function ProjectLog() {
       projectTags,
     },
   } = useSelector((state) => state.commonData, shallowEqual)
+
+  useEffect(() => {
+    dispatch(fetchCheckList(projectDetailForTimeLog?.acf_fields?.client))
+  }, [])
 
   const projectType = projectTypes.find(
     (y) => y?.id === projectDetailForTimeLog?.acf_fields?.project_type?.[0],
@@ -82,6 +89,7 @@ function ProjectLog() {
                 estimatedHours={
                   projectDetailForTimeLog.acf_fields?.estimated_hours
                 }
+                projectId={projectDetailForTimeLog.id}
               />
             ),
           },
@@ -94,7 +102,11 @@ function ProjectLog() {
               </>
             ),
           },
-          { id: '3', tab: 'Checklist', content: <Checklist /> },
+          {
+            id: '3',
+            tab: 'Checklist',
+            content: <Checklist projectId={projectDetailForTimeLog.id} />,
+          },
         ]}
         getKey={() => {}}
       />

@@ -15,13 +15,10 @@ function Login(props) {
   const onSubmit = async (values) => {
     const data = await props.loginUser(values)
     if (data) {
-      if (
-        window.history.length > 1 &&
-        document.referrer.indexOf(window.location.host) !== -1
-      ) {
-        router.back()
+      if (!props.history || props.history.length < 2) {
+        router.push('/')
       } else {
-        router.replace('/')
+        router.push(props.history[props.history.length - 2])
       }
     }
   }

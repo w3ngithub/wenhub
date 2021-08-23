@@ -11,6 +11,11 @@ const initialProjectLogState = {
   totalLogsOfProject: 0,
   weeklyTimeSpent: '',
   totalTimeSpent: '',
+  chart: {},
+  chartLoading: false,
+  clientCheckList: [],
+  generalCheckList: [],
+  checkListFrom: '',
 }
 
 export const projectLogSlice = createSlice({
@@ -59,6 +64,22 @@ export const projectLogSlice = createSlice({
     totalTimeSpentFetched: (state, { payload }) => {
       state.loading = false
       state.totalTimeSpent = payload
+    },
+    projectChartFetched: (state, { payload }) => {
+      state.chartLoading = false
+      state.chart = payload
+    },
+    projectChartLoading: (state) => {
+      state.chartLoading = true
+    },
+    clientCheckListFetched: (state, { payload }) => {
+      state.loading = false
+      state.checkListFrom = payload.checkListFrom
+      state.clientCheckList = payload.clientCheckList
+    },
+    generalCheckListFetched: (state, { payload }) => {
+      state.checkListFrom = payload.checkListFrom
+      state.generalCheckList = payload.generalCheckList
     },
   },
   extraReducers: {

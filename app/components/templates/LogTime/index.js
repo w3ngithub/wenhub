@@ -6,6 +6,7 @@ import { Table } from 'antd'
 import parse from 'html-react-parser'
 import LogTimeForm from 'components/modules/LogTimeForm'
 import TimeSummaryTable from 'components/elements/TimeSummaryTable'
+import { formatData } from 'utils/formatData'
 import {
   FetchLogTImeOfUser,
   fetchUserTimeSpentToday,
@@ -56,7 +57,7 @@ function LogTime() {
     .map((log) => ({
       key: log.id,
       date: moment(log?.meta?.date, 'YYYYMMDD').format('YYYY-MM-DD'),
-      hours: log?.meta?.hours,
+      hours: formatData(log?.meta?.hours),
       log_type: cleanLogTypes[log?.log_type],
       remarks: parse(log?.content?.rendered),
       added_by: log?.meta?.display_name,
@@ -74,10 +75,12 @@ function LogTime() {
         }
       : {
           ...rowDataForEdit,
-          date: moment(rowDataForEdit.date, 'DD/MM/YYYY'),
+          date: moment(rowDataForEdit.date, 'YYYY-MM-DD'),
           hours: rowDataForEdit.hours.split('.')[0],
           minutes: rowDataForEdit.hours.includes('.')
-            ? ((+rowDataForEdit.hours.split('.')[1] / 100) * 60).toString()
+            ? ((+rowDataForEdit.hours.split('.')[1] / 10) * 60)
+                .toString()
+                .substring(0, 2)
             : '0',
           remarks: rowDataForEdit?.remarks[0]?.props?.children,
           log_type: logTypes.find((log) => log.name === rowDataForEdit.log_type)
@@ -99,6 +102,7 @@ function LogTime() {
             setFormType={setFormType}
             formType={formType}
             isAdmin
+            timeLogId={rowDataForEdit?.key || ''}
           />
         </div>
         <div className={styles.time_summary}>
@@ -111,12 +115,12 @@ function LogTime() {
                   {
                     id: '1',
                     name: 'Time Spent This Week',
-                    time: userTimeSpentThisWeek,
+                    time: formatData(userTimeSpentThisWeek),
                   },
                   {
                     id: '2',
                     name: 'Time Spent Today',
-                    time: userTimeSpentToday,
+                    time: formatData(userTimeSpentToday),
                     backgroundColor:
                       +userTimeSpentToday === 0 ? '#f2dede' : '#dff0d8',
                     color: +userTimeSpentToday === 0 ? '#a94442' : '#3c763d',

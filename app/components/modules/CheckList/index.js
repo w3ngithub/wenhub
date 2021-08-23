@@ -1,79 +1,204 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card } from 'antd'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import Button from 'components/elements/Button'
+import restClient from 'api/restClient'
+import { API_URL } from 'constants/constants'
+import { fetchProjectDetailForTimeLog } from 'redux/projectLog/projectLogAction'
 import Item from './Item'
 import styles from './checklist.module.css'
 
-const data = [
-  {
-    id: 1,
-    type: 'completed',
-    text: "Remove 'Just Another WordPress site', from tagline in 'General Settings'",
-  },
-  {
-    id: 2,
-    type: 'skipped',
-    text: 'Optimize site load speed',
-  },
-  {
-    id: 3,
-    type: 'remaining',
-    text: 'Test all forms',
-  },
-  {
-    id: 4,
-    type: 'remaining',
-    text: 'Check for broken links',
-  },
-]
-
-const CheckList = () => {
-  const [reduxList, setReduxList] = useState([...data])
+const CheckList = ({ projectId }) => {
+  const [reduxList, setReduxList] = useState([])
   const [list, setList] = useState([])
+  const [reviewSubmit, setReviewSubmit] = useState(false)
+  const [switchCheckList, setSwitchCheckList] = useState('all')
+  const [isSubmitting, setisSubmitting] = useState(false)
 
-  React.useEffect(() => setList(reduxList), [reduxList])
+  const {
+    projectDetailForTimeLog,
+    checkListFrom,
+    generalCheckList,
+    clientCheckList,
+  } = useSelector((state) => state.projectLog, shallowEqual)
 
-  const handleSwitch = (t) => {
-    if (t === 'all') {
+  const [checkListToUpdate, setCheckListToUpdate] = useState({
+    checklist: { ...projectDetailForTimeLog?.checklist },
+  })
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const checkList = () => {
+      if (typeof projectDetailForTimeLog?.checklist?.item_status === 'object') {
+        if (checkListFrom === 'client')
+          return clientCheckList[0]?.acf_fields?.list_items?.map((item, i) => ({
+            id: i + 1,
+            statustype:
+              projectDetailForTimeLog.checklist.item_status[i + 1] || '',
+            statusReason:
+              projectDetailForTimeLog.checklist.checklist_skipped_reason[
+                i + 1
+              ] || '',
+            ...item,
+          }))
+        if (checkListFrom === 'general')
+          return generalCheckList[0]?.acf_fields?.list_items?.map(
+            (item, i) => ({
+              id: i + 1,
+              statustype:
+                projectDetailForTimeLog.checklist.item_status[i + 1] || '',
+              statusReason:
+                projectDetailForTimeLog.checklist.checklist_skipped_reason[
+                  i + 1
+                ] || '',
+              ...item,
+            }),
+          )
+        return []
+      }
+      if (checkListFrom === 'client')
+        return clientCheckList[0]?.acf_fields?.list_items?.map((item, i) => ({
+          id: i + 1,
+          statustype: '',
+          statusReason: '',
+          ...item,
+        }))
+      if (checkListFrom === 'general')
+        return generalCheckList[0]?.acf_fields?.list_items?.map((item, i) => ({
+          id: i + 1,
+          statustype: '',
+          statusReason: '',
+          ...item,
+        }))
+      return []
+    }
+    setReduxList(checkList)
+  }, [
+    projectDetailForTimeLog,
+    checkListFrom,
+    generalCheckList,
+    clientCheckList,
+  ])
+
+  useEffect(() => {
+    if (switchCheckList === 'all') {
       setList(reduxList)
     } else {
-      setList([...reduxList.filter((x) => x.type === t)])
+      setList([...reduxList.filter((x) => x.statustype === switchCheckList)])
     }
+  }, [switchCheckList, reduxList])
+
+  const handleChangeReasonForSkip = (reason, id) => {
+    setReduxList(
+      reduxList.map((ckl) =>
+        ckl.id === id ? { ...ckl, statusReason: reason } : ckl,
+      ),
+    )
+    setCheckListToUpdate({
+      ...checkListToUpdate,
+      checklist: {
+        ...checkListToUpdate.checklist,
+        checklist_skipped_reason: {
+          ...checkListToUpdate.checklist.checklist_skipped_reason,
+          [id]: reason,
+        },
+      },
+    })
+  }
+
+  const handleChangeCheckBox = (e) => {
+    setReviewSubmit(e.target.checked)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // console.log('Submitted')
+    setisSubmitting(true)
+    const cleanValues = {
+      ...checkListToUpdate,
+      submit_for_review: reviewSubmit ? 'on' : 'off',
+      login_user_id: JSON.parse(localStorage.getItem('userDetail'))?.user_id,
+    }
+    restClient
+      .patch(`${API_URL}/projects/${projectId}`, cleanValues, true)
+      .then(() => {
+        dispatch(fetchProjectDetailForTimeLog(projectId))
+        setReviewSubmit(false)
+      })
+      .catch((error) =>
+        console.log(
+          error.response.data.message || 'could not update checcklist',
+        ),
+      )
+      .finally(() => {
+        setisSubmitting(false)
+      })
   }
 
   const handleComplete = (id) => {
     const listData = reduxList.map((x) =>
       x.id === id
-        ? { ...x, type: x.type === 'completed' ? 'remaining' : 'completed' }
+        ? {
+            ...x,
+            statustype: x.statustype === 'completed' ? '' : 'completed',
+          }
         : x,
     )
     setReduxList(listData)
+    setCheckListToUpdate({
+      ...checkListToUpdate,
+      checklist: {
+        ...checkListToUpdate.checklist,
+        item_status: {
+          ...checkListToUpdate.checklist.item_status,
+          [id]:
+            reduxList.find((x) => x.id === id).statustype === 'completed'
+              ? ''
+              : 'completed',
+        },
+      },
+    })
   }
 
   const handleSkip = (id) => {
     const listData = reduxList.map((x) =>
       x.id === id
-        ? { ...x, type: x.type === 'skipped' ? 'remaining' : 'skipped' }
+        ? {
+            ...x,
+            statustype: x.statustype === 'skipped' ? '' : 'skipped',
+          }
         : x,
     )
     setReduxList(listData)
+    setCheckListToUpdate({
+      ...checkListToUpdate,
+      checklist: {
+        ...checkListToUpdate.checklist,
+        item_status: {
+          ...checkListToUpdate.checklist.item_status,
+          [id]:
+            reduxList.find((x) => x.id === id).statustype === 'skipped'
+              ? ''
+              : 'skipped',
+        },
+      },
+    })
+  }
+
+  const CheckListButtonText = () => {
+    if (isSubmitting) return 'Saving CheckList ...'
+    return reviewSubmit ? 'Submit for review >>' : 'Save Checklist'
   }
 
   return (
     <Card className={styles.checkList}>
       <div className={`${styles.buttons}`}>
         <Button
-          onClick={() => handleSwitch('all')}
+          onClick={() => setSwitchCheckList('all')}
           btnText="All"
           style={{ fontWeight: 'bold', background: 'white', color: 'black' }}
         />
         <Button
-          onClick={() => handleSwitch('completed')}
+          onClick={() => setSwitchCheckList('completed')}
           btnText="Completed"
           style={{
             fontWeight: 'bold',
@@ -82,7 +207,7 @@ const CheckList = () => {
           }}
         />
         <Button
-          onClick={() => handleSwitch('skipped')}
+          onClick={() => setSwitchCheckList('skipped')}
           btnText="Skipped"
           style={{
             fontWeight: 'bold',
@@ -91,7 +216,7 @@ const CheckList = () => {
           }}
         />
         <Button
-          onClick={() => handleSwitch('remaining')}
+          onClick={() => setSwitchCheckList('')}
           btnText="Remaining"
           style={{ fontWeight: 'bold', background: 'white', color: 'black' }}
         />
@@ -105,18 +230,27 @@ const CheckList = () => {
               styles={styles}
               completeAction={handleComplete}
               skipAction={handleSkip}
+              handleChangeReasonForSkip={handleChangeReasonForSkip}
             />
           ))}
         </ol>
 
         <div className={styles.row}>
           <div className={styles.checkbox}>
-            <input type="checkbox" name="submit_for_review" />
-            &nbsp;
+            <input
+              type="checkbox"
+              name="submit_for_review"
+              onChange={handleChangeCheckBox}
+            />
             <label htmlFor="submit_for_review">Submit for review:</label>
           </div>
           <div>
-            <Button btnText="Save Checklist" htmlType="submit" />
+            <Button
+              btnText={CheckListButtonText()}
+              htmlType="submit"
+              style={reviewSubmit ? { backgroundColor: '#5cb85c' } : {}}
+              isDisabled={isSubmitting}
+            />
           </div>
         </div>
       </form>
