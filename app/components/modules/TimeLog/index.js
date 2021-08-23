@@ -2,6 +2,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import React, { useEffect, useState } from 'react'
 import {
   fetchFilteredProjectLogs,
+  fetchProjectChartData,
   fetchProjectLogsFilteredByAuthorAndLogType,
 } from 'redux/projectLog/projectLogAction'
 import { Pagination, Select as Choose, Table } from 'antd'
@@ -14,18 +15,18 @@ import Button from 'components/elements/Button'
 import TimeSummaryTable from 'components/elements/TimeSummaryTable'
 import LogTimeForm from 'components/modules/LogTimeForm'
 import Loader from 'components/elements/Loader'
+import { formatData } from 'utils/formatData'
+import useTokenValidation from 'hooks/useTokenValidation'
 import {
-  backGroundColorOfChartItems,
-  chartLogTypesOptions,
-  labels,
   logTimeTableColumns,
   TimeSummaryTableData,
-  values,
 } from 'constants/projectLogConstants'
+import formatedChartData from './formatedChartData'
 import Chart from './LogtimeChart'
 import styles from './styles.module.css'
 
-function TimeLog({ estimatedHours }) {
+function TimeLog({ estimatedHours, projectId }) {
+  useTokenValidation()
   let logs = []
   const [developersIds, setDevelopersId] = useState([])
   const [DesignersIds, setDesignersId] = useState([])
@@ -38,6 +39,8 @@ function TimeLog({ estimatedHours }) {
     loading,
     weeklyTimeSpent,
     totalTimeSpent,
+    chart,
+    chartLoading,
   } = useSelector((state) => state.projectLog, shallowEqual)
   const cleanLogTypes = logTypes?.reduce(
     (obj, log) => ({ ...obj, [log.id]: log?.name }),
@@ -70,21 +73,25 @@ function TimeLog({ estimatedHours }) {
   const dataSource = projectLogs?.map((log) => ({
     key: log.id,
     date: moment(log?.meta?.date, 'YYYYMMDD').format('YYYY-MM-DD'),
-    hours: log?.meta?.hours,
+    hours: formatData(log?.meta?.hours),
     log_type: cleanLogTypes[log?.log_type],
     remarks: parse(log?.content?.rendered),
     added_by: log?.meta?.display_name,
   }))
 
-  const [chartType, setChartType] = useState({ label: 'Normal', value: '1' })
+  const [chartType, setChartType] = useState({
+    label: 'Normal',
+    value: 'normal',
+  })
   const [ChartLogType, setChartLogType] = useState([])
   const [isChartGenerated, setIsChartGenerated] = useState(false)
 
-  const [newLabel, setNewLabel] = useState([])
-  const [newData, setNewData] = useState([])
-
   const [rowDataForEdit, setRowDataForEdit] = useState(null)
   const [formType, setFormType] = useState('Add')
+  const [chartTypeForChart, setChartTypeForChart] = useState({
+    label: 'Normal',
+    value: 'normal',
+  })
 
   const handleChangeChartType = (a) => {
     setChartType(a)
@@ -93,8 +100,17 @@ function TimeLog({ estimatedHours }) {
     setChartLogType([...a])
   }
   const handleGenerateChart = () => {
-    if (!ChartLogType.length) setChartLogType(['0'])
     setIsChartGenerated(true)
+    setChartTypeForChart(chartType)
+    dispatch(
+      fetchProjectChartData({
+        project_id: projectId,
+        log_types: ChartLogType.includes('all')
+          ? 'all'
+          : ChartLogType.join(','),
+        graph_type: chartType.value,
+      }),
+    )
   }
 
   const handlesetRowDataForEdit = (rowData) => {
@@ -145,17 +161,6 @@ function TimeLog({ estimatedHours }) {
     setDevelopersId(DevelopersIds)
   }, [developers, designers, projectDetailForTimeLog])
 
-  useEffect(() => {
-    if (!ChartLogType.length) setIsChartGenerated(false)
-    if (ChartLogType.includes('0')) {
-      setNewLabel(labels)
-      setNewData(values)
-    } else {
-      setNewLabel([labels[0], ...ChartLogType.map((type) => labels[+type - 1])])
-      setNewData([values[0], ...ChartLogType.map((type) => values[+type - 1])])
-    }
-  }, [ChartLogType])
-
   const initialValues =
     formType === 'Add'
       ? {
@@ -169,7 +174,9 @@ function TimeLog({ estimatedHours }) {
           date: moment(rowDataForEdit.date, 'YYYY-MM-DD'),
           hours: rowDataForEdit.hours.split('.')[0],
           minutes: rowDataForEdit.hours.includes('.')
-            ? ((+rowDataForEdit.hours.split('.')[1] / 100) * 60).toString()
+            ? ((+rowDataForEdit.hours.split('.')[1] / 10) * 60)
+                .toString()
+                .substring(0, 2)
             : '0',
           remarks: rowDataForEdit?.remarks[0]?.props?.children,
           log_type: logTypes.find((log) => log.name === rowDataForEdit.log_type)
@@ -191,6 +198,7 @@ function TimeLog({ estimatedHours }) {
           initialValues={initialValues}
           setFormType={setFormType}
           formType={formType}
+          timeLogId={rowDataForEdit?.key || ''}
         />
       </div>
       <div className={styles.time_summary}>
@@ -206,8 +214,8 @@ function TimeLog({ estimatedHours }) {
             <Select
               value={chartType}
               options={[
-                { label: 'Normal', value: '1' },
-                { label: 'Stacked', value: '2' },
+                { label: 'Normal', value: 'normal' },
+                { label: 'Stacked', value: 'stacked' },
               ]}
               style={{
                 textAlign: 'left',
@@ -223,7 +231,7 @@ function TimeLog({ estimatedHours }) {
               value={ChartLogType}
               mode="multiple"
               placeholder="Select Log Types To Generate Bar Chart"
-              options={chartLogTypesOptions}
+              options={[{ label: 'All', value: 'all' }, ...logTypesForDropDown]}
               style={{
                 textAlign: 'left',
                 width: '100%',
@@ -235,20 +243,11 @@ function TimeLog({ estimatedHours }) {
           </div>
           <Button btnText="Generate Chart" onClick={handleGenerateChart} />
         </div>
-        {isChartGenerated && (
+        {isChartGenerated && !chartLoading && (
           <div className={styles.chart_display}>
             <Chart
-              chartType={chartType.value}
-              data={{
-                labels: newLabel,
-                datasets: [
-                  {
-                    label: 'Hours Spent',
-                    data: newData,
-                    backgroundColor: backGroundColorOfChartItems,
-                  },
-                ],
-              }}
+              chartType={chartTypeForChart.value}
+              data={formatedChartData(chartTypeForChart, chart)}
             />
           </div>
         )}

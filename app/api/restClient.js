@@ -31,9 +31,11 @@ const del = (path) => axios.delete(path, getHttpHeaders())
 const post = (path, data, isAuthenticated) =>
   axios.post(path, data, getHttpHeaders(isAuthenticated))
 
-const put = (path, data) => axios.post(path, data, getHttpHeaders())
+const put = (path, data, isAuthenticated) =>
+  axios.put(path, data, getHttpHeaders(isAuthenticated))
 
-const patch = (path, data) => axios.post(path, data, getHttpHeaders())
+const patch = (path, data, isAuthenticated) =>
+  axios.patch(path, data, getHttpHeaders(isAuthenticated))
 
 const all = (path) => axios.all(path, getHttpHeaders())
 

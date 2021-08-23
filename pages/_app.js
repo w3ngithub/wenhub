@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { wrapper } from 'redux/store'
 import HeaderLayout from 'layouts/Header'
 import Card from 'components/layouts/Card'
@@ -8,22 +10,30 @@ import 'styles/app.scss'
 import 'styles/css/components/button.css'
 
 function MyApp({ Component, pageProps }) {
+  const [history, setHistory] = useState([])
   const { noHeader, noCard, isLogin } = pageProps
+  const { asPath } = useRouter()
+
+  useEffect(() => {
+    if (history[history.length - 1] !== asPath) {
+      setHistory([...history, asPath])
+    }
+  }, [asPath])
 
   let WrapperComponent = null
   if (isLogin || (noCard && noHeader)) {
-    WrapperComponent = <Component {...pageProps} />
+    WrapperComponent = <Component {...pageProps} history={history} />
   } else if (noHeader) {
     WrapperComponent = (
       <Card>
-        <Component {...pageProps} />
+        <Component {...pageProps} history={history} />
       </Card>
     )
   } else {
     WrapperComponent = (
       <HeaderLayout>
         <Card>
-          <Component {...pageProps} />
+          <Component {...pageProps} history={history} />
         </Card>
       </HeaderLayout>
     )

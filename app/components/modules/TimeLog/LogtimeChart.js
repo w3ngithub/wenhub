@@ -11,6 +11,7 @@ const options1 = {
       borderWidth: 2,
     },
   },
+
   responsive: true,
   plugins: {
     legend: {
@@ -23,36 +24,40 @@ const options1 = {
   },
 }
 const option2 = {
+  // plugins: {
+  //   legend: {
+  //     display: false,
+  //   },
+  // },
   scales: {
     yAxes: [
       {
-        stacked: true,
         ticks: {
           beginAtZero: true,
         },
       },
     ],
-    xAxes: [
-      {
-        stacked: true,
-      },
-    ],
   },
 }
 
-const NormalChart = ({ data, chartType }) => (
+const NormalChart = ({ data, chartType, fallbackContent }) => (
   <>
-    <Bar data={data} options={chartType === '2' ? option2 : options1} />
+    <Bar
+      data={data}
+      options={chartType === 'stacked' ? option2 : options1}
+      fallbackContent={fallbackContent}
+    />
   </>
 )
 
 NormalChart.prototype = {
   data: PropTypes.object,
   chartType: PropTypes.string,
+  fallbackContent: PropTypes.node,
 }
 
 NormalChart.defaultProps = {
-  chartType: 1,
+  chartType: 'normal',
 }
 
 const AreDataAndChartTypeEqual = (prevProp, nextProp) =>

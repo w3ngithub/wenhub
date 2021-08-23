@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { Form, Alert, Select } from 'antd'
 import PropTypes from 'prop-types'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import moment from 'moment'
 import {
   fetchProjectsOfUser,
   fetchLogTypes,
@@ -21,7 +22,13 @@ import {
 } from 'redux/logTime/logTimeActions'
 import styles from './styles.module.css'
 
-function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
+function LogTimeForm({
+  isAdmin,
+  initialValues,
+  setFormType,
+  formType,
+  timeLogId,
+}) {
   const [visible, setVisible] = useState(false)
   const [isSubmitting, setSubmitting] = useState(false)
   const [form] = Form.useForm()
@@ -51,28 +58,31 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
   const resetForm = () => {
     form.resetFields()
   }
-
   const onSubmit = (values) => {
     setSubmitting(true)
     const projectId = isAdmin ? values.project_name || '' : +query.id
-    const cleanValues = {
-      status: 'publish',
-      title: '',
-      content: values.remarks,
-      meta: {
-        hours: values.hours.concat(
-          `${
-            +values.minutes >= 15
-              ? `.${(values.minutes / 60).toString().split('.')[1]}`
-              : ''
-          }`,
-        ),
-        date: values.date.format('YYYYMMDD'),
-        project_id: projectId,
-      },
-      log_type: [values.log_type],
-    }
+    let cleanValues
     if (formType === 'Add') {
+      cleanValues = {
+        status: 'publish',
+        title: '',
+        content: values.remarks,
+        meta: {
+          hours: values.hours.concat(
+            `${
+              +values.minutes >= 15
+                ? `.${(values.minutes / 60)
+                    .toString()
+                    .split('.')[1]
+                    .substring(0, 2)}`
+                : ''
+            }`,
+          ),
+          date: values.date.format('YYYYMMDD'),
+          project_id: projectId,
+        },
+        log_type: [values.log_type],
+      }
       restClient
         .post(`${API_URL}/timelogs`, cleanValues, true)
         .then(() => {
@@ -103,10 +113,54 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
         .catch((err) => console.log(err.response.data.message))
         .finally(() => setSubmitting(false))
     } else {
-      console.log(cleanValues)
-      setSubmitting(false)
+      cleanValues = {
+        content: values.remarks,
+        meta: {
+          hours: values.hours.concat(
+            `${
+              +values.minutes >= 15
+                ? `.${(values.minutes / 60)
+                    .toString()
+                    .split('.')[1]
+                    .substring(0, 2)}`
+                : ''
+            }`,
+          ),
+          date: values.date.format('YYYYMMDD'),
+          project_id: projectId,
+        },
+        log_type: [values.log_type],
+      }
+      restClient
+        .put(`${API_URL}/timelogs/${timeLogId}`, cleanValues, true)
+        .then(() => {
+          if (!isAdmin) {
+            dispatch(fetchFilteredProjectLogs(projectId))
+            dispatch(fetchTotalTimeSpent(projectId))
+            dispatch(fetchWeeklyTimeSpent(projectId))
+          } else {
+            dispatch(
+              FetchLogTImeOfUser(
+                JSON.parse(localStorage.getItem('userDetail'))?.user_id,
+              ),
+            )
+            dispatch(
+              fetchWeeklyTimeSpentOfUser(
+                JSON.parse(localStorage.getItem('userDetail'))?.user_id,
+              ),
+            )
+            dispatch(
+              fetchUserTimeSpentToday(
+                JSON.parse(localStorage.getItem('userDetail'))?.user_id,
+              ),
+            )
+          }
+          resetForm()
+          setVisible(true)
+        })
+        .catch((err) => console.log(err.response.data.message))
+        .finally(() => setSubmitting(false))
     }
-
     setFormType('Add')
   }
 
@@ -142,6 +196,11 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
             component="DatePicker"
             style={{ width: '100%', borderRadius: '3px', padding: '7px' }}
             format="DD/MM/YYYY"
+            disabledDate={(current) =>
+              (current &&
+                current < moment().subtract(1, 'days').startOf('day')) ||
+              current > moment().endOf('day')
+            }
           />
         </Form.Item>
         <div className={styles.hours_minutes}>
@@ -157,7 +216,7 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
               {
                 validator: (_, value) => {
                   try {
-                    if (value <= 9) {
+                    if (value <= 9 || value === 0) {
                       return Promise.resolve()
                     }
                     throw new Error('Value must be less than or equal to 9')
@@ -190,6 +249,7 @@ function LogTimeForm({ isAdmin, initialValues, setFormType, formType }) {
                 validator: (_, value) => {
                   try {
                     if (value) {
+                      if (+value === 0) return Promise.resolve()
                       if (value > 60)
                         throw new Error(
                           'Value must be less than or equal to 60',
@@ -292,6 +352,7 @@ LogTimeForm.propTypes = {
   initialValues: PropTypes.object.isRequired,
   setFormType: PropTypes.func,
   formType: PropTypes.string,
+  timeLogId: PropTypes.any,
 }
 
 LogTimeForm.defaultProps = {
