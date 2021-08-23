@@ -30,7 +30,11 @@ export const fetchLogTypes = () => (dispatch) => {
       dispatch(actions.logTypesFetched(res.data))
     })
     .catch((err) => {
-      dispatch(actions.projectLogFetchError(err.response.data.message))
+      dispatch(
+        actions.projectLogFetchError(
+          err.response.data.message || 'could not fetch data',
+        ),
+      )
     })
 }
 
@@ -49,7 +53,11 @@ export const fetchProjectsOfUser = () => async (dispatch) => {
       dispatch(actions.projectsOfUserFetched(designerProject.data))
     }
   } catch (error) {
-    dispatch(actions.projectLogFetchError(error.response.data.message))
+    dispatch(
+      actions.projectLogFetchError(
+        error.response.data.message || 'could not fetch data',
+      ),
+    )
   }
 }
 
@@ -61,7 +69,11 @@ export const fetchProjectDetailForTimeLog = (projectId) => async (dispatch) => {
     )
     dispatch(actions.projectDetailForTimeLogFetched(response.data))
   } catch (error) {
-    dispatch(actions.projectLogFetchError(error.response.data.message))
+    dispatch(
+      actions.projectLogFetchError(
+        error.response.data.message || 'could not fetch data',
+      ),
+    )
   }
 }
 
@@ -82,7 +94,11 @@ export const fetchFilteredProjectLogs =
         }),
       )
     } catch (error) {
-      dispatch(actions.projectLogFetchError(error.response.data.message))
+      dispatch(
+        actions.projectLogFetchError(
+          error.response.data.message || 'could not fetch data',
+        ),
+      )
     }
   }
 
@@ -97,7 +113,11 @@ export const fetchProjectLogsFilteredByAuthorAndLogType =
       )
       dispatch(actions.LogTypeFilteredProjectLogFetched(response.data))
     } catch (error) {
-      dispatch(actions.projectLogFetchError(error.response.data.message))
+      dispatch(
+        actions.projectLogFetchError(
+          error.response.data.message || 'could not fetch data',
+        ),
+      )
     }
   }
 
@@ -107,7 +127,11 @@ export const fetchWeeklyTimeSpent = (projectId) => async (dispatch) => {
     const response = await requestFromServer.fetchWeeklyTimeSpent(projectId)
     dispatch(actions.weeklyTimeSpentFetched(response.data))
   } catch (error) {
-    dispatch(actions.projectLogFetchError(error.response.data.message))
+    dispatch(
+      actions.projectLogFetchError(
+        error.response.data.message || 'could not fetch data',
+      ),
+    )
   }
 }
 
@@ -117,6 +141,55 @@ export const fetchTotalTimeSpent = (projectId) => async (dispatch) => {
     const response = await requestFromServer.fecthTotalTimeSpent(projectId)
     dispatch(actions.totalTimeSpentFetched(response.data))
   } catch (error) {
-    dispatch(actions.projectLogFetchError(error.response.data.message))
+    dispatch(
+      actions.projectLogFetchError(
+        error.response.data.message || 'could not fetch data',
+      ),
+    )
+  }
+}
+
+export const fetchProjectChartData = (projectDetail) => async (dispatch) => {
+  dispatch(actions.projectChartLoading())
+  try {
+    const response = await requestFromServer.fetchProjectChartData(
+      projectDetail,
+    )
+    dispatch(actions.projectChartFetched(response.data))
+  } catch (error) {
+    dispatch(
+      actions.projectLogFetchError(
+        error.response.data.message || 'could not fetch data',
+      ),
+    )
+  }
+}
+
+export const fetchCheckList = (clientId) => async (dispatch) => {
+  try {
+    let response
+    response = await requestFromServer.fetchClientCheckList(clientId)
+    if (response.data.length > 0) {
+      dispatch(
+        actions.clientCheckListFetched({
+          checkListFrom: 'client',
+          clientCheckList: response.data,
+        }),
+      )
+    } else {
+      response = await requestFromServer.fetchGeneralCheckList()
+      dispatch(
+        actions.generalCheckListFetched({
+          checkListFrom: 'general',
+          generalCheckList: response.data,
+        }),
+      )
+    }
+  } catch (error) {
+    dispatch(
+      actions.projectLogFetchError(
+        error.response.data.message || 'could not fetch data',
+      ),
+    )
   }
 }

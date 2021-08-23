@@ -22,7 +22,6 @@ export const getStaticProps = wrapper.getStaticProps((store) => async () => {
     userData: { userDetail },
   } = getState()
   await dispatch(fetchFilterOptionLists())
-  console.log('User', userDetail)
   if (designers.some((x) => x.id === userDetail.user_id)) {
     await dispatch(fetchProjects('designer', userDetail.user_id))
   }

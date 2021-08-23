@@ -1,8 +1,13 @@
 .checkList {
-  width: 70%;
+  width: 75%;
   margin: 0 auto;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 25px 50px 0 rgb(0 0 0 / 10%);
   font-weight: 800;
+}
+@media only screen and (max-width: 767px) {
+  .checkList {
+    width: 100%;
+  }
 }
 
 .checkListItems li {
@@ -56,7 +61,9 @@
 .row {
   display: flex;
   flex-direction: column;
-  margin-left: 80%;
+  align-items: flex-end;
+  margin-right: 20px;
+  row-gap: 10px;
 }
 
 .skippedReason {
@@ -65,7 +72,7 @@
   padding-top: 20px;
   border-top: 2px dashed;
   margin-top: 20px;
-  height: 150px;
+  min-height: 150px;
 }
 
 .skipNone {
@@ -78,4 +85,11 @@
 .skip {
   color: #fff;
   transition: all 0.54s ease;
+}
+
+.see_more {
+  cursor: pointer;
+  padding: 10px;
+  font-size: 18px;
+  align-items: center;
 }

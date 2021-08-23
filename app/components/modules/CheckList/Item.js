@@ -1,14 +1,34 @@
-import React from 'react'
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import React, { useState } from 'react'
+import {
+  CaretDownOutlined,
+  CheckOutlined,
+  CloseOutlined,
+} from '@ant-design/icons'
 import classnames from 'classnames'
+import HTMLReactParser from 'html-react-parser'
+import FormField from 'elements/Form'
 
-function Item({ id, type, text, styles, completeAction, skipAction }) {
+function Item({
+  id,
+  statustype,
+  statusReason,
+  list_item: listItem,
+  description,
+  extra_description_needed: extraDescriptionNeeded,
+  styles,
+  completeAction,
+  skipAction,
+  handleChangeReasonForSkip,
+}) {
   const [show, setShow] = React.useState(false)
+  const [seeMore, setSeeMore] = useState(false)
+
+  const handleSeeMore = () => setSeeMore(!seeMore)
 
   let style
-  if (type === 'completed') {
+  if (statustype === 'completed') {
     style = { color: '#fff', background: 'rgb(30, 128, 91)' }
-  } else if (type === 'skipped') {
+  } else if (statustype === 'skipped') {
     style = { color: '#fff', background: 'rgb(187, 15, 70)' }
   } else {
     style = { color: 'black', background: '#fff' }
@@ -19,7 +39,16 @@ function Item({ id, type, text, styles, completeAction, skipAction }) {
       onMouseLeave={() => setShow(false)}
       style={style}
     >
-      <span>{text}</span>
+      <span>
+        {listItem}{' '}
+        {extraDescriptionNeeded === 'yes' ? (
+          <span className={styles.see_more} onClick={handleSeeMore} aria-hidden>
+            <CaretDownOutlined />
+          </span>
+        ) : (
+          ''
+        )}
+      </span>
       {show && (
         <div className={styles.itemActions}>
           <CheckOutlined
@@ -34,11 +63,16 @@ function Item({ id, type, text, styles, completeAction, skipAction }) {
           />
         </div>
       )}
+      {seeMore && (
+        <div className={`${styles.description}`}>
+          {HTMLReactParser(description)}
+        </div>
+      )}
 
       <div
         className={classnames({
-          [styles.skipNone]: type !== 'skipped',
-          [styles.skippedReason]: type === 'skipped',
+          [styles.skipNone]: statustype !== 'skipped',
+          [styles.skippedReason]: statustype === 'skipped',
           [styles.skip]: true,
         })}
       >
@@ -46,17 +80,11 @@ function Item({ id, type, text, styles, completeAction, skipAction }) {
           <label htmlFor={`skipped_reason[${id}]`}>Skipped Reason</label>
         </div>
         <div>
-          <textarea
-            name={`skipped_reason[${id}]`}
-            cols="20"
-            rows="5"
-            style={{
-              fontSize: 13,
-              color: 'black',
-              padding: '6px 11px',
-              height: 'auto',
-            }}
-            defaultValue="Test"
+          <FormField
+            component="TextAreaField"
+            rows={5}
+            value={statusReason}
+            onChange={(e) => handleChangeReasonForSkip(e.target.value, id)}
           />
         </div>
       </div>

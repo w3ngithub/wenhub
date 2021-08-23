@@ -1,21 +1,5 @@
+import { formatData } from 'utils/formatData'
 import { tableBodyStyle } from './constants'
-
-export const labels = [
-  'Estimated Hours',
-  'Bug',
-  'Change Request',
-  'Data Entry',
-  'Debugging',
-  'Fixing',
-  'Maintenance',
-  'Migration',
-  'New Request',
-  'QA',
-  'QA Fixing',
-  'Research',
-  'RFE',
-]
-export const values = [12, 9, 5, 5, 6, 3, 3, 4, 6, 7, 4, 5, 7]
 
 export const TimeSummaryTableData = (
   estimatedHours,
@@ -25,47 +9,18 @@ export const TimeSummaryTableData = (
   {
     id: '1',
     name: 'Estimated Hours',
-    time: estimatedHours || '',
+    time: formatData(estimatedHours) || '',
   },
   {
     id: '2',
     name: 'Time Spent',
-    time: totalTimeSpent || '',
+    time: formatData(totalTimeSpent) || '',
   },
-  { id: '3', name: 'Time Spent This Week', time: weeklyTimeSpent || '' },
-]
-
-export const chartLogTypesOptions = [
-  { label: 'All', value: '0' },
-  { label: 'Estimated Hours', value: '1' },
-  { label: 'Bug', value: '2' },
-  { label: 'Change Request', value: '3' },
-  { label: 'Data Entry', value: '4' },
-  { label: 'Debugging', value: '5' },
-  { label: 'Fixing', value: '6' },
-  { label: 'Maintenance', value: '7' },
-  { label: 'Migration', value: '8' },
-  { label: 'New Request', value: '9' },
-  { label: 'QA', value: '10' },
-  { label: 'QA Fixing', value: '11' },
-  { label: 'Research', value: '12' },
-  { label: 'RFE', value: '13' },
-]
-
-export const backGroundColorOfChartItems = [
-  'rgba(255, 99, 132, 1)',
-  'rgba(54, 162, 235, 1)',
-  'rgba(255, 206, 86, 1)',
-  'rgba(75, 192, 192, 1)',
-  'rgba(153, 102, 255, 1)',
-  'rgba(255, 159, 64, 1)',
-  'rgba(255, 159, 64, 1)',
-  'rgba(255, 159, 64, 1)',
-  'rgba(255, 159, 64, 1)',
-  'rgba(255, 159, 64, 1)',
-  'rgba(255, 159, 64, 1)',
-  'rgba(255, 159, 64, 1)',
-  'rgba(255, 159, 64, 1)',
+  {
+    id: '3',
+    name: 'Time Spent This Week',
+    time: formatData(weeklyTimeSpent) || '',
+  },
 ]
 
 export const logTimeTableColumns = (handlesetRowDataForEdit, styles) => [
