@@ -1,15 +1,53 @@
 import React, { useState } from 'react'
-import { Table } from 'antd'
-import { tableBodyStyle } from 'constants/constants'
+import { connect } from 'react-redux'
 import Select from 'components/elements/Select'
+import { fetchLmsArchives } from 'redux/lms/lmsActions'
+import HTMLReactParser from 'html-react-parser'
+import moment from 'moment'
+import Loader from 'components/elements/Loader'
+import useDidMountEffect from 'hooks/useDidMountEffect'
+import PaginateTable from '../PaginateTable'
 import styles from './styles.module.css'
 
-function LmsArchive() {
+function LmsArchive({
+  archiveTypes,
+  lmsLoading,
+  archives,
+  totalArchives,
+  userDetail,
+  leaveFields,
+  ...props
+}) {
   const [archive, setArchive] = useState({})
-  const [archiveData] = useState([])
-  const handleArchiveChange = (e) => {
-    setArchive(e)
-  }
+  const [page, setPage] = useState({ pageNo: 1, perPage: 10 })
+
+  useDidMountEffect(
+    () =>
+      props.fetchLmsArchives(
+        userDetail.user_id,
+        page.pageNo,
+        page.perPage,
+        archive.value,
+      ),
+    [archive, page],
+  )
+
+  const data = archives.map((x) => {
+    const dates = x?.meta?.leave_dates.map((d) => (
+      <p key={d?.id}>{moment(d?.leave_date).format('YYYY-MM-DD')}</p>
+    ))
+    const leaveType = leaveFields?.leave_type.find((y) =>
+      x?.leave_type?.includes(y.id),
+    )
+
+    return {
+      key: x.id,
+      dates,
+      leave_type: leaveType?.name,
+      reason: HTMLReactParser(x?.content?.rendered),
+    }
+  })
+
   return (
     <div className={styles.lsm_archive_container}>
       <div className={styles.archive_filter}>
@@ -18,98 +56,45 @@ function LmsArchive() {
           id="view_archive"
           value={archive}
           placeholder="Select From Past Archive"
-          options={[{ label: 'Archived 07-15-19', value: 'Archived 07-15-19' }]}
-          onChange={handleArchiveChange}
-          style={{
-            fontSize: '0.7rem',
-            fontWeight: 'bold',
-            textAlign: 'left',
-            minWidth: '190px',
-          }}
+          options={archiveTypes.map((x) => ({
+            label: x.name,
+            value: x.id,
+          }))}
+          onChange={(e) => setArchive(e)}
         />
       </div>
-      {archive.value && archiveData && (
+      {archive.value && (
         <div className={styles.archive_table}>
-          <Table
-            tableBodyStyle={{ backgroundColor: '#fff' }}
-            pagination={false}
+          <PaginateTable
+            handlePagination={(pageNo, perPage) => setPage({ pageNo, perPage })}
+            postPerPage={page.perPage}
+            currentPage={page.pageNo}
+            loading={{ spinning: lmsLoading, indicator: <Loader /> }}
             columns={[
-              {
-                key: 'dates',
-                title: 'DATES',
-                keyIndex: 'dates',
-                dataIndex: 'dates',
-                render: (texts) => ({
-                  props: {
-                    style: tableBodyStyle,
-                  },
-                  children: texts.map((text) => <p key={text}>{text}</p>),
-                }),
-              },
-              {
-                key: 'leave_type',
-                title: 'LEAVE TYPE',
-                keyIndex: 'leave_type',
-                dataIndex: 'leave_type',
-                render: (text) => ({
-                  props: {
-                    style: tableBodyStyle,
-                  },
-                  children: text,
-                }),
-              },
-              {
-                key: 'reason',
-                title: 'REASON',
-                keyIndex: 'reason',
-                dataIndex: 'reason',
-                render: (text) => ({
-                  props: {
-                    style: tableBodyStyle,
-                  },
-                  children: text,
-                }),
-              },
+              { keyIndex: 'dates', title: 'Dates' },
+              { keyIndex: 'leave_type', title: 'Leave Type' },
+              { keyIndex: 'reason', title: 'Reason' },
             ]}
-            dataSource={[
-              {
-                key: '1',
-                dates: ['07-07-21'],
-                leave_type: 'Sick',
-                reason: 'test again again test again againtestagain',
-              },
-              {
-                key: '2',
-                dates: [
-                  '07-07-21',
-                  '07-08-21',
-                  '07-09-21',
-                  '07-12-21',
-                  '07-13-21',
-                ],
-                leave_type: 'Sick',
-                reason:
-                  'Dear All I am writing this lettere examination of MCIS. ',
-              },
-              {
-                key: '3',
-                dates: ['07-15-21', '07-16-21'],
-                leave_type: 'Sick',
-                reason: 'test again again',
-              },
-              {
-                key: '4',
-                dates: ['07-15-21'],
-                leave_type: 'Sick',
-                reason: 'test again again',
-              },
-            ]}
+            data={data}
+            totalData={totalArchives}
           />
         </div>
       )}
-      {archive.value && !archiveData && <h3>No Leaves Taken till now</h3>}
     </div>
   )
 }
 
-export default LmsArchive
+const mapStateToProps = ({
+  lmsData: { archiveTypes, lmsLoading, archives, totalArchives },
+  userData: { userDetail },
+  commonData: { leaveFields },
+}) => ({
+  archiveTypes,
+  lmsLoading,
+  archives,
+  totalArchives,
+  userDetail,
+  leaveFields,
+})
+
+export default connect(mapStateToProps, { fetchLmsArchives })(LmsArchive)

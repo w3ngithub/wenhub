@@ -8,6 +8,7 @@ import { getDataDetail } from 'utils/commonFunctions'
 import { fetchFilteredProject } from 'redux/project/projectActions'
 import HomePageForm from 'modules/HomePageForm'
 import ModalDetail from 'components/modules/ModalDetail'
+import Loader from 'components/elements/Loader'
 import { projectColumns, projectDetailColumns } from 'constants/homeConstants'
 import styles from './HomePage.module.css'
 
@@ -16,6 +17,7 @@ const HomePage = ({
   filterType,
   totalData,
   userDetail,
+  loading,
   ...props
 }) => {
   const router = useRouter()
@@ -128,6 +130,7 @@ const HomePage = ({
         designers={designers}
       />
       <PaginateTable
+        loading={{ spinning: loading, indicator: <Loader /> }}
         columns={projectColumns}
         data={data}
         handlePagination={(pgNo, pgSize) =>

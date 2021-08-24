@@ -1,13 +1,61 @@
-import React, { useState } from 'react'
-import ListTable from 'components/elements/Table'
-import { userLeaveColumns } from 'constants/lmsAdminConstants'
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import moment from 'moment'
+import { fetchLmsCancelled } from 'redux/lms/lmsActions'
+import { getLeaveDetail } from 'utils/commonFunctions'
+import { lmsAdminConstants } from 'constants/lmsAdminConstants'
 import ButtonComponent from 'components/elements/Button'
-import styles from './styles.module.css'
+import Loader from 'components/elements/Loader'
+import PaginateTable from '../PaginateTable'
 import ModalDetail from '../ModalDetail'
+import styles from './styles.module.css'
 
-const Cancelled = () => {
+const Cancelled = ({
+  lmsCancelled,
+  totalCancelled,
+  lmsLoading,
+  leaveFields,
+  ...props
+}) => {
   const [detail, setDetail] = useState({})
   const [showDetail, setShowDetail] = useState(false)
+  const [page, setPage] = useState({ pageNo: 1, postPerPage: 10 })
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    const da = lmsCancelled.map((x) => {
+      const dates = x?.meta?.leave_dates.map((d) => (
+        <p key={d?.id}>{moment(d?.leave_date).format('YYYY-MM-DD')}</p>
+      ))
+      const leaveType = leaveFields?.leave_type.find((y) =>
+        x?.leave_type?.includes(y.id),
+      )
+      // eslint-disable-next-line dot-notation
+      const applicant = x['_embedded']?.author[0]?.name
+
+      return {
+        key: x?.id,
+        applicant,
+        dates,
+        leave_type: leaveType?.name,
+        action: (
+          <div style={{ display: 'flex', gap: 5 }}>
+            <ButtonComponent
+              btnText="View Details"
+              className={styles.viewButton}
+              onClick={() =>
+                handleDetailModal({
+                  ...getLeaveDetail(x, dates, leaveType, applicant),
+                  cancel_message: x?.meta?.leave_cancelled_message,
+                })
+              }
+            />
+          </div>
+        ),
+      }
+    })
+    setData(da)
+  }, [lmsCancelled])
 
   const handleDetailModal = (d) => {
     if (showDetail) {
@@ -19,40 +67,22 @@ const Cancelled = () => {
     }
   }
 
+  const handlePagination = (p, s) => {
+    setPage({ pageNo: p, postPerPage: s })
+    props.fetchLmsCancelled(p, s)
+  }
+
   return (
     <>
-      <div className={styles.responsiveLmsAdminTable}>
-        <ListTable
-          columns={userLeaveColumns}
-          data={[
-            {
-              key: 1,
-              applicant: 'Ashok Ganika',
-              leave_dates: '07-07-21',
-              leave_type: 'Casual',
-              action: (
-                <>
-                  <ButtonComponent
-                    btnText="View Details"
-                    className={styles.viewButton}
-                    onClick={() =>
-                      handleDetailModal({
-                        key: 1,
-                        applicant: 'Ashok Ganika',
-                        dates: '07-07-21',
-                        leave_type: 'Casual',
-                        reason: 'sjdlfksjdfl',
-                        team_leads: 'Rujal Sapkota',
-                        cancel_message: 'sdfjsdhfksdfhsdf',
-                      })
-                    }
-                  />
-                </>
-              ),
-            },
-          ]}
-        />
-      </div>
+      <PaginateTable
+        columns={lmsAdminConstants}
+        data={data}
+        handlePagination={handlePagination}
+        loading={{ spinning: lmsLoading, indicator: <Loader /> }}
+        currentPage={page.pageNo}
+        postPerPage={page.postPerPage}
+        totalData={totalCancelled}
+      />
       <ModalDetail
         title="Cancelled Leave Details"
         visible={showDetail}
@@ -71,4 +101,14 @@ const Cancelled = () => {
   )
 }
 
-export default Cancelled
+const mapStateToProps = ({
+  lmsData: { lmsCancelled, totalCancelled, lmsLoading },
+  commonData: { leaveFields },
+}) => ({
+  lmsCancelled,
+  totalCancelled,
+  lmsLoading,
+  leaveFields,
+})
+
+export default connect(mapStateToProps, { fetchLmsCancelled })(Cancelled)

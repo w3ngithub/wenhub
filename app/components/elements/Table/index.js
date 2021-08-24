@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { Table } from 'antd'
 
 const { Column } = Table
-const ListTable = ({ columns, data }) => (
-  <Table dataSource={data} pagination={false}>
+const ListTable = ({ columns, data, loading }) => (
+  <Table loading={loading} dataSource={data} pagination={false}>
     {columns.map(({ title, keyIndex, style, ...col }) => (
       <Column
         title={title}
@@ -13,7 +13,7 @@ const ListTable = ({ columns, data }) => (
         {...col}
         render={(text) => ({
           props: {
-            style: style,
+            style,
           },
           children: text,
         })}
@@ -79,8 +79,9 @@ ListTable.defaultProps = {
 }
 
 ListTable.propTypes = {
-  columns: PropTypes.array.isRequired,
+  columns: PropTypes.array,
   data: PropTypes.array,
+  loading: PropTypes.object,
 }
 
 export default ListTable

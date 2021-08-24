@@ -1,15 +1,8 @@
 import * as requestFromServer from './projectCrud'
 import { projectSlice } from './projectSlice'
 
-const {
-  projectFetching,
-  projectFetchSuccess,
-  projectFetchError,
-  projectInitial,
-} = projectSlice.actions
-
-export const resetProject = () => (dispatch) =>
-  dispatch(projectInitial({ data: [] }))
+const { projectFetching, projectFetchSuccess, projectFetchError } =
+  projectSlice.actions
 
 export const fetchProjects = (userType, userId) => (dispatch) => {
   dispatch(projectFetching())

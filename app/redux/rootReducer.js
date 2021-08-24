@@ -5,6 +5,7 @@ import { projectLogSlice } from './projectLog/projectLogSlice'
 import { addMediaSlice } from './addMedia/addMediaSlice'
 import { userSlice } from './user/userSlice'
 import { logTimeSlice } from './logTime/logTime.Slice'
+import { lmsSlice } from './lms/lmsSlice'
 
 export const reducer = {
   [projectLogSlice.name]: projectLogSlice.reducer,
@@ -14,4 +15,5 @@ export const reducer = {
   [addMediaSlice.name]: addMediaSlice.reducer,
   [userSlice.name]: userSlice.reducer,
   [logTimeSlice.name]: logTimeSlice.reducer,
+  [lmsSlice.name]: lmsSlice.reducer,
 }

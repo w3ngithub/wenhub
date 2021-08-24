@@ -13,7 +13,7 @@ const makeStore = wrapMakeStore(() =>
     middleware: getDefaultMiddleware().prepend(
       nextReduxCookieMiddleware({
         secure: true,
-        subtrees: [userSlice.name],
+        subtrees: [`${userSlice.name}.userDetail`],
       }),
     ),
   }),

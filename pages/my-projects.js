@@ -13,22 +13,29 @@ function MyProjectsPage() {
 
 export default MyProjectsPage
 
-export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-  const { dispatch, getState } = store
-  const {
-    commonData: {
-      filterType: { designers, developers },
-    },
-    userData: { userDetail },
-  } = getState()
-  await dispatch(fetchFilterOptionLists())
-  if (designers.some((x) => x.id === userDetail.user_id)) {
-    await dispatch(fetchProjects('designer', userDetail.user_id))
-  }
-  if (developers.some((x) => x.id === userDetail.user_id)) {
-    await dispatch(fetchProjects('developer', userDetail.user_id))
-  }
-  return {
-    revalidate: 60,
-  }
-})
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    const { dispatch, getState } = store
+    const {
+      commonData: {
+        filterType: { designers, developers },
+      },
+      userData: { userDetail },
+    } = getState()
+    if (Object.values(userDetail).length === 0) {
+      return {
+        redirect: {
+          destination: '/wp-login',
+        },
+      }
+    }
+    await dispatch(fetchFilterOptionLists())
+    if (designers.some((x) => x.id === userDetail.user_id)) {
+      await dispatch(fetchProjects('designer', userDetail.user_id))
+    }
+    if (developers.some((x) => x.id === userDetail.user_id)) {
+      await dispatch(fetchProjects('developer', userDetail.user_id))
+    }
+    return { props: {} }
+  },
+)

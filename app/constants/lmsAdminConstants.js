@@ -1,20 +1,41 @@
 export const userLeaveColumns = [
   {
-    title: 'Applicant',
-    keyIndex: 'applicant',
+    key: 'dates',
+    title: 'DATES',
+    keyIndex: 'dates',
+    dataIndex: 'dates',
   },
   {
-    title: 'Leave Dates',
-    keyIndex: 'leave_dates',
-  },
-  {
-    title: 'Leave Type',
+    key: 'leave_type',
+    title: 'LEAVE TYPE',
     keyIndex: 'leave_type',
+    dataIndex: 'leave_type',
   },
   {
-    title: 'Actions',
-    keyIndex: 'action',
+    key: 'reason',
+    title: 'REASON',
+    keyIndex: 'reason',
+    dataIndex: 'reason',
   },
+  {
+    key: 'status',
+    title: 'STATUS',
+    keyIndex: 'status',
+    dataIndex: 'status',
+  },
+  {
+    key: 'action',
+    title: 'ACTION',
+    keyIndex: 'action',
+    dataIndex: 'action',
+  },
+]
+
+export const lmsAdminConstants = [
+  { title: 'Applicant', keyIndex: 'applicant' },
+  { title: 'Dates', keyIndex: 'dates' },
+  { title: 'Leave Type', keyIndex: 'leave_type' },
+  { title: 'Action', keyIndex: 'action' },
 ]
 
 export const pendingLeaveDetailColumns = [

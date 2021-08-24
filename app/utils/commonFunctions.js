@@ -62,3 +62,16 @@ export function getDataDetail(x = {}, pType, pStat, developer, designer, pTag) {
     important_notes: parse(x?.acf_fields?.important_notes || ''),
   }
 }
+
+export function getLeaveDetail(x, dates, leaveType, applicant) {
+  return {
+    key: x?.id,
+    applicant,
+    dates,
+    leave_type: leaveType?.name,
+    reason: x?.content?.protected
+      ? 'Protected Content'
+      : parse(x?.content?.rendered),
+    team_leads: 'Rujal Sapkota',
+  }
+}

@@ -1,7 +1,7 @@
 import React from 'react'
 import AddBlog from 'components/templates/AddBlog'
 
-const AddBlogPage = () => {
+function AddBlogPage() {
   return <AddBlog />
 }
 
