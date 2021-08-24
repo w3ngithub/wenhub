@@ -27,6 +27,7 @@ function DatePickerField({
   ranges,
   onCalendarChange,
   style,
+  ...rest
 }) {
   return (
     <>
@@ -52,6 +53,7 @@ function DatePickerField({
           ranges={ranges}
           onCalendarChange={onCalendarChange}
           style={style}
+          {...rest}
         />
       ) : (
         <DatePicker
@@ -74,6 +76,7 @@ function DatePickerField({
           defaultPickerValue={defaultPickerValue}
           showToday={showToday}
           style={style}
+          {...rest}
         />
       )}
     </>

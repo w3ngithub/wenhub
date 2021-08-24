@@ -12,3 +12,18 @@
     gap: 0px;
   }
 }
+
+.datepicker_footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.datepicker_footer > span {
+  color: #1890ff;
+  transition: all 0.25s;
+}
+
+.datepicker_footer > span:hover {
+  color: #90a9ff;
+  cursor: pointer;
+}

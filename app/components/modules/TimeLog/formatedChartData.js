@@ -1,3 +1,5 @@
+import { formatData } from 'utils/formatData'
+
 function formatedChartData(chartTypeForChart = {}, chart = {}) {
   return {
     labels:
@@ -15,13 +17,16 @@ function formatedChartData(chartTypeForChart = {}, chart = {}) {
           ]
         : [
             {
-              label: `Estimated Time: ${
-                chart.chart_data.estimated
-              }hrs     Total Time Spent: ${
-                chart.chart_data.total
-              }hrs     Total Breakdown: ${Object.values(
-                chart?.chart_data?.breakdownData,
-              ).reduce((sum, item) => sum + item, 0)}hrs   `,
+              label: `Estimated Time: ${formatData(
+                chart.chart_data.estimated,
+              )}hrs     Total Time Spent: ${formatData(
+                chart.chart_data.total,
+              )}hrs     Total Breakdown: ${formatData(
+                Object.values(chart?.chart_data?.breakdownData).reduce(
+                  (sum, item) => sum + item,
+                  0,
+                ),
+              )}hrs   `,
               data: [
                 ...(Object.values(chart?.chart_data?.breakdownData).map(
                   (c) => c,
@@ -34,10 +39,5 @@ function formatedChartData(chartTypeForChart = {}, chart = {}) {
           ],
   }
 }
-// `Estimated Time: ${chart.chart_data.estimated}hrs
-//               Total Time Spent: ${chart.chart_data.total}hrs
-//               Total Breakdown: ${Object.values(
-//                 chart?.chart_data?.breakdownData,
-//               ).reduce((sum, item) => sum + item, 0)}hrs `
 
 export default formatedChartData

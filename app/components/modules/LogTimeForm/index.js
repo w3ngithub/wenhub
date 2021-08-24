@@ -15,6 +15,7 @@ import FormField from 'components/elements/Form'
 import Button from 'components/elements/Button'
 import { API_URL } from 'constants/constants'
 import restClient from 'api/restClient'
+import { openNotification } from 'utils/notification'
 import {
   FetchLogTImeOfUser,
   fetchUserTimeSpentToday,
@@ -28,9 +29,11 @@ function LogTimeForm({
   setFormType,
   formType,
   timeLogId,
+  projectName,
 }) {
   const [visible, setVisible] = useState(false)
   const [isSubmitting, setSubmitting] = useState(false)
+  const [openDatePicker, setDatePicker] = useState(false)
   const [form] = Form.useForm()
   const { query } = useRouter()
 
@@ -62,10 +65,18 @@ function LogTimeForm({
     setSubmitting(true)
     const projectId = isAdmin ? values.project_name || '' : +query.id
     let cleanValues
+
     if (formType === 'Add') {
+      const nameOfPorject = isAdmin
+        ? projectsOfUser.find((project) => project.id === projectId)?.title
+            ?.rendered || 'Additional Time'
+        : projectName
+
       cleanValues = {
         status: 'publish',
-        title: '',
+        title: `${nameOfPorject} ${
+          JSON.parse(localStorage.getItem('userDetail'))?.user_nicename
+        } time log added ${values.date.format('YYYY-MM-DD')}`,
         content: values.remarks,
         meta: {
           hours: values.hours.concat(
@@ -110,7 +121,12 @@ function LogTimeForm({
           resetForm()
           setVisible(true)
         })
-        .catch((err) => console.log(err.response.data.message))
+        .catch((error) => {
+          openNotification({
+            type: 'error',
+            message: error.response?.data?.message || 'could not add time log',
+          })
+        })
         .finally(() => setSubmitting(false))
     } else {
       cleanValues = {
@@ -158,7 +174,12 @@ function LogTimeForm({
           resetForm()
           setVisible(true)
         })
-        .catch((err) => console.log(err.response.data.message))
+        .catch((error) => {
+          openNotification({
+            type: 'error',
+            message: error.response?.data?.message || 'could not add time log',
+          })
+        })
         .finally(() => setSubmitting(false))
     }
     setFormType('Add')
@@ -201,6 +222,38 @@ function LogTimeForm({
                 current < moment().subtract(1, 'days').startOf('day')) ||
               current > moment().endOf('day')
             }
+            open={openDatePicker}
+            onFocus={() => setDatePicker(true)}
+            onBlur={() => setDatePicker(false)}
+            onChange={() => setDatePicker(false)}
+            renderExtraFooter={() => (
+              <div className={styles.datepicker_footer}>
+                <span
+                  aria-hidden
+                  onClick={() => {
+                    form.setFieldsValue({ date: moment() })
+                    setDatePicker(false)
+                  }}
+                >
+                  Today
+                </span>
+                <span
+                  aria-hidden
+                  onClick={() => {
+                    form.setFieldsValue({ date: moment().subtract(1, 'days') })
+                    setDatePicker(false)
+                  }}
+                >
+                  Yesterday
+                </span>
+              </div>
+            )}
+            onOpenChange={(e) => {
+              if (e) {
+                setDatePicker(true)
+              }
+            }}
+            showToday={false}
           />
         </Form.Item>
         <div className={styles.hours_minutes}>
