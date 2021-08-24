@@ -1,18 +1,21 @@
 import axios from 'axios'
+import parser from 'html-react-parser'
+import { openNotification } from 'utils/notification'
 import * as requestServer from './userCrud'
 import { userSlice } from './userSlice'
 
 const {
-  loginStart,
+  setUserLoading,
   loginSuccess,
   loginFailure,
   setUserDetail,
   tokenCheckStart,
   tokenCheckFinish,
+  fetchUsersSuccess,
 } = userSlice.actions
 
 export const loginUser = (data) => (dispatch) => {
-  dispatch(loginStart())
+  dispatch(setUserLoading())
   return new Promise((resolve) => {
     requestServer
       .getUserToken(data)
@@ -24,6 +27,10 @@ export const loginUser = (data) => (dispatch) => {
       .catch((err) => {
         dispatch(loginFailure({ data: err.response.data.message }))
         console.log(err.response.data.message)
+        openNotification({
+          type: 'error',
+          message: parser(err.response?.data?.message),
+        })
       })
   })
 }
@@ -49,10 +56,23 @@ export const checkToken = (token) => (dispatch) => {
         resolve(res)
       })
       .catch((err) => {
-        if (err.response.data.data.status === 403) {
+        if (err.response?.data?.data?.status === 403) {
           dispatch(tokenCheckFinish())
           reject(err)
         }
       })
   })
+}
+
+export const fetchUsers = (token) => (dispatch) => {
+  dispatch(setUserLoading())
+  axios
+    .get('https://wendevs.com/wenhub-rt/wp-json/wp/v2/users', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) => {
+      console.log(res.data)
+      dispatch(fetchUsersSuccess({ data: res.data }))
+    })
+    .catch((err) => console.log(err.response))
 }

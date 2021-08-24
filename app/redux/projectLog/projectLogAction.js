@@ -32,7 +32,7 @@ export const fetchLogTypes = () => (dispatch) => {
     .catch((err) => {
       dispatch(
         actions.projectLogFetchError(
-          err.response.data.message || 'could not fetch data',
+          err.response?.data?.message || 'could not fetch data of logs',
         ),
       )
     })
@@ -55,7 +55,7 @@ export const fetchProjectsOfUser = () => async (dispatch) => {
   } catch (error) {
     dispatch(
       actions.projectLogFetchError(
-        error.response.data.message || 'could not fetch data',
+        error.response?.data?.message || 'could not fetch project',
       ),
     )
   }
@@ -71,7 +71,7 @@ export const fetchProjectDetailForTimeLog = (projectId) => async (dispatch) => {
   } catch (error) {
     dispatch(
       actions.projectLogFetchError(
-        error.response.data.message || 'could not fetch data',
+        error.response?.data?.message || 'could not fetch data',
       ),
     )
   }
@@ -96,7 +96,7 @@ export const fetchFilteredProjectLogs =
     } catch (error) {
       dispatch(
         actions.projectLogFetchError(
-          error.response.data.message || 'could not fetch data',
+          error.response?.data?.message || 'could not fetch data',
         ),
       )
     }
@@ -115,7 +115,7 @@ export const fetchProjectLogsFilteredByAuthorAndLogType =
     } catch (error) {
       dispatch(
         actions.projectLogFetchError(
-          error.response.data.message || 'could not fetch data',
+          error.response?.data?.message || 'could not fetch data',
         ),
       )
     }
@@ -129,7 +129,8 @@ export const fetchWeeklyTimeSpent = (projectId) => async (dispatch) => {
   } catch (error) {
     dispatch(
       actions.projectLogFetchError(
-        error.response.data.message || 'could not fetch data',
+        error.response?.data?.message ||
+          'could not fetch weekly time spent data',
       ),
     )
   }
@@ -143,7 +144,8 @@ export const fetchTotalTimeSpent = (projectId) => async (dispatch) => {
   } catch (error) {
     dispatch(
       actions.projectLogFetchError(
-        error.response.data.message || 'could not fetch data',
+        error.response?.data?.message ||
+          'could not fetch total time spent data',
       ),
     )
   }
@@ -159,7 +161,7 @@ export const fetchProjectChartData = (projectDetail) => async (dispatch) => {
   } catch (error) {
     dispatch(
       actions.projectLogFetchError(
-        error.response.data.message || 'could not fetch data',
+        error.response?.data?.message || 'could not fetch project chart data',
       ),
     )
   }
@@ -188,7 +190,7 @@ export const fetchCheckList = (clientId) => async (dispatch) => {
   } catch (error) {
     dispatch(
       actions.projectLogFetchError(
-        error.response.data.message || 'could not fetch data',
+        error.response?.data?.message || 'could not fetch checklist data',
       ),
     )
   }

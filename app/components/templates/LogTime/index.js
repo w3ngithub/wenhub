@@ -14,6 +14,7 @@ import {
 } from 'redux/logTime/logTimeActions'
 import { logTimeTableColumns } from 'constants/logTimeConstants'
 import Loader from 'components/elements/Loader'
+import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
 function LogTime() {
@@ -33,8 +34,13 @@ function LogTime() {
     setFormType('Edit')
   }
 
-  const { logsOfUser, userTimeSpentThisWeek, userTimeSpentToday, loading } =
-    useSelector((state) => state.logTime, shallowEqual)
+  const {
+    logsOfUser,
+    userTimeSpentThisWeek,
+    userTimeSpentToday,
+    loading,
+    error,
+  } = useSelector((state) => state.logTime, shallowEqual)
   const { logTypes, projectsOfUser } = useSelector(
     (state) => state.projectLog,
     shallowEqual,
@@ -47,6 +53,10 @@ function LogTime() {
     (obj, project) => ({ ...obj, [project?.id]: project?.title?.rendered }),
     {},
   )
+
+  if (error !== null) {
+    openNotification({ type: 'error', message: error })
+  }
 
   // filtered logs of user showing logs of only 1 week
   const dataSource = logsOfUser

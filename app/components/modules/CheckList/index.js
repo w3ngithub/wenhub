@@ -5,6 +5,7 @@ import Button from 'components/elements/Button'
 import restClient from 'api/restClient'
 import { API_URL } from 'constants/constants'
 import { fetchProjectDetailForTimeLog } from 'redux/projectLog/projectLogAction'
+import { openNotification } from 'utils/notification'
 import Item from './Item'
 import styles from './checklist.module.css'
 
@@ -20,6 +21,7 @@ const CheckList = ({ projectId }) => {
     checkListFrom,
     generalCheckList,
     clientCheckList,
+    error: errorFromApi,
   } = useSelector((state) => state.projectLog, shallowEqual)
 
   const [checkListToUpdate, setCheckListToUpdate] = useState({
@@ -123,12 +125,18 @@ const CheckList = ({ projectId }) => {
       .then(() => {
         dispatch(fetchProjectDetailForTimeLog(projectId))
         setReviewSubmit(false)
+        openNotification({
+          type: 'success',
+          message: 'CheckList Saved Sucessfully',
+        })
       })
-      .catch((error) =>
-        console.log(
-          error.response.data.message || 'could not update checcklist',
-        ),
-      )
+      .catch((error) => {
+        openNotification({
+          type: 'error',
+          message:
+            error.response?.data?.message || 'could not update checklist',
+        })
+      })
       .finally(() => {
         setisSubmitting(false)
       })
@@ -187,6 +195,13 @@ const CheckList = ({ projectId }) => {
   const CheckListButtonText = () => {
     if (isSubmitting) return 'Saving CheckList ...'
     return reviewSubmit ? 'Submit for review >>' : 'Save Checklist'
+  }
+
+  if (errorFromApi !== null) {
+    openNotification({
+      type: 'error',
+      message: errorFromApi,
+    })
   }
 
   return (

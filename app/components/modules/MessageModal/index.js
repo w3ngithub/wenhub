@@ -2,6 +2,7 @@ import React from 'react'
 import Modal from 'components/elements/Modal'
 import FormField from 'components/elements/Form'
 import PropTypes from 'prop-types'
+import Loader from 'components/elements/Loader'
 
 function MessageModal({
   title,
@@ -12,6 +13,7 @@ function MessageModal({
   footer,
   value,
   onTextChange,
+  loading,
 }) {
   return (
     <Modal
@@ -21,6 +23,19 @@ function MessageModal({
       variant={variant}
       footer={footer}
     >
+      {loading ? (
+        <div
+          style={{
+            position: 'absolute',
+            zIndex: 1000,
+            top: '40%',
+            left: '0%',
+            width: '100%',
+          }}
+        >
+          <Loader />
+        </div>
+      ) : null}
       <div>{bodyText}</div>
       <div>
         <FormField
@@ -51,6 +66,7 @@ MessageModal.propTypes = {
   footer: PropTypes.array,
   value: PropTypes.string,
   onTextChange: PropTypes.func,
+  loading: PropTypes.bool,
 }
 
 export default MessageModal
