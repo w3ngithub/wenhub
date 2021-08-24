@@ -21,6 +21,7 @@ import {
   logTimeTableColumns,
   TimeSummaryTableData,
 } from 'constants/projectLogConstants'
+import { openNotification } from 'utils/notification'
 import formatedChartData from './formatedChartData'
 import Chart from './LogtimeChart'
 import styles from './styles.module.css'
@@ -41,6 +42,7 @@ function TimeLog({ estimatedHours, projectId }) {
     totalTimeSpent,
     chart,
     chartLoading,
+    error,
   } = useSelector((state) => state.projectLog, shallowEqual)
   const cleanLogTypes = logTypes?.reduce(
     (obj, log) => ({ ...obj, [log.id]: log?.name }),
@@ -191,6 +193,13 @@ function TimeLog({ estimatedHours, projectId }) {
     logs = dataSource
   }
 
+  if (error !== null) {
+    openNotification({
+      type: 'error',
+      message: error,
+    })
+  }
+
   return (
     <div className={styles.timelog_container}>
       <div className={styles.add_time_log}>
@@ -199,6 +208,7 @@ function TimeLog({ estimatedHours, projectId }) {
           setFormType={setFormType}
           formType={formType}
           timeLogId={rowDataForEdit?.key || ''}
+          projectName={projectDetailForTimeLog.title?.rendered}
         />
       </div>
       <div className={styles.time_summary}>

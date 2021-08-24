@@ -6,6 +6,7 @@ import ButtonComponent from 'components/elements/Button'
 import FormField from 'components/elements/Form'
 import { connect } from 'react-redux'
 import { loginUser } from 'redux/user/userActions'
+import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
 function Login(props) {
@@ -20,6 +21,8 @@ function Login(props) {
       } else {
         router.push(props.history[props.history.length - 2])
       }
+    } else {
+      openNotification({ type: 'info', message: 'invalid login credentials' })
     }
   }
   return (

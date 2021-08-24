@@ -12,6 +12,7 @@ import useScreenWidthHeightHook from 'hooks/useScreenWidthHeightHook'
 import Loader from 'components/elements/Loader'
 import SelectComponent from 'components/elements/Select'
 import FormField from 'components/elements/Form'
+import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 import style from './styles.module.scss'
 
@@ -44,13 +45,18 @@ function MediaLibrary({ clearUploadFiles }) {
   })
   const [screenWidth] = useScreenWidthHeightHook()
 
-  const { loading, remoteMedialFiles, remoteSelectedFiles } = useSelector(
-    (state) => state.addMedia,
-    shallowEqual,
-  )
+  const { loading, remoteMedialFiles, remoteSelectedFiles, error } =
+    useSelector((state) => state.addMedia, shallowEqual)
 
   const handleSearch = (e) => {
     setSearchValue(e.target.value)
+  }
+
+  if (error !== '') {
+    openNotification({
+      type: 'error',
+      message: error || 'could not load files',
+    })
   }
 
   if (searchValue) {

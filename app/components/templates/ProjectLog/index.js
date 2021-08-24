@@ -8,10 +8,11 @@ import TimeLog from 'components/modules/TimeLog'
 import Tab from 'components/elements/Tabs'
 import Details from 'components/elements/Detail'
 import Checklist from 'components/modules/CheckList'
+import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
 function ProjectLog() {
-  const { projectDetailForTimeLog } = useSelector(
+  const { projectDetailForTimeLog, error } = useSelector(
     (state) => state.projectLog,
     shallowEqual,
   )
@@ -60,6 +61,13 @@ function ProjectLog() {
     designer,
     projectTag,
   )
+
+  if (error !== null) {
+    openNotification({
+      type: 'error',
+      message: error,
+    })
+  }
 
   return (
     <div className={styles.time_log_container}>

@@ -1,4 +1,6 @@
 import axios from 'axios'
+import parser from 'html-react-parser'
+import { openNotification } from 'utils/notification'
 import * as requestServer from './userCrud'
 import { userSlice } from './userSlice'
 
@@ -24,6 +26,10 @@ export const loginUser = (data) => (dispatch) => {
       .catch((err) => {
         dispatch(loginFailure({ data: err.response.data.message }))
         console.log(err.response.data.message)
+        openNotification({
+          type: 'error',
+          message: parser(err.response?.data?.message),
+        })
       })
   })
 }
@@ -49,7 +55,7 @@ export const checkToken = (token) => (dispatch) => {
         resolve(res)
       })
       .catch((err) => {
-        if (err.response.data.data.status === 403) {
+        if (err.response?.data?.data?.status === 403) {
           dispatch(tokenCheckFinish())
           reject(err)
         }
