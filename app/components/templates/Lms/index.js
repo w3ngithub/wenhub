@@ -8,8 +8,9 @@ import Archive from 'components/modules/LmsArchive'
 import FAQ from './LmsFaq'
 import styles from './styles.module.css'
 
-function Lms() {
+function Lms({ leaveFields, teamLeads }) {
   const [alertVisible, setAlertVisible] = useState(false)
+
   return (
     <div className={styles.lms_container}>
       <div className={styles.leave_days_detail}>
@@ -52,9 +53,18 @@ function Lms() {
             {
               id: '1',
               tab: 'Apply',
-              content: <Apply setAlertVisible={setAlertVisible} />,
+              content: (
+                <Apply
+                  setAlertVisible={setAlertVisible}
+                  teamLeads={teamLeads}
+                />
+              ),
             },
-            { id: '2', tab: 'History', content: <History /> },
+            {
+              id: '2',
+              tab: 'History',
+              content: <History leaveFields={leaveFields} />,
+            },
             { id: '3', tab: 'FAQ', content: <FAQ /> },
             { id: '4', tab: 'Archive', content: <Archive /> },
           ]}

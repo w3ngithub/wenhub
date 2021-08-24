@@ -5,6 +5,7 @@ import { commonSlice } from './commonSlice'
 const {
   filterOptionsFetching,
   filterOptionsFetchingSuccess,
+  developerDesignerFetchSucess,
   filterOptionsFetchingError,
   categoriesFetching,
   categoriesFetchingSuccess,
@@ -12,6 +13,9 @@ const {
   categoryFetching,
   categoryFetchingSuccess,
   categoryFetchError,
+  leaveFieldsFetching,
+  leaveFieldsSuccess,
+  leaveFieldsFailure,
 } = commonSlice.actions
 
 export const fetchFilterOptionLists = () => (dispatch) => {
@@ -56,5 +60,37 @@ export const fetchCategoryById = (id) => (dispatch) => {
     .catch((err) => {
       dispatch(categoryFetchError({ error: 'Sending Error' }))
       console.log(err.response)
+    })
+}
+
+export const fetchLeaveFields = () => (dispatch) => {
+  dispatch(leaveFieldsFetching())
+  return requestFromServer
+    .leaveFields()
+    .then(
+      axios.spread((...response) => {
+        const data = response.map((x) => x.data)
+        dispatch(leaveFieldsSuccess({ data }))
+      }),
+    )
+    .catch((err) => {
+      dispatch(leaveFieldsFailure({ error: 'Sending Error' }))
+      console.log('Error Response is as follows', err)
+    })
+}
+
+export const fetchDeveloperDesigner = () => (dispatch) => {
+  dispatch(filterOptionsFetching())
+  return requestFromServer
+    .getDeveloperDesigner()
+    .then(
+      axios.spread((...response) => {
+        const data = response.map((x) => x.data)
+        dispatch(developerDesignerFetchSucess({ data }))
+      }),
+    )
+    .catch((err) => {
+      dispatch(filterOptionsFetchingError({ error: 'Error Fetching' }))
+      console.log(err)
     })
 }

@@ -5,16 +5,17 @@ import * as requestServer from './userCrud'
 import { userSlice } from './userSlice'
 
 const {
-  loginStart,
+  setUserLoading,
   loginSuccess,
   loginFailure,
   setUserDetail,
   tokenCheckStart,
   tokenCheckFinish,
+  fetchUsersSuccess,
 } = userSlice.actions
 
 export const loginUser = (data) => (dispatch) => {
-  dispatch(loginStart())
+  dispatch(setUserLoading())
   return new Promise((resolve) => {
     requestServer
       .getUserToken(data)
@@ -61,4 +62,17 @@ export const checkToken = (token) => (dispatch) => {
         }
       })
   })
+}
+
+export const fetchUsers = (token) => (dispatch) => {
+  dispatch(setUserLoading())
+  axios
+    .get('https://wendevs.com/wenhub-rt/wp-json/wp/v2/users', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) => {
+      console.log(res.data)
+      dispatch(fetchUsersSuccess({ data: res.data }))
+    })
+    .catch((err) => console.log(err.response))
 }

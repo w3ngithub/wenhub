@@ -116,8 +116,7 @@
   margin-top: 5px;
 }
 
-.responsiveLmsAdminTable {
-  width: 100%;
-  overflow-x: auto;
-  white-space: nowrap;
+.filterButton {
+  background-color: #182582;
+  border-color: #182582;
 }

@@ -4,6 +4,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 const initialState = {
   userDetail: {},
   userLoading: false,
+  users: [],
   error: '',
 }
 
@@ -11,7 +12,7 @@ export const userSlice = createSlice({
   name: 'userData',
   initialState,
   reducers: {
-    loginStart: (state) => {
+    setUserLoading: (state) => {
       state.userLoading = true
     },
     loginSuccess: (state, { payload }) => {
@@ -30,6 +31,14 @@ export const userSlice = createSlice({
     },
     tokenCheckFinish: (state) => {
       state.userLoading = false
+    },
+    fetchUsersSuccess: (state, { payload }) => {
+      state.userLoading = false
+      state.users = payload.data
+    },
+    fetchUsersFailure: (state, { payload }) => {
+      state.userLoading = false
+      state.error = payload.error
     },
   },
   extraReducers: {

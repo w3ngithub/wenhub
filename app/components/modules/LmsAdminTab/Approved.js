@@ -1,16 +1,72 @@
-import React, { useState } from 'react'
-import ListTable from 'components/elements/Table'
+import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
+import moment from 'moment'
+import { getLeaveDetail } from 'utils/commonFunctions'
 import ButtonComponent from 'components/elements/Button'
-import { userLeaveColumns } from 'constants/lmsAdminConstants'
+import Loader from 'components/elements/Loader'
+import { fetchLmsApproved, cancelLmsLeave } from 'redux/lms/lmsActions'
+import { lmsAdminConstants } from 'constants/lmsAdminConstants'
 import styles from './styles.module.css'
 import ModalDetail from '../ModalDetail'
 import MessageModal from '../MessageModal'
+import PaginateTable from '../PaginateTable'
 
-const Approved = () => {
+const Approved = ({
+  lmsApproved,
+  totalApproved,
+  lmsLoading,
+  leaveFields,
+  ...props
+}) => {
   const [detail, setDetail] = useState({})
   const [showDetail, setShowDetail] = useState(false)
-  const [messageModal, setShowMessageModal] = useState(false)
+  const [messageModal, setShowMessageModal] = useState({
+    leaveId: '',
+    status: false,
+  })
   const [reasonText, setReasonText] = useState('')
+  const [page, setPage] = useState({ pageNo: 1, postPerPage: 10 })
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    const da = lmsApproved.map((x) => {
+      const dates = x?.meta?.leave_dates.map((d) => (
+        <p key={d?.id}>{moment(d?.leave_date).format('YYYY-MM-DD')}</p>
+      ))
+      const leaveType = leaveFields?.leave_type.find((y) =>
+        x?.leave_type?.includes(y.id),
+      )
+      // eslint-disable-next-line dot-notation
+      const applicant = x['_embedded']?.author[0]?.name
+
+      return {
+        key: x?.id,
+        applicant,
+        dates,
+        leave_type: leaveType?.name,
+        action: (
+          <div style={{ display: 'flex', gap: 5 }}>
+            <ButtonComponent
+              btnText="View Details"
+              className={styles.viewButton}
+              onClick={() =>
+                handleDetailModal({
+                  ...getLeaveDetail(x, dates, leaveType, applicant),
+                  approve_message: x?.meta?.leave_approved_message,
+                })
+              }
+            />
+            <ButtonComponent
+              btnText="Cancel"
+              className={styles.cancelButton}
+              onClick={() => handleCancel(x?.id)}
+            />
+          </div>
+        ),
+      }
+    })
+    setData(da)
+  }, [lmsApproved])
 
   const handleDetailModal = (d) => {
     if (showDetail) {
@@ -22,55 +78,44 @@ const Approved = () => {
     }
   }
 
-  const handleCancel = () => {
-    setShowDetail(false)
-    setShowMessageModal(true)
+  const handleCloseModal = () => {
+    setReasonText('')
+    setShowMessageModal({ leaveId: '', status: false })
   }
 
-  const handleCancelLeave = () => {
-    console.log(reasonText)
-    // dispatch api for apply leave or cancel leave
+  const handleCancel = (id) => {
+    setShowDetail(false)
+    setShowMessageModal({ leaveId: id, status: true })
+  }
+
+  const handleCancelLeave = async () => {
+    if (reasonText.length > 0) {
+      await props.cancelLmsLeave(messageModal.leaveId, {
+        meta: {
+          leave_cancelled_message: reasonText,
+        },
+        leave_status: [152],
+      })
+      handleCloseModal()
+    }
+  }
+
+  const handlePagination = (p, s) => {
+    setPage({ pageNo: p, postPerPage: s })
+    props.fetchLmsApproved(p, s)
   }
 
   return (
     <>
-      <div className={styles.responsiveLmsAdminTable}>
-        <ListTable
-          columns={userLeaveColumns}
-          data={[
-            {
-              key: 1,
-              applicant: 'Ashok Ganika',
-              leave_dates: '07-07-21',
-              leave_type: 'Casual',
-              action: (
-                <div style={{ display: 'flex', gap: 5 }}>
-                  <ButtonComponent
-                    btnText="View Details"
-                    className={styles.viewButton}
-                    onClick={() =>
-                      handleDetailModal({
-                        key: 1,
-                        applicant: 'Ashok Ganika',
-                        dates: '07-07-21',
-                        leave_type: 'Casual',
-                        reason: 'sjdlfksjdfl',
-                        approve_message: 'Anything',
-                        team_leads: 'Rujal Sapkota',
-                      })
-                    }
-                  />
-                  <ButtonComponent
-                    btnText="Cancel"
-                    className={styles.cancelButton}
-                    onClick={handleCancel}
-                  />
-                </div>
-              ),
-            },
-          ]}
-        />
-      </div>
+      <PaginateTable
+        columns={lmsAdminConstants}
+        data={data}
+        handlePagination={handlePagination}
+        loading={{ spinning: lmsLoading, indicator: <Loader /> }}
+        currentPage={page.pageNo}
+        postPerPage={page.postPerPage}
+        totalData={totalApproved}
+      />
       <ModalDetail
         title="Approved Leave Detail"
         visible={showDetail}
@@ -89,7 +134,7 @@ const Approved = () => {
             key="cancel"
             btnText="Cancel"
             className={styles.cancelButton}
-            onClick={handleCancel}
+            onClick={() => handleCancel(detail.key)}
           />,
           <ButtonComponent
             key="close"
@@ -101,12 +146,13 @@ const Approved = () => {
         ]}
       />
       <MessageModal
+        loading={lmsLoading}
         title="Cancel Leave"
         bodyText="Reason For Cancelling Leave"
         value={reasonText}
         onTextChange={(e) => setReasonText(e.target.value)}
-        visible={messageModal}
-        handleCancel={() => setShowMessageModal(false)}
+        visible={messageModal.status}
+        handleCancel={handleCloseModal}
         footer={[
           <ButtonComponent
             key="cancel_leave"
@@ -119,7 +165,7 @@ const Approved = () => {
             btnText="Close"
             className={styles.closeButton}
             style={{ color: 'black' }}
-            onClick={() => setShowMessageModal(false)}
+            onClick={handleCloseModal}
           />,
         ]}
       />
@@ -127,4 +173,16 @@ const Approved = () => {
   )
 }
 
-export default Approved
+const mapStateToProps = ({
+  lmsData: { lmsApproved, totalApproved, lmsLoading },
+  commonData: { leaveFields },
+}) => ({
+  lmsApproved,
+  totalApproved,
+  lmsLoading,
+  leaveFields,
+})
+
+export default connect(mapStateToProps, { fetchLmsApproved, cancelLmsLeave })(
+  Approved,
+)

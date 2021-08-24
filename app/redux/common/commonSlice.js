@@ -14,6 +14,10 @@ const initialState = {
   commonLoading: false,
   error: '',
   category: {},
+  leaveFields: {
+    leave_status: [],
+    leave_type: [],
+  },
 }
 
 export const commonSlice = createSlice({
@@ -32,6 +36,14 @@ export const commonSlice = createSlice({
         developers: payload.data[3],
         designers: payload.data[4],
         projectTags: payload.data[5],
+      }
+    },
+    developerDesignerFetchSucess: (state, { payload }) => {
+      state.commonLoading = false
+      state.filterType = {
+        ...state.filterType,
+        developers: payload.data[0],
+        designers: payload.data[1],
       }
     },
     filterOptionsFetchingError: (state, { payload }) => {
@@ -57,6 +69,20 @@ export const commonSlice = createSlice({
       state.category = payload.data
     },
     categoryFetchError: (state, { payload }) => {
+      state.commonLoading = false
+      state.error = payload.error
+    },
+    leaveFieldsFetching: (state) => {
+      state.commonLoading = true
+    },
+    leaveFieldsSuccess: (state, { payload }) => {
+      state.commonLoading = false
+      state.leaveFields = {
+        leave_status: payload.data[1],
+        leave_type: payload.data[0],
+      }
+    },
+    leaveFieldsFailure: (state, { payload }) => {
       state.commonLoading = false
       state.error = payload.error
     },
