@@ -29,7 +29,15 @@ export function getDataDetail(x = {}, pType, pStat, developer, designer, pTag) {
       <ul style={{ listStyle: 'inside' }}>
         {x?.acf_fields?.staging_links !== false
           ? x?.acf_fields?.staging_links?.map((link) => (
-              <li key={link.staging_link}>{link.staging_link}</li>
+              <li key={link.staging_link}>
+                <a
+                  href={link.staging_link}
+                  target="_blank"
+                  style={{ color: '#000' }}
+                >
+                  {link.staging_link}
+                </a>
+              </li>
             ))
           : null}
       </ul>
