@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Card } from 'antd'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import Checkbox from 'antd/lib/checkbox/Checkbox'
 import Button from 'components/elements/Button'
 import restClient from 'api/restClient'
 import { API_URL } from 'constants/constants'
@@ -252,11 +253,7 @@ const CheckList = ({ projectId }) => {
 
         <div className={styles.row}>
           <div className={styles.checkbox}>
-            <input
-              type="checkbox"
-              name="submit_for_review"
-              onChange={handleChangeCheckBox}
-            />
+            <Checkbox onChange={handleChangeCheckBox} />
             <label htmlFor="submit_for_review">Submit for review:</label>
           </div>
           <div>

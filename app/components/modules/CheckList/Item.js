@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
-import {
-  CaretDownOutlined,
-  CheckOutlined,
-  CloseOutlined,
-} from '@ant-design/icons'
+import { FaCheck } from '@react-icons/all-files/fa/FaCheck'
+import { FaTimes } from '@react-icons/all-files/fa/FaTimes'
+import { AiFillCaretDown } from '@react-icons/all-files/ai/AiFillCaretDown'
 import classnames from 'classnames'
 import HTMLReactParser from 'html-react-parser'
 import FormField from 'elements/Form'
@@ -43,7 +41,7 @@ function Item({
         {listItem}{' '}
         {extraDescriptionNeeded === 'yes' ? (
           <span className={styles.see_more} onClick={handleSeeMore} aria-hidden>
-            <CaretDownOutlined />
+            <AiFillCaretDown />
           </span>
         ) : (
           ''
@@ -51,12 +49,12 @@ function Item({
       </span>
       {show && (
         <div className={styles.itemActions}>
-          <CheckOutlined
+          <FaCheck
             className={`${styles.tickIcon}`}
             title="Mark as completed"
             onClick={() => completeAction(id)}
           />
-          <CloseOutlined
+          <FaTimes
             className={`${styles.crossIcon}`}
             title="Mark as skipped"
             onClick={() => skipAction(id)}
@@ -76,7 +74,7 @@ function Item({
           [styles.skip]: true,
         })}
       >
-        <div>
+        <div style={{ marginBottom: '3px' }}>
           <label htmlFor={`skipped_reason[${id}]`}>Skipped Reason</label>
         </div>
         <div>

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
+    "@react-icons/all-files": "^4.1.0",
     "@reduxjs/toolkit": "^1.6.0",
     "antd": "^4.16.2",
     "axios": "^0.21.1",
