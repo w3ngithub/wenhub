@@ -15,7 +15,8 @@
 
 .datepicker_footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  column-gap: 10px;
 }
 
 .datepicker_footer > span {

@@ -40,3 +40,16 @@
 .tab_container {
   margin-top: 20px;
 }
+
+.faq p {
+  margin-bottom: 1.5em;
+}
+
+.faq ul {
+  list-style: disc;
+}
+
+.faq li {
+  list-style: inherit;
+  display: list-item;
+}
