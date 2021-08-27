@@ -39,3 +39,30 @@ export function cancelApproveLeave(leaveId, data) {
     true,
   )
 }
+
+export function userLeaveDaysFetch(userId) {
+  return api.all([
+    api.get(`${API_URL}/lms/leave_applied_days/${userId}`),
+    api.get(`${API_URL}/lms/leave_remaining_days/${userId}`),
+  ])
+}
+
+export function allUsersLeavesRemaining(perPage = 100, page = 1) {
+  return api.get(
+    `${API_URL}/lms/users/leaves_remaining?per_page=${perPage}&page=${page}`,
+  )
+}
+
+export function allUserFetch(perPage = 20, page = 1) {
+  return api.get(
+    `${API_URL}/users?per_page=${perPage}&page=${page}&_fields=id,name,link,avatar_urls,meta`,
+  )
+}
+
+export function allLeavesCalendarFetch() {
+  return api.get(`${API_URL}/lms/leaves/calendar`)
+}
+
+export function filteredLeaveFetch(payload) {
+  return api.post(`${API_URL}/lms/search_filter`, payload)
+}

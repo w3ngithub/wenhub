@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import { Alert } from 'antd'
 import Tabs from 'components/elements/Tabs'
+import { shallowEqual, useSelector } from 'react-redux'
 import Apply from 'components/modules/LmsApply'
 import History from 'components/modules/LmsHistory'
 import Archive from 'components/modules/LmsArchive'
@@ -10,6 +11,11 @@ import styles from './styles.module.css'
 
 function Lms({ leaveFields, teamLeads }) {
   const [alertVisible, setAlertVisible] = useState(false)
+
+  const { userLeaveDaysApplied, userLeaveDaysRemaning } = useSelector(
+    (state) => state.lmsData,
+    shallowEqual,
+  )
 
   return (
     <div className={styles.lms_container}>
@@ -20,7 +26,7 @@ function Lms({ leaveFields, teamLeads }) {
             styles.leave_days_remaining,
           )}
         >
-          Leave Days Remaining: 12
+          Leave Days Remaining: {userLeaveDaysRemaning}
         </h4>
         <h4
           className={classNames(
@@ -28,7 +34,7 @@ function Lms({ leaveFields, teamLeads }) {
             styles.leave_days_applied,
           )}
         >
-          Leave Days Applied: 1
+          Leave Days Applied: {userLeaveDaysApplied}
         </h4>
       </div>
       {alertVisible && (

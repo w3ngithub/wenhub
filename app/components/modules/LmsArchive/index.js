@@ -77,6 +77,7 @@ function LmsArchive({
             ]}
             data={data}
             totalData={totalArchives}
+            showSizeChanger
           />
         </div>
       )}

@@ -20,9 +20,9 @@
 }
 
 .labelStyle {
-  color: black;
-  font-weight: bold;
   margin-top: 3px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
 }
 
 .viewButton {
@@ -120,3 +120,21 @@
   background-color: #182582;
   border-color: #182582;
 }
+
+.responsiveLmsAdminTable {
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.exportForm {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 767px) {
+  .exportForm {
+    flex-direction: column;
+    width: 100%;
+  }
+} ;

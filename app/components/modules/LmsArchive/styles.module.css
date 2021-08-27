@@ -20,6 +20,6 @@
   }
 }
 
-.archive_table {
-  white-space: nowrap;
-}
+/* .archive_table {
+  overflow-x: auto;
+} */

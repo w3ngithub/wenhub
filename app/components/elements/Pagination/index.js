@@ -9,6 +9,7 @@ export const Paginate = ({
   style,
   currentPage,
   pageSizeOptions,
+  showSizeChanger,
 }) => (
   <Pagination
     total={length}
@@ -18,12 +19,14 @@ export const Paginate = ({
     responsive
     style={style}
     current={currentPage}
+    showSizeChanger={showSizeChanger}
   />
 )
 
 Paginate.defaultProps = {
   pageSizeOptions: [5, 10, 20],
   currentPage: 1,
+  showSizeChanger: false,
 }
 
 Paginate.propTypes = {
@@ -33,6 +36,7 @@ Paginate.propTypes = {
   style: PropTypes.object,
   currentPage: PropTypes.number,
   pageSizeOptions: PropTypes.array,
+  showSizeChanger: PropTypes.bool,
 }
 
 // export const listData = (array = [], pageSize = 5, pageNumber = 1) => {
