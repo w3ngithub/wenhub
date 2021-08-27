@@ -1,6 +1,7 @@
 import React from 'react'
 import Table from 'components/elements/Table'
 import { Paginate } from 'components/elements/Pagination'
+import styles from './styles.module.css'
 
 const PaginateTable = ({
   columns,
@@ -15,7 +16,9 @@ const PaginateTable = ({
 
   return (
     <>
-      <Table columns={columns} data={data} loading={loading} />
+      <div className={styles.homePage_table}>
+        <Table columns={columns} data={data} loading={loading} />
+      </div>
       <div style={{ marginTop: 25 }}></div>
       {data.length > 0 && (
         <Paginate

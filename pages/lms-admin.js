@@ -1,11 +1,11 @@
 import React from 'react'
 import LmsAdmin from 'components/templates/LmsAdmin'
 import { wrapper } from 'redux/store'
+import { fetchLeaveFields } from 'redux/common/commonActions'
 import {
-  fetchDeveloperDesigner,
-  fetchLeaveFields,
-} from 'redux/common/commonActions'
-import {
+  allLeavesCalendarFetch,
+  allUserFetch,
+  allUsersLeavvesRemainingFetch,
   fetchLmsApproved,
   fetchLmsCancelled,
   fetchLmsPending,
@@ -32,10 +32,12 @@ export const getServerSideProps = wrapper.getServerSideProps(
       }
     }
     await dispatch(fetchLeaveFields())
-    await dispatch(fetchDeveloperDesigner())
     await dispatch(fetchLmsPending(1, 10, 150))
     await dispatch(fetchLmsApproved(1, 10, 151))
     await dispatch(fetchLmsCancelled(1, 10, 152))
+    await dispatch(allUsersLeavvesRemainingFetch())
+    await dispatch(allUserFetch(100, 1))
+    await dispatch(allLeavesCalendarFetch())
     return { props: {} }
   },
 )

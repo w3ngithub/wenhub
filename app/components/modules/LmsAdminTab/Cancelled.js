@@ -15,47 +15,86 @@ const Cancelled = ({
   totalCancelled,
   lmsLoading,
   leaveFields,
+  isLeaveFiltered,
+  filteredLeaves,
   ...props
 }) => {
   const [detail, setDetail] = useState({})
   const [showDetail, setShowDetail] = useState(false)
   const [page, setPage] = useState({ pageNo: 1, postPerPage: 10 })
   const [data, setData] = useState([])
-
   useEffect(() => {
-    const da = lmsCancelled.map((x) => {
-      const dates = x?.meta?.leave_dates.map((d) => (
-        <p key={d?.id}>{moment(d?.leave_date).format('YYYY-MM-DD')}</p>
-      ))
-      const leaveType = leaveFields?.leave_type.find((y) =>
-        x?.leave_type?.includes(y.id),
-      )
-      // eslint-disable-next-line dot-notation
-      const applicant = x['_embedded']?.author[0]?.name
+    const da = !isLeaveFiltered
+      ? lmsCancelled?.map((x) => {
+          const dates = x?.meta?.leave_dates?.map((d) => (
+            <p key={d?.id}>{moment(d?.leave_date).format('YYYY-MM-DD')}</p>
+          ))
+          const leaveType = leaveFields?.leave_type.find((y) =>
+            x?.leave_type?.includes(y.id),
+          )
+          // eslint-disable-next-line dot-notation
+          const applicant = x['_embedded']?.author[0]?.name
 
-      return {
-        key: x?.id,
-        applicant,
-        dates,
-        leave_type: leaveType?.name,
-        action: (
-          <div style={{ display: 'flex', gap: 5 }}>
-            <ButtonComponent
-              btnText="View Details"
-              className={styles.viewButton}
-              onClick={() =>
-                handleDetailModal({
-                  ...getLeaveDetail(x, dates, leaveType, applicant),
-                  cancel_message: x?.meta?.leave_cancelled_message,
-                })
-              }
-            />
-          </div>
-        ),
-      }
-    })
+          return {
+            key: x?.id,
+            applicant,
+            dates,
+            leave_type: leaveType?.name,
+            action: (
+              <div style={{ display: 'flex', gap: 5 }}>
+                <ButtonComponent
+                  btnText="View Details"
+                  className={styles.viewButton}
+                  onClick={() =>
+                    handleDetailModal({
+                      ...getLeaveDetail(x, dates, leaveType, applicant),
+                      cancel_message: x?.meta?.leave_cancelled_message,
+                    })
+                  }
+                />
+              </div>
+            ),
+          }
+        })
+      : filteredLeaves
+          ?.filter((x) => x.status === 'Cancelled')
+          ?.map((x) => {
+            const dates = x?.leave_dates?.map((d) => (
+              <p key={d}>{moment(d).format('YYYY-MM-DD')}</p>
+            ))
+
+            // eslint-disable-next-line dot-notation
+            const applicant = x?.applicant_name
+
+            return {
+              key: x?.leave_id,
+              applicant,
+              dates,
+              leave_type: x?.leave_type,
+              action: (
+                <div style={{ display: 'flex', gap: 5 }}>
+                  <ButtonComponent
+                    btnText="View Details"
+                    className={styles.viewButton}
+                    onClick={() =>
+                      handleDetailModal({
+                        ...getLeaveDetail(
+                          x,
+                          dates,
+                          x?.leave_type,
+                          applicant,
+                          isLeaveFiltered,
+                        ),
+                        cancel_message: x?.leave_cancelled_message,
+                      })
+                    }
+                  />
+                </div>
+              ),
+            }
+          })
     setData(da)
-  }, [lmsCancelled])
+  }, [lmsCancelled, isLeaveFiltered, filteredLeaves])
 
   const handleDetailModal = (d) => {
     if (showDetail) {
@@ -81,7 +120,7 @@ const Cancelled = ({
         loading={{ spinning: lmsLoading, indicator: <Loader /> }}
         currentPage={page.pageNo}
         postPerPage={page.postPerPage}
-        totalData={totalCancelled}
+        totalData={!filteredLeaves && totalCancelled}
       />
       <ModalDetail
         title="Cancelled Leave Details"
@@ -96,19 +135,36 @@ const Cancelled = ({
           { title: 'Cancel Message', keyIndex: 'cancel_message' },
           { title: 'Team Leads', keyIndex: 'team_leads' },
         ]}
+        footer={[
+          <ButtonComponent
+            key="Close"
+            btnText="Close"
+            onClick={() => setShowDetail(false)}
+            className={styles.closeButton}
+            style={{ color: 'black' }}
+          />,
+        ]}
       />
     </>
   )
 }
 
 const mapStateToProps = ({
-  lmsData: { lmsCancelled, totalCancelled, lmsLoading },
+  lmsData: {
+    lmsCancelled,
+    totalCancelled,
+    lmsLoading,
+    isLeaveFiltered,
+    filteredLeaves,
+  },
   commonData: { leaveFields },
 }) => ({
   lmsCancelled,
   totalCancelled,
   lmsLoading,
   leaveFields,
+  isLeaveFiltered,
+  filteredLeaves,
 })
 
 export default connect(mapStateToProps, { fetchLmsCancelled })(Cancelled)

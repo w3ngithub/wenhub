@@ -12,6 +12,7 @@ import {
   fetchLmsPending,
   cancelLmsLeave,
   approveLmsLeave,
+  filteredLeaveFetch,
 } from 'redux/lms/lmsActions'
 import MessageModal from '../MessageModal'
 import ModalDetail from '../ModalDetail'
@@ -25,6 +26,10 @@ const Pending = ({
   totalPending,
   lmsLoading,
   leaveFields,
+  isLeaveFiltered,
+  filteredLeaves,
+  lmsAdminForm,
+
   ...props
 }) => {
   const [detail, setDetail] = useState({})
@@ -36,48 +41,95 @@ const Pending = ({
   const [data, setData] = useState([])
 
   useEffect(() => {
-    const da = lmsPending.map((x) => {
-      const dates = x?.meta?.leave_dates.map((d) => (
-        <p key={d?.id}>{moment(d?.leave_date).format('YYYY-MM-DD')}</p>
-      ))
-      const leaveType = leaveFields?.leave_type.find((y) =>
-        x?.leave_type?.includes(y.id),
-      )
-      // eslint-disable-next-line dot-notation
-      const applicant = x['_embedded']?.author[0]?.name
+    const da = !isLeaveFiltered
+      ? lmsPending.map((x) => {
+          const dates = x?.meta?.leave_dates.map((d) => (
+            <p key={d?.id}>{moment(d?.leave_date).format('YYYY-MM-DD')}</p>
+          ))
+          const leaveType = leaveFields?.leave_type.find((y) =>
+            x?.leave_type?.includes(y.id),
+          )
+          // eslint-disable-next-line dot-notation
+          const applicant = x['_embedded']?.author[0]?.name
 
-      return {
-        key: x?.id,
-        applicant,
-        dates,
-        leave_type: leaveType?.name,
-        action: (
-          <div style={{ display: 'flex', gap: 5 }}>
-            <ButtonComponent
-              btnText="View Details"
-              className={styles.viewButton}
-              onClick={() =>
-                handleDetailModal(
-                  getLeaveDetail(x, dates, leaveType, applicant),
-                )
-              }
-            />
-            <ButtonComponent
-              btnText="Approve"
-              className={styles.approveButton}
-              onClick={() => handleApproveCancel(x?.id, 'approve')}
-            />
-            <ButtonComponent
-              btnText="Cancel"
-              className={styles.cancelButton}
-              onClick={() => handleApproveCancel(x?.id, 'cancel')}
-            />
-          </div>
-        ),
-      }
-    })
+          return {
+            key: x?.id,
+            applicant,
+            dates,
+            leave_type: leaveType?.name,
+            action: (
+              <div style={{ display: 'flex', gap: 5 }}>
+                <ButtonComponent
+                  btnText="View Details"
+                  className={styles.viewButton}
+                  onClick={() =>
+                    handleDetailModal(
+                      getLeaveDetail(x, dates, leaveType, applicant),
+                    )
+                  }
+                />
+                <ButtonComponent
+                  btnText="Approve"
+                  className={styles.approveButton}
+                  onClick={() => handleApproveCancel(x?.id, 'approve')}
+                />
+                <ButtonComponent
+                  btnText="Cancel"
+                  className={styles.cancelButton}
+                  onClick={() => handleApproveCancel(x?.id, 'cancel')}
+                />
+              </div>
+            ),
+          }
+        })
+      : filteredLeaves
+          ?.filter((x) => x.status === 'Pending')
+          ?.map((x) => {
+            const dates = x?.leave_dates?.map((d) => (
+              <p key={d}>{moment(d).format('YYYY-MM-DD')}</p>
+            ))
+
+            // eslint-disable-next-line dot-notation
+            const applicant = x?.applicant_name
+
+            return {
+              key: x?.leave_id,
+              applicant,
+              dates,
+              leave_type: x?.leave_type,
+              action: (
+                <div style={{ display: 'flex', gap: 5 }}>
+                  <ButtonComponent
+                    btnText="View Details"
+                    className={styles.viewButton}
+                    onClick={() =>
+                      handleDetailModal(
+                        getLeaveDetail(
+                          x,
+                          dates,
+                          x?.leave_type,
+                          applicant,
+                          isLeaveFiltered,
+                        ),
+                      )
+                    }
+                  />
+                  <ButtonComponent
+                    btnText="Approve"
+                    className={styles.approveButton}
+                    onClick={() => handleApproveCancel(x?.leave_id, 'approve')}
+                  />
+                  <ButtonComponent
+                    btnText="Cancel"
+                    className={styles.cancelButton}
+                    onClick={() => handleApproveCancel(x?.leave_id, 'cancel')}
+                  />
+                </div>
+              ),
+            }
+          })
     setData(da)
-  }, [lmsPending])
+  }, [lmsPending, isLeaveFiltered, filteredLeaves])
 
   const handleDetailModal = (d) => {
     if (showDetail) {
@@ -119,6 +171,7 @@ const Pending = ({
           leave_status: [152],
         })
       }
+      await props.filteredLeaveFetch(lmsAdminForm)
       handleCloseModal()
     }
   }
@@ -200,17 +253,28 @@ const Pending = ({
 }
 
 const mapStateToProps = ({
-  lmsData: { lmsPending, totalPending, lmsLoading },
+  lmsData: {
+    lmsPending,
+    totalPending,
+    lmsLoading,
+    isLeaveFiltered,
+    filteredLeaves,
+    lmsAdminForm,
+  },
   commonData: { leaveFields },
 }) => ({
   lmsPending,
   totalPending,
   lmsLoading,
   leaveFields,
+  isLeaveFiltered,
+  filteredLeaves,
+  lmsAdminForm,
 })
 
 export default connect(mapStateToProps, {
   fetchLmsPending,
   cancelLmsLeave,
   approveLmsLeave,
+  filteredLeaveFetch,
 })(Pending)

@@ -101,6 +101,8 @@ function LmsHistory({
         length={+totalLeaves}
         pageSize={page.perPage}
         currentPage={page.pageNo}
+        hideOnSinglePage
+        showSizeChanger
       />
       <MessageModal
         loading={lmsLoading}

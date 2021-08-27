@@ -11,11 +11,21 @@ const initialState = {
   totalPending: 0,
   totalApproved: 0,
   totalCancelled: 0,
+  totalAllUSerLeavesRemaining: 0,
   faq: '',
   archiveTypes: [],
   archives: [],
   totalArchives: 0,
+  userLeaveDaysRemaning: null,
+  userLeaveDaysApplied: null,
+  allUsersLeavesRemaining: [],
   error: '',
+  allUsers: [],
+  allUserTotal: 0,
+  allLeavesCalendar: [],
+  isLeaveFiltered: false,
+  filteredLeaves: [],
+  lmsAdminForm: {},
 }
 
 export const lmsSlice = createSlice({
@@ -36,20 +46,20 @@ export const lmsSlice = createSlice({
       state.totalPending = payload.totalPending
     },
     lmsApprovedFetchSuccess: (state, { payload }) => {
-      state.lmsApproved = payload.data
       state.lmsLoading = false
+      state.lmsApproved = payload.data
       state.totalApproved = payload.totalApproved
     },
     lmsCancelledFetchSuccess: (state, { payload }) => {
-      state.lmsCancelled = payload.data
       state.lmsLoading = false
+      state.lmsCancelled = payload.data
       state.totalCancelled = payload.totalCancelled
     },
 
     lmsLeaveAddSuccess: (state, { payload: { data } }) => {
+      state.lmsLoading = false
       state.lmsLeaves = [data, ...state.lmsLeaves]
       state.lmsPending = [data, ...state.lmsPending]
-      state.lmsLoading = false
     },
 
     lmsFaqFetchSuccess: (state, { payload }) => {
@@ -96,6 +106,32 @@ export const lmsSlice = createSlice({
     lmsFailure: (state, { payload }) => {
       state.lmsLoading = false
       state.error = payload.error
+    },
+    userLeaveDaysFetchSucess: (state, { payload }) => {
+      state.lmsLoading = false
+      state.userLeaveDaysApplied = payload.userLeaveDaysApplied
+      state.userLeaveDaysRemaning = payload.userLeaveDaysRemaning
+    },
+    allUsersLeavvesRemainingFetchSucess: (state, { payload }) => {
+      state.lmsLoading = false
+      state.allUsersLeavesRemaining = payload
+    },
+    allUsersFetchSucess: (state, { payload }) => {
+      state.lmsLoading = false
+      state.allUsers = payload.data
+      state.allUsersTotal = payload.total
+    },
+    allLeavesCalendarFetchSucess: (state, { payload }) => {
+      state.lmsLoading = false
+      state.allLeavesCalendar = payload
+    },
+    filteredLeaveFetchSucess: (state, { payload }) => {
+      state.lmsLoading = false
+      state.isLeaveFiltered = true
+      state.filteredLeaves = payload
+    },
+    getlmsAdminForm: (state, { payload }) => {
+      state.lmsAdminForm = payload
     },
   },
   extraReducers: {
