@@ -71,15 +71,30 @@ export function getDataDetail(x = {}, pType, pStat, developer, designer, pTag) {
   }
 }
 
-export function getLeaveDetail(x, dates, leaveType, applicant) {
-  return {
-    key: x?.id,
-    applicant,
-    dates,
-    leave_type: leaveType?.name,
-    reason: x?.content?.protected
-      ? 'Protected Content'
-      : parse(x?.content?.rendered),
-    team_leads: 'Rujal Sapkota',
-  }
+export function getLeaveDetail(
+  x,
+  dates,
+  leaveType,
+  applicant,
+  isLeaveFiltered,
+) {
+  return isLeaveFiltered
+    ? {
+        key: x?.leave_id,
+        applicant,
+        dates,
+        leave_type: leaveType,
+        team_leads: x?.team_leads?.map((t) => <li key={t}>{t}</li>),
+        reason: x?.leave_reason,
+      }
+    : {
+        key: x?.id,
+        applicant,
+        dates,
+        leave_type: leaveType?.name,
+        reason: x?.content?.protected
+          ? 'Protected Content'
+          : parse(x?.content?.rendered),
+        team_leads: x?.meta?.team_leads_name?.map((t) => <li key={t}>{t}</li>),
+      }
 }

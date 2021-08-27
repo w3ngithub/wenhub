@@ -25,26 +25,22 @@ function LmsApply({
   const [form] = Form.useForm()
   const [isHallfLeave, setHalfLeave] = useState(false)
   const [dates, setDates] = useState([])
+  const [selectedLeaveTypes, setSelectedLeaveTypes] = useState()
 
   useEffect(() => {
     const fetchDates = async () => {
       const res = await restClient.get(
-        `${API_URL}/lms_leave?filter[meta_key]=wen_leave_user_relation&filter[meta_value]=${userDetail.user_id}&_fields=leave_status,meta.leave_dates`,
+        `${API_URL}/lms/disable_dates/${userDetail?.user_id}`,
+        true,
       )
-      const ddd = res.data
-        .filter((x) => !x.leave_status.includes(152))
-        .map((da) =>
-          da.meta.leave_dates.map((x) =>
-            moment(x.leave_date).format('YYYY-MM-DD'),
-          ),
-        )
-        .flat()
-      setDates(ddd)
+
+      setDates(res.data?.map((x) => moment(x).format('YYYY-MM-DD')))
     }
     fetchDates()
   }, [lmsLeaves])
 
   const handleLeaveTypeChange = (e) => {
+    setSelectedLeaveTypes(e.value)
     if (e.label === 'Half Day') setHalfLeave(true)
     else setHalfLeave(false)
   }
@@ -59,7 +55,7 @@ function LmsApply({
       leaveDates.push(changed)
     }
     for (let i = 0; i <= values.teams_leads.length - 1; i += 1)
-      teamLead.push(values.teams_leads[i].value)
+      teamLead.push(values.teams_leads[i])
 
     const data = {
       status: 'publish',
@@ -81,13 +77,22 @@ function LmsApply({
       leave_dates: leaveDates.join(','),
     }
 
-    await props.putLmsLeave(data)
-    form.resetFields()
+    // await props.putLmsLeave(data)
+    console.log(data)
+    handleReset()
     setAlertVisible(true)
   }
   const handleReset = () => {
     form.resetFields()
     setHalfLeave(false)
+  }
+
+  const copmareDatesForLeaveTypesCalendar = (currentDate, requiredDate) => {
+    if (selectedLeaveTypes === 154 || typeof selectedLeaveTypes === 'undefined')
+      return new Date(requiredDate) <= new Date(currentDate)
+    if (selectedLeaveTypes === 153)
+      return new Date(requiredDate) < new Date(currentDate)
+    return false
   }
 
   return (
@@ -117,10 +122,11 @@ function LmsApply({
 
                   const currentDate = calenderDate(today)
                   const requiredDate = calenderDate(date)
-
                   // Compare today all dates with todaydate
-                  const comparedDate =
-                    new Date(requiredDate) <= new Date(currentDate)
+                  const comparedDate = copmareDatesForLeaveTypesCalendar(
+                    currentDate,
+                    requiredDate,
+                  )
 
                   if (dates.includes(requiredDate) || weekend || comparedDate) {
                     return {
@@ -169,6 +175,7 @@ function LmsApply({
                     }}
                   >
                     <Select
+                      placeholder="select half leave type"
                       options={[
                         { label: 'First Half', value: '1' },
                         { label: 'Second Half', value: '2' },
@@ -193,7 +200,7 @@ function LmsApply({
                 <Checkbox.Group
                   options={teamLeads.map((x) => ({
                     label: x.user_name,
-                    value: x.user_id,
+                    value: x.user_email,
                   }))}
                 />
               </Form.Item>

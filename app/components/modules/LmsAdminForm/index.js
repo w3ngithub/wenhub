@@ -1,34 +1,81 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import moment from 'moment'
 import FormField from 'elements/Form'
 import SelectComponent from 'components/elements/Select'
 import ButtonComponent from 'components/elements/Button'
+import { filteredLeaveFetch, lmsAdminFormAction } from 'redux/lms/lmsActions'
 import styles from './styles.module.css'
 
 const LmsAdminForm = () => {
-  const [user, setUser] = React.useState({ label: 'All', value: null })
+  const { allUsers } = useSelector((state) => state.lmsData, shallowEqual)
+  const [filterDate, setFilterDate] = useState([])
+  const [filterUser, setFilterUser] = useState({ label: 'All', value: '' })
+
+  const dispatch = useDispatch()
+
+  const handleChangeUser = (e) => {
+    setFilterUser(e)
+  }
+  const handleChangeDate = (e) => {
+    setFilterDate(e)
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const cleanValues = {
+      date_from:
+        filterDate?.length !== 0
+          ? moment(filterDate[0]).format('YYYYMMDD')
+          : '',
+      date_to:
+        filterDate?.length !== 0
+          ? moment(filterDate[1]).format('YYYYMMDD')
+          : '',
+      user_id: filterUser?.value || '',
+      status: '',
+    }
+    dispatch(lmsAdminFormAction(cleanValues))
+    await dispatch(filteredLeaveFetch(cleanValues))
+  }
+
+  const handleReset = () => {
+    setFilterDate([])
+    setFilterUser({ label: 'All', value: '' })
+  }
 
   return (
-    <form className={styles.lms_admin_form}>
-      <FormField component="DatePicker" isRange />
+    <form className={styles.lms_admin_form} onSubmit={handleSubmit}>
+      <FormField
+        component="DatePicker"
+        isRange
+        onChange={handleChangeDate}
+        value={filterDate}
+      />
       <SelectComponent
-        placeholder="All"
-        value={user}
-        options={[
-          { label: 'All', value: null },
-          { label: 'Rujal', value: 1 },
-          { label: 'Ujjwal', value: 2 },
-        ]}
+        options={
+          [
+            { label: 'All', value: '' },
+            ...allUsers?.map((user) => ({ label: user.name, value: user.id })),
+          ] || []
+        }
+        value={filterUser}
         style={{
           fontSize: '0.7rem',
           fontWeight: 'bold',
           textAlign: 'left',
           minWidth: '190px',
         }}
-        onChange={(d) => setUser(d)}
+        onChange={handleChangeUser}
       />
       <div className={styles.lms_admin_form_action}>
         <ButtonComponent htmlType="submit" btnText="Filter" />
-        <ButtonComponent htmlType="button" btnText="Reset" danger />
+        <ButtonComponent
+          htmlType="button"
+          btnText="Reset"
+          danger
+          onClick={handleReset}
+        />
       </div>
     </form>
   )

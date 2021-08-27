@@ -1,34 +1,26 @@
 import React from 'react'
+import { shallowEqual, useSelector } from 'react-redux'
 import CalendarComponent from 'components/elements/Calendar'
 
-const OnLeave = () => (
-  <CalendarComponent
-    style={{ height: 500, color: 'black' }}
-    events={[
-      {
-        title: 'Mustang Visit',
-        allDay: true,
-        start: new Date(2021, 7, 1),
-        end: new Date(2021, 7, 5),
-      },
-      {
-        title: 'Pokhara Visit',
-        start: new Date(2021, 7, 7),
-        end: new Date(2021, 7, 10),
-      },
-
-      {
-        title: 'Khaptad Visit',
-        start: new Date(2021, 7, 13, 0, 0, 0),
-        end: new Date(2021, 7, 20, 0, 0, 0),
-      },
-      {
-        title: 'Badimalika Visit',
-        start: new Date(2021, 6, 13, 0, 0, 0),
-        end: new Date(2021, 7, 2, 0, 0, 0),
-      },
-    ]}
-  />
-)
+const OnLeave = () => {
+  const { allLeavesCalendar } = useSelector(
+    (state) => state.lmsData,
+    shallowEqual,
+  )
+  return (
+    <CalendarComponent
+      style={{ height: 500, color: 'black' }}
+      events={
+        allLeavesCalendar?.map((leave) => ({
+          title: leave.title,
+          start: new Date(leave.start),
+          end: new Date(leave.end),
+          allDay:
+            new Date(leave.start).getTime() === new Date(leave.end).getTime(),
+        })) || []
+      }
+    />
+  )
+}
 
 export default OnLeave
