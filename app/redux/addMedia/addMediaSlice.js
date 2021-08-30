@@ -5,6 +5,7 @@ const initialState = {
   remoteMedialFiles: [],
   remoteSelectedFiles: [],
   loading: false,
+  selectedFilesFromMedia: [],
   error: '',
 }
 
@@ -39,6 +40,9 @@ export const addMediaSlice = createSlice({
     addremoteSelectedFile: (state, action) => {
       state.loading = false
       state.remoteSelectedFiles = action.payload
+    },
+    addselectedFilesFromMedia: (state, { payload }) => {
+      state.selectedFilesFromMedia = [...state.selectedFilesFromMedia, payload]
     },
   },
 })

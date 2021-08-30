@@ -45,8 +45,13 @@ function MediaLibrary({ clearUploadFiles }) {
   })
   const [screenWidth] = useScreenWidthHeightHook()
 
-  const { loading, remoteMedialFiles, remoteSelectedFiles, error } =
-    useSelector((state) => state.addMedia, shallowEqual)
+  const {
+    loading,
+    remoteMedialFiles,
+    remoteSelectedFiles,
+    selectedFilesFromMedia,
+    error,
+  } = useSelector((state) => state.addMedia, shallowEqual)
 
   const handleSearch = (e) => {
     setSearchValue(e.target.value)
@@ -67,11 +72,6 @@ function MediaLibrary({ clearUploadFiles }) {
     media = remoteMediaFilesDropDown
   }
 
-  // selection of files by dragging
-  const handleSelection = (selectedKeyss) => {
-    setSelectedKeys(selectedKeyss)
-  }
-
   const mediaDetailsStyle = () => {
     if (screenWidth < 767) {
       if (remoteSelectedFiles.length > 0) {
@@ -80,6 +80,11 @@ function MediaLibrary({ clearUploadFiles }) {
       return 'none'
     }
     return 'block'
+  }
+
+  // selection of files by dragging
+  const handleSelection = (selectedKeyss) => {
+    setSelectedKeys(selectedKeyss)
   }
 
   // selection of files by clicking
@@ -108,6 +113,11 @@ function MediaLibrary({ clearUploadFiles }) {
       }),
     )
   }, [dateSearchFiles.value, remoteMedialFiles])
+
+  // select uploaded media from upload media files tab
+  useEffect(() => {
+    setSelectedKeys([...selectedFilesFromMedia, ...selectedKeys])
+  }, [selectedFilesFromMedia])
 
   // send selectd files to redux store
   useEffect(() => {

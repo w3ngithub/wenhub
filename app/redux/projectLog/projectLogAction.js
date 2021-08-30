@@ -24,7 +24,7 @@ export const fetchProjectLogs = (projectId) => (dispatch) => {
 
 export const fetchLogTypes = () => (dispatch) => {
   dispatch(actions.startProjectLogCall())
-  requestFromServer
+  return requestFromServer
     .fetchLogTypes()
     .then((res) => {
       dispatch(actions.logTypesFetched(res.data))

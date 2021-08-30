@@ -16,6 +16,7 @@ const {
   leaveFieldsFetching,
   leaveFieldsSuccess,
   leaveFieldsFailure,
+  clientAndProjectStatusFetchSucess,
 } = commonSlice.actions
 
 export const fetchFilterOptionLists = () => (dispatch) => {
@@ -87,6 +88,22 @@ export const fetchDeveloperDesigner = () => (dispatch) => {
       axios.spread((...response) => {
         const data = response.map((x) => x.data)
         dispatch(developerDesignerFetchSucess({ data }))
+      }),
+    )
+    .catch((err) => {
+      dispatch(filterOptionsFetchingError({ error: 'Error Fetching' }))
+      console.log(err)
+    })
+}
+
+export const clientAndProjectStatusFetch = () => (dispatch) => {
+  dispatch(filterOptionsFetching())
+  return requestFromServer
+    .clientAndProjectStatusFetch()
+    .then(
+      axios.spread((...response) => {
+        const data = response.map((x) => x.data)
+        dispatch(clientAndProjectStatusFetchSucess({ data }))
       }),
     )
     .catch((err) => {
