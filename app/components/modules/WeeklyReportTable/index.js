@@ -1,8 +1,10 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import { shallowEqual, useSelector } from 'react-redux'
 import FormField from 'elements/Form'
 import { Table } from 'antd'
 import { tableBodyStyle } from 'constants/constants'
+import Loader from 'components/elements/Loader'
 import styles from './styles.module.css'
 
 function WeeklyReportTable({ searchedPorject, handleSearchProject }) {
@@ -11,6 +13,13 @@ function WeeklyReportTable({ searchedPorject, handleSearchProject }) {
   const handlesetGotoDetails = (projectId) => {
     router.push(`/project/${projectId}`)
   }
+  const {
+    weeklyReport: { loading, weeklyReports },
+  } = useSelector((state) => state, shallowEqual)
+
+  const filteredReports = weeklyReports?.filter((r) =>
+    new RegExp(searchedPorject, 'gi').test(r.project_name),
+  )
 
   return (
     <div className={styles.weekly_report_table_container}>
@@ -25,6 +34,7 @@ function WeeklyReportTable({ searchedPorject, handleSearchProject }) {
         styles={{ marginBottom: '15px' }}
       />
       <Table
+        loading={{ spinning: loading, indicator: <Loader /> }}
         columns={[
           {
             key: 'id',
@@ -94,55 +104,13 @@ function WeeklyReportTable({ searchedPorject, handleSearchProject }) {
           },
         ]}
         dataSource={[
-          {
-            key: '7000',
-            id: 1,
-            project: 'Ido',
-            client: 'Kstart',
-            time_spent: '44.72',
-          },
-          {
-            key: '2',
-            id: 2,
-            project: 'Ido',
-            client: 'Kstart',
-            time_spent: '44.72',
-          },
-          {
-            key: '3',
-            id: 3,
-            project: 'Ido',
-            client: 'Kstart',
-            time_spent: '44.72',
-          },
-          {
-            key: '4',
-            id: 4,
-            project: 'Ido',
-            client: 'Kstart',
-            time_spent: '44.72',
-          },
-          {
-            key: '5',
-            id: 5,
-            project: 'Ido',
-            client: 'Kstart',
-            time_spent: '44.72',
-          },
-          {
-            key: '7',
-            id: 7,
-            project: 'Ido',
-            client: 'Kstart',
-            time_spent: '44.72',
-          },
-          {
-            key: '6',
-            id: 6,
-            project: 'Ido',
-            client: 'Kstart',
-            time_spent: '44.72',
-          },
+          ...filteredReports?.map((report, i) => ({
+            id: i + 1,
+            key: report.project_id,
+            project: report.project_name,
+            client: report.client,
+            time_spent: report.time_spent,
+          })),
         ]}
         pagination={false}
       />

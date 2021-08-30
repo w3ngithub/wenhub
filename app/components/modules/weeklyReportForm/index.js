@@ -1,20 +1,47 @@
 import React from 'react'
 import { Form } from 'antd'
 import moment from 'moment'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import classNames from 'classnames'
 import FormField from 'components/elements/Form'
 import Button from 'components/elements/Button'
 import Select from 'components/elements/Select'
+import { fectchWeeklyReport } from 'redux/weeklyReport/weeklyReportActions'
 import styles from './styles.module.css'
 
 function WeeklyReportForm({ searchReset }) {
   const [form] = Form.useForm()
+  const dispatch = useDispatch()
+
+  const {
+    commonData: {
+      filterType: { projectStatus, clients },
+    },
+    projectLog: { logTypes },
+  } = useSelector((state) => state, shallowEqual)
 
   const handleSubmit = (values) => {
-    console.log(values)
+    const cleanValues = {
+      date_from:
+        values.fromDateToDate?.[0]?.format('YYYYMMDD')?.toString() || '',
+      date_to: values.fromDateToDate?.[1]?.format('YYYYMMDD')?.toString() || '',
+      project_status: values.projectStatus.value,
+      log_type: values.logType.value,
+      client: values.client.value,
+    }
+    dispatch(fectchWeeklyReport(cleanValues))
   }
 
   const handleReset = () => {
+    dispatch(
+      fectchWeeklyReport({
+        date_from: '',
+        date_to: '',
+        project_status: '',
+        log_type: '',
+        client: '',
+      }),
+    )
     form.resetFields()
     searchReset()
   }
@@ -23,7 +50,15 @@ function WeeklyReportForm({ searchReset }) {
       <Form
         form={form}
         initialValues={{
-          fromDateToDate: [moment().subtract(3, 'days'), moment()],
+          fromDateToDate: [
+            moment().startOf('isoWeek'),
+            moment().day() === 0 || moment().day() === 6
+              ? moment().startOf('isoWeek').add(4, 'days')
+              : moment(),
+          ],
+          projectStatus: { label: 'Project Status', value: '' },
+          logType: { label: 'Log Type', value: '' },
+          client: { label: 'By Client', value: '' },
         }}
         onFinish={handleSubmit}
       >
@@ -46,11 +81,11 @@ function WeeklyReportForm({ searchReset }) {
             <Select
               placeholder="Project Status"
               options={[
-                { label: 'Awaiting Response', value: '1' },
-                { label: 'Completed', value: '2' },
-                { label: 'Needs Follw Up', value: '3' },
-                { label: 'Ongoing', value: '4' },
-                { label: 'Hold', value: '5' },
+                { label: 'Project Status', value: '' },
+                ...projectStatus?.map((status) => ({
+                  label: status.name,
+                  value: status.id,
+                })),
               ]}
               style={{
                 width: '100%',
@@ -65,18 +100,8 @@ function WeeklyReportForm({ searchReset }) {
             <Select
               placeholder="Log Type"
               options={[
-                { label: 'Bug', value: 'Bug' },
-                { label: 'Change Request', value: 'Change Request' },
-                { label: 'Data Entry', value: 'Data Entry' },
-                { label: 'Debugging', value: 'Debugging' },
-                { label: 'Fixing', value: 'Fixing' },
-                { label: 'Maintenance', value: 'Maintenance' },
-                { label: 'Migration', value: 'Migration' },
-                { label: 'New Request', value: 'New Request' },
-                { label: 'QA', value: 'QA' },
-                { label: 'QA Fixing', value: 'AQ Fixing' },
-                { label: 'Research', value: 'Research' },
-                { label: 'RFE', value: 'RFE' },
+                { label: 'Log Type', value: '' },
+                ...logTypes?.map((log) => ({ label: log.name, value: log.id })),
               ]}
               style={{
                 width: '100%',
@@ -91,9 +116,11 @@ function WeeklyReportForm({ searchReset }) {
             <Select
               placeholder="By Client"
               options={[
-                { label: 'Frass', value: '1' },
-                { label: 'Mustafa', value: '2' },
-                { label: 'Bsell Family', value: '3' },
+                { label: 'By Client', value: '' },
+                ...clients?.map((status) => ({
+                  label: status.name,
+                  value: status.id,
+                })),
               ]}
               style={{
                 width: '100%',

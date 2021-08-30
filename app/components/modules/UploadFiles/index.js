@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Upload, message } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
-import { addMediaFiles } from 'redux/addMedia/addMediaActions'
+import {
+  addingselectedFilesFromMedia,
+  addMediaFiles,
+  getAllMediaFiles,
+} from 'redux/addMedia/addMediaActions'
+import { API_URL } from 'constants/constants'
+import axios from 'axios'
+import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
 const { Dragger } = Upload
@@ -12,7 +19,7 @@ const warning = (msg) => {
   message.warning(msg)
 }
 
-function UplaodFiles({ clearUploadFiles }) {
+function UplaodFiles({ clearUploadFiles, setKey }) {
   const [FileList, setFileList] = useState([])
   const dispatch = useDispatch()
 
@@ -29,12 +36,39 @@ function UplaodFiles({ clearUploadFiles }) {
     }
   }
 
+  const customRequest = (options) => {
+    const formData = new FormData()
+    formData.append('file', options.file)
+    formData.append('title', options.file.name)
+    const headers = {}
+    // eslint-disable-next-line prefer-template
+    headers['Content-Disposition'] =
+      "form-data; filename='" + options.file?.name + "'"
+    headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem('userDetail'))?.token
+    }`
+    headers['Content-Type'] = 'multipart/form-data'
+
+    axios
+      .post(`${API_URL}/media`, formData, { headers })
+      .then((res) => {
+        options.onSuccess(options.file)
+        dispatch(addingselectedFilesFromMedia(res.data.id))
+        dispatch(getAllMediaFiles())
+        setKey(2)
+      })
+      .catch(() => {
+        openNotification({ type: 'error', message: 'Upload failed' })
+        options.onError('Upload failed')
+      })
+  }
+
   const props = {
     name: 'file',
     multiple: true,
     listType: 'picture',
     onChange,
-    action: '/api/uploadFiles',
+    customRequest,
     beforeUpload: (file) => {
       if (!allowedFileTypes.includes(file.type.split('/')[0])) {
         warning('Invalid File.Only images and vedios are allowed')

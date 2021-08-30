@@ -9,6 +9,7 @@ const {
   gettingRemoteMediaFiles,
   remoteMediaFilesError,
   addremoteSelectedFile,
+  addselectedFilesFromMedia,
 } = addMediaSlice.actions
 
 export const addMediaFiles = (files) => (dispatch) => dispatch(addFiles(files))
@@ -28,3 +29,7 @@ export const getAllMediaFiles = () => (dispatch) => {
 
 export const remoteMediaFilesSelected = (files) => (dispatch) =>
   dispatch(addremoteSelectedFile(files))
+
+export const addingselectedFilesFromMedia = (payload) => (dispatch) => {
+  dispatch(addselectedFilesFromMedia(payload))
+}

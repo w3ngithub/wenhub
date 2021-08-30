@@ -86,6 +86,12 @@ export const commonSlice = createSlice({
       state.commonLoading = false
       state.error = payload.error
     },
+    clientAndProjectStatusFetchSucess: (state, { payload }) => {
+      const [projectStatus, clients] = payload?.data
+      state.commonLoading = false
+      state.filterType.projectStatus = projectStatus
+      state.filterType.clients = clients
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => ({
