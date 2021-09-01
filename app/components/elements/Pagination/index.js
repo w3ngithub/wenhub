@@ -20,6 +20,7 @@ export const Paginate = ({
     style={style}
     current={currentPage}
     showSizeChanger={showSizeChanger}
+    hideOnSinglePage
   />
 )
 

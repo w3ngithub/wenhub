@@ -4,7 +4,14 @@ import moment from 'moment'
 import FormField from 'elements/Form'
 import SelectComponent from 'components/elements/Select'
 import ButtonComponent from 'components/elements/Button'
-import { filteredLeaveFetch, lmsAdminFormAction } from 'redux/lms/lmsActions'
+import {
+  fetchLmsApproved,
+  fetchLmsCancelled,
+  fetchLmsPending,
+  filteredLeaveFetch,
+  lmsAdminFormAction,
+  resetIsLeaveFilter,
+} from 'redux/lms/lmsActions'
 import styles from './styles.module.css'
 
 const LmsAdminForm = () => {
@@ -42,6 +49,10 @@ const LmsAdminForm = () => {
   const handleReset = () => {
     setFilterDate([])
     setFilterUser({ label: 'All', value: '' })
+    dispatch(fetchLmsPending(1, 10, 150))
+    dispatch(fetchLmsApproved(1, 10, 151))
+    dispatch(fetchLmsCancelled(1, 10, 152))
+    dispatch(resetIsLeaveFilter())
   }
 
   return (

@@ -9,7 +9,7 @@ export const getHttpHeaders = (isAuthenticated = false) => {
     return {
       headers: {
         Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem('userDetail')).token
+          JSON.parse(localStorage.getItem('userDetail'))?.token
         }`,
       },
     }

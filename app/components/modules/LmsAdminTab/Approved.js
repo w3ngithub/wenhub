@@ -146,8 +146,7 @@ const Approved = ({
         },
         leave_status: [152],
       })
-      await props.filteredLeaveFetch(lmsAdminForm)
-
+      if (isLeaveFiltered) await props.filteredLeaveFetch(lmsAdminForm)
       handleCloseModal()
     }
   }
@@ -166,7 +165,7 @@ const Approved = ({
         loading={{ spinning: lmsLoading, indicator: <Loader /> }}
         currentPage={page.pageNo}
         postPerPage={page.postPerPage}
-        totalData={totalApproved}
+        totalData={isLeaveFiltered ? 0 : totalApproved}
       />
       <ModalDetail
         title="Approved Leave Detail"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Upload, message } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
@@ -19,7 +19,7 @@ const warning = (msg) => {
   message.warning(msg)
 }
 
-function UplaodFiles({ clearUploadFiles, setKey }) {
+function UplaodFiles() {
   const [FileList, setFileList] = useState([])
   const dispatch = useDispatch()
 
@@ -53,11 +53,11 @@ function UplaodFiles({ clearUploadFiles, setKey }) {
       .post(`${API_URL}/media`, formData, { headers })
       .then((res) => {
         options.onSuccess(options.file)
-        dispatch(addingselectedFilesFromMedia(res.data.id))
+        dispatch(addingselectedFilesFromMedia(res.data))
         dispatch(getAllMediaFiles())
-        setKey(2)
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log('err', JSON.stringify(err))
         openNotification({ type: 'error', message: 'Upload failed' })
         options.onError('Upload failed')
       })
@@ -82,12 +82,6 @@ function UplaodFiles({ clearUploadFiles, setKey }) {
         : Upload.LIST_IGNORE
     },
   }
-
-  useEffect(() => {
-    if (clearUploadFiles) {
-      setFileList([])
-    }
-  }, [clearUploadFiles])
 
   return (
     <div className={styles.upload_files_container}>

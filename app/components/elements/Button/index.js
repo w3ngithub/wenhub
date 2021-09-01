@@ -43,7 +43,7 @@ ButtonComponent.defaultProps = {
   style: {
     color: '#fff',
     borderRadius: '3px',
-    padding: '8px 10px',
+    // padding: '8px 10px',
     fontSize: '13px',
   },
   size: 'medium',
