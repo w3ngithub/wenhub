@@ -133,6 +133,10 @@ export const lmsSlice = createSlice({
     getlmsAdminForm: (state, { payload }) => {
       state.lmsAdminForm = payload
     },
+    resetIsLeaveFilterCondition: (state) => {
+      state.isLeaveFiltered = false
+      state.filteredLeaves = []
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => ({

@@ -120,7 +120,7 @@ const Cancelled = ({
         loading={{ spinning: lmsLoading, indicator: <Loader /> }}
         currentPage={page.pageNo}
         postPerPage={page.postPerPage}
-        totalData={!filteredLeaves && totalCancelled}
+        totalData={isLeaveFiltered ? 0 : totalCancelled}
       />
       <ModalDetail
         title="Cancelled Leave Details"

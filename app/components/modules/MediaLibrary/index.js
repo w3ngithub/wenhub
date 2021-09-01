@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { SelectableGroup, createSelectable } from 'react-selectable'
+import { Popconfirm } from 'antd'
 import {
+  deleteMediaFiles,
   getAllMediaFiles,
   remoteMediaFilesSelected,
 } from 'redux/addMedia/addMediaActions'
@@ -13,6 +15,8 @@ import Loader from 'components/elements/Loader'
 import SelectComponent from 'components/elements/Select'
 import FormField from 'components/elements/Form'
 import { openNotification } from 'utils/notification'
+import { API_URL } from 'constants/constants'
+import restClient from 'api/restClient'
 import styles from './styles.module.css'
 import style from './styles.module.scss'
 
@@ -33,10 +37,20 @@ const SelectableFile = ({ children, selected, onClick }) => (
 )
 const SelectableComponent = createSelectable(SelectableFile)
 
-function MediaLibrary({ clearUploadFiles }) {
+function MediaLibrary() {
   let media = []
+  const {
+    loading,
+    remoteMedialFiles,
+    remoteSelectedFiles,
+    error,
+    remoteSelectedFilesfromMedia,
+  } = useSelector((state) => state.addMedia, shallowEqual)
   const dispatch = useDispatch()
-  const [selectedKeys, setSelectedKeys] = useState([])
+
+  const [selectedKeys, setSelectedKeys] = useState([
+    ...remoteSelectedFiles.map((file) => file?.id),
+  ])
   const [searchValue, setSearchValue] = useState('')
   const [remoteMediaFilesDropDown, selectedRemoteFilesDropdown] = useState([])
   const [dateSearchFiles, setDateSearchFiles] = useState({
@@ -45,8 +59,12 @@ function MediaLibrary({ clearUploadFiles }) {
   })
   const [screenWidth] = useScreenWidthHeightHook()
 
-  const { loading, remoteMedialFiles, remoteSelectedFiles, error } =
-    useSelector((state) => state.addMedia, shallowEqual)
+  useEffect(() => {
+    setSelectedKeys([
+      ...selectedKeys,
+      ...remoteSelectedFilesfromMedia.map((file) => file.id),
+    ])
+  }, [remoteSelectedFilesfromMedia])
 
   const handleSearch = (e) => {
     setSearchValue(e.target.value)
@@ -67,11 +85,6 @@ function MediaLibrary({ clearUploadFiles }) {
     media = remoteMediaFilesDropDown
   }
 
-  // selection of files by dragging
-  const handleSelection = (selectedKeyss) => {
-    setSelectedKeys(selectedKeyss)
-  }
-
   const mediaDetailsStyle = () => {
     if (screenWidth < 767) {
       if (remoteSelectedFiles.length > 0) {
@@ -82,6 +95,36 @@ function MediaLibrary({ clearUploadFiles }) {
     return 'block'
   }
 
+  // delete remote media file
+  const confirm = () => {
+    restClient
+      .del(
+        `${API_URL}/media/delete?ids=${remoteSelectedFiles
+          ?.map((file) => file.id)
+          .toString()}`,
+      )
+      .then(() => {
+        openNotification({
+          type: 'success',
+          message: 'file deleted successfully',
+        })
+        dispatch(
+          deleteMediaFiles([...remoteSelectedFiles.map((file) => file.id)]),
+        )
+      })
+      .catch((err) => {
+        openNotification({
+          type: 'error',
+          message: err.response?.data?.message || 'Could not delete file',
+        })
+      })
+  }
+
+  // selection of files by dragging
+  const handleSelection = (selectedKeyss) => {
+    setSelectedKeys(selectedKeyss)
+  }
+
   // selection of files by clicking
   const handleSelectImageByClick = (id) => {
     if (selectedKeys.indexOf(id) > -1) {
@@ -90,6 +133,13 @@ function MediaLibrary({ clearUploadFiles }) {
       setSelectedKeys([...selectedKeys, id])
     }
   }
+
+  // clear selectedKeys if remoteSelectedFiles is clear from model footer
+  useEffect(() => {
+    if (remoteSelectedFiles.length === 0) {
+      setSelectedKeys([])
+    }
+  }, [remoteSelectedFiles])
 
   // api call to get media files from server and store to redux
   useEffect(() => {
@@ -121,12 +171,6 @@ function MediaLibrary({ clearUploadFiles }) {
     }
   }, [JSON.stringify(selectedKeys)])
 
-  // clear selected files
-  useEffect(() => {
-    if (clearUploadFiles) {
-      setSelectedKeys([])
-    }
-  }, [clearUploadFiles])
   return (
     <div className={styles.add_media_container}>
       {loading ? (
@@ -210,7 +254,9 @@ function MediaLibrary({ clearUploadFiles }) {
                         onClick={() => handleSelectImageByClick(item.id)}
                       >
                         <Image
-                          src={item.media_details?.sizes?.thumbnail?.source_url}
+                          src={
+                            item?.media_details?.sizes?.thumbnail?.source_url
+                          }
                           alt={item.alt_text}
                           height={125}
                           width={125}
@@ -230,8 +276,7 @@ function MediaLibrary({ clearUploadFiles }) {
           >
             {remoteSelectedFiles.length > 0 && (
               <>
-                {' '}
-                <h3>ATTACHMENT DETAILS</h3>
+                <h4>ATTACHMENT DETAILS</h4>
                 <div
                   className={style.card}
                   style={{ border: '4px solid transparent', margin: '0' }}
@@ -261,7 +306,12 @@ function MediaLibrary({ clearUploadFiles }) {
                       .rendered
                   }
                 </p>
-                <p>
+                <p className={style.singleMediaDetail}>
+                  {moment(
+                    remoteSelectedFiles[remoteSelectedFiles.length - 1].date,
+                  ).format('MMMM Do YYYY')}
+                </p>
+                <p className={style.singleMediaDetail}>
                   {
                     remoteSelectedFiles[remoteSelectedFiles.length - 1]
                       .media_details.height
@@ -273,9 +323,41 @@ function MediaLibrary({ clearUploadFiles }) {
                   }{' '}
                   Pixels
                 </p>
-                <p>
+                <p className={style.singleMediaDetail}>
                   Original Image:
-                  {remoteSelectedFiles[0].media_details.original_image}
+                  <span style={{ color: '#2271b1' }}>
+                    {
+                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                        .media_details.original_image
+                    }
+                  </span>
+                </p>
+                <p className={style.singleMediaDetail}>
+                  <a
+                    style={{ color: '#2271b1' }}
+                    target="_blank"
+                    href={`https://wendevs.com/wenhub-rt/wp-admin/post.php?post=${
+                      remoteSelectedFiles[remoteSelectedFiles.length - 1].id
+                    }&action=edit&image-editor`}
+                  >
+                    Edit Image
+                  </a>
+                </p>
+                <p
+                  className={style.singleMediaDetail}
+                  style={{
+                    color: '#d63638',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Popconfirm
+                    title="Are you sure to delete Selected Files?"
+                    onConfirm={() => confirm()}
+                    okText="Yes"
+                    cancelText="Cancel"
+                  >
+                    Delete Permanently
+                  </Popconfirm>
                 </p>
               </>
             )}

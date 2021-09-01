@@ -5,6 +5,8 @@ const initialState = {
   remoteMedialFiles: [],
   remoteSelectedFiles: [],
   loading: false,
+  selectedFilesFromMedia: [],
+  remoteSelectedFilesfromMedia: [],
   error: '',
 }
 
@@ -39,6 +41,26 @@ export const addMediaSlice = createSlice({
     addremoteSelectedFile: (state, action) => {
       state.loading = false
       state.remoteSelectedFiles = action.payload
+    },
+    addselectedFilesFromMedia: (state, { payload }) => {
+      state.remoteSelectedFilesfromMedia = [
+        ...state.remoteSelectedFilesfromMedia,
+        payload,
+      ]
+    },
+    DeleteRemoteMediaFile: (state, { payload }) => {
+      state.remoteMedialFiles = state.remoteMedialFiles.filter(
+        (file) => !payload.includes(file.id),
+      )
+      state.remoteSelectedFiles = state.remoteSelectedFiles.filter(
+        (file) => !payload.includes(file.id),
+      )
+    },
+    removeRemoteSelectedFiles: (state) => {
+      state.remoteSelectedFiles = []
+    },
+    resetselectedFilesFromMedia: (state) => {
+      state.remoteSelectedFilesfromMedia = []
     },
   },
 })

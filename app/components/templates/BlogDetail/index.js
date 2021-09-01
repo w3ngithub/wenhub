@@ -7,7 +7,7 @@ import HTMLReactParser from 'html-react-parser'
 import PasswordProtected from 'components/elements/PasswordProtected'
 import styles from './styles.module.css'
 
-const BlogDetail = ({ blogDetail, blogs, categories }) => {
+const BlogDetail = ({ blogDetail, blogs, categories, allUsers }) => {
   const [anotherBlog, setAnotherBlog] = useState({ prev: {}, next: {} })
   const getCategories = (ids) => categories.filter((x) => ids.includes(x.id))
 
@@ -28,7 +28,10 @@ const BlogDetail = ({ blogDetail, blogs, categories }) => {
           {blogDetail.content.protected && 'Protected:'}{' '}
           {blogDetail.title.rendered}
         </h1>
-        <strong>Posted on {getDate(blogDetail.date)} by Krishna</strong>
+        <strong>
+          Posted on {getDate(blogDetail.date)}{' '}
+          {allUsers?.find((u) => u.id === blogDetail.author)?.name}
+        </strong>
       </div>
       <div className={styles.entry_content}>
         {blogDetail.content.protected ? (
@@ -78,9 +81,11 @@ const BlogDetail = ({ blogDetail, blogs, categories }) => {
 const mapStateToProps = ({
   blogData: { blogDetail },
   commonData: { categories },
+  lmsData: { allUsers },
 }) => ({
   blogDetail,
   categories,
+  allUsers,
 })
 
 export default connect(mapStateToProps)(BlogDetail)

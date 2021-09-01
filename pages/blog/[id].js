@@ -5,6 +5,7 @@ import { API_URL } from 'constants/constants'
 import { fetchDetailBlog } from 'redux/blog/blogActions'
 import { wrapper } from 'redux/store'
 import { fetchCategories } from 'redux/common/commonActions'
+import { allUserFetch } from 'redux/lms/lmsActions'
 
 function BlogDetailPage({ blogs }) {
   return <BlogDetail blogs={blogs} />
@@ -27,11 +28,14 @@ export const getStaticProps = wrapper.getStaticProps(
       const { dispatch } = store
       await dispatch(fetchCategories())
       await dispatch(fetchDetailBlog(params.id))
+      await dispatch(allUserFetch(100, 1))
+
       const blogs = await api.get(`${API_URL}/posts?per_page=100`)
       return {
         props: {
           blogs: blogs.data,
         },
+        revalidate: 3600,
       }
     },
 )

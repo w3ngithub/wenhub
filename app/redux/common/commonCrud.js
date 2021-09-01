@@ -47,3 +47,9 @@ export function leaveFields() {
   const leaveStatus = leaveUrl('leave_status')
   return api.all([leaveType, leaveStatus])
 }
+
+export function clientAndProjectStatusFetch() {
+  const projectStatus = urls('project_status')
+  const clients = urls('client')
+  return api.all([projectStatus, clients])
+}

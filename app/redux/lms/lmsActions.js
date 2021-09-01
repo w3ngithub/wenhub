@@ -21,6 +21,7 @@ const {
   allLeavesCalendarFetchSucess,
   filteredLeaveFetchSucess,
   getlmsAdminForm,
+  resetIsLeaveFilterCondition,
 } = lmsSlice.actions
 
 export const fetchLmsLeave = (page, perPage, id) => (dispatch) => {
@@ -306,4 +307,8 @@ export const filteredLeaveFetch = (payload) => (dispatch) => {
 
 export const lmsAdminFormAction = (payload) => (dispatch) => {
   dispatch(getlmsAdminForm(payload))
+}
+
+export const resetIsLeaveFilter = () => (dispatch) => {
+  dispatch(resetIsLeaveFilterCondition())
 }

@@ -14,4 +14,5 @@ export const getStaticProps = wrapper.getStaticProps((store) => async () => {
   const { dispatch } = store
   await dispatch(fetchCategories())
   await dispatch(fetchBlogs())
+  return { props: { revalidate: 10 } }
 })

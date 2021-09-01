@@ -38,6 +38,7 @@
   background-color: #f5f5f5;
   padding: 20px;
   border-left: 1px solid #dcdcde;
+  overflow-y: auto;
 }
 
 @media only screen and (min-width: 0) and (max-width: 767px) {

@@ -9,6 +9,10 @@ const {
   gettingRemoteMediaFiles,
   remoteMediaFilesError,
   addremoteSelectedFile,
+  addselectedFilesFromMedia,
+  DeleteRemoteMediaFile,
+  removeRemoteSelectedFiles,
+  resetselectedFilesFromMedia,
 } = addMediaSlice.actions
 
 export const addMediaFiles = (files) => (dispatch) => dispatch(addFiles(files))
@@ -28,3 +32,19 @@ export const getAllMediaFiles = () => (dispatch) => {
 
 export const remoteMediaFilesSelected = (files) => (dispatch) =>
   dispatch(addremoteSelectedFile(files))
+
+export const addingselectedFilesFromMedia = (payload) => (dispatch) => {
+  dispatch(addselectedFilesFromMedia(payload))
+}
+
+export const deleteMediaFiles = (payload) => (dispatch) => {
+  dispatch(DeleteRemoteMediaFile(payload))
+}
+
+export const clearRemoteSelectedFiles = () => (dispatch) => {
+  dispatch(removeRemoteSelectedFiles())
+}
+
+export const resetSelectedFilesFromMedia = () => (dispatch) => {
+  dispatch(resetselectedFilesFromMedia())
+}
