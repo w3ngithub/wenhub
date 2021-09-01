@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import classNames from 'classnames'
-import { emptyMediaFiles } from 'redux/addMedia/addMediaActions'
+import {
+  clearRemoteSelectedFiles,
+  resetSelectedFilesFromMedia,
+} from 'redux/addMedia/addMediaActions'
 import { CameraOutlined } from '@ant-design/icons'
 import { Checkbox } from 'antd'
 import QuillEditor from 'components/elements/QuillEditor'
@@ -22,7 +25,6 @@ const AddBlog = () => {
   const [category, setCategory] = useState([])
   const [content, setContent] = useState('')
   const [title, setTitle] = useState('')
-  const [clearUploadFiles, setclearUploadFiles] = useState(false)
   const [modelOpen, setModelOPen] = useState(false)
 
   const { remoteSelectedFiles } = useSelector(
@@ -42,8 +44,8 @@ const AddBlog = () => {
     )
 
     setModelOPen(false)
-    setclearUploadFiles(true)
-    dispatch(emptyMediaFiles())
+    dispatch(clearRemoteSelectedFiles())
+    dispatch(resetSelectedFilesFromMedia())
   }
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -102,7 +104,7 @@ const AddBlog = () => {
             <label htmlFor="blog_content">Content</label>
             <ButtonComponent
               btnText="Add Media"
-              style={{ marginBottom: '5px' }}
+              style={{ maxWidth: '125px' }}
               icon={<CameraOutlined />}
               htmlType="button"
               onClick={() => setModelOPen(true)}
@@ -141,12 +143,58 @@ const AddBlog = () => {
           handleCancel={() => setModelOPen(false)}
           title="Add Media"
           footer={[
-            <ButtonComponent
-              key="insert_into_page"
-              btnText="Insert Into Page"
-              onClick={handleInsertIntoPage}
-              isDisabled={!isRemoteFileSelected}
-            />,
+            <div className={styles.footer}>
+              <div>
+                {isRemoteFileSelected && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '20px',
+                    }}
+                  >
+                    <div>
+                      {' '}
+                      <p>
+                        {remoteSelectedFiles.length} item
+                        {remoteSelectedFiles.length > 1 ? 's' : ''} selected
+                      </p>
+                      <div
+                        onClick={() => dispatch(clearRemoteSelectedFiles())}
+                        aria-hidden="true"
+                      >
+                        <p
+                          style={{
+                            color: '#d63638',
+                            cursor: 'pointer',
+                            fontWeight: 'bold',
+                          }}
+                        >
+                          clear
+                        </p>
+                      </div>
+                    </div>
+                    <span className={styles.footer_images}>
+                      {remoteSelectedFiles.map((file) => (
+                        <img
+                          key={file.id}
+                          src={file.media_details?.sizes?.thumbnail?.source_url}
+                          alt="media files"
+                          height="30px"
+                          width="30px"
+                        />
+                      ))}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <ButtonComponent
+                key="insert_into_page"
+                btnText="Insert Into Page"
+                onClick={handleInsertIntoPage}
+                isDisabled={!isRemoteFileSelected}
+              />
+            </div>,
           ]}
         >
           <div
@@ -168,17 +216,12 @@ const AddBlog = () => {
                 {
                   id: '1',
                   tab: 'Upload Files',
-                  content: (
-                    <UploadFiles
-                      clearUploadFiles={clearUploadFiles}
-                      setKey={setGetKey}
-                    />
-                  ),
+                  content: <UploadFiles />,
                 },
                 {
                   id: '2',
                   tab: 'Media Library',
-                  content: <MediaLibrary clearUploadFiles={clearUploadFiles} />,
+                  content: <MediaLibrary />,
                 },
               ]}
               getKey={(key) => {

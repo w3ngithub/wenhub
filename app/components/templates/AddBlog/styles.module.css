@@ -18,6 +18,9 @@
 
 .blog_content {
   font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .blog_categories {
@@ -46,4 +49,18 @@
     margin: auto;
     color: #000;
   }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  min-height: 47px;
+}
+
+.footer_images {
+  display: flex;
+  gap: 10px;
 }

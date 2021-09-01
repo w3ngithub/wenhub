@@ -10,8 +10,10 @@ import {
   fetchLmsCancelled,
   fetchLmsPending,
 } from 'redux/lms/lmsActions'
+import useTokenValidation from 'hooks/useTokenValidation'
 
 function LmsAdminPage() {
+  useTokenValidation()
   return <LmsAdmin />
 }
 

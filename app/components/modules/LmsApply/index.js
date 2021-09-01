@@ -77,8 +77,7 @@ function LmsApply({
       leave_dates: leaveDates.join(','),
     }
 
-    // await props.putLmsLeave(data)
-    console.log(data)
+    await props.putLmsLeave(data)
     handleReset()
     setAlertVisible(true)
   }

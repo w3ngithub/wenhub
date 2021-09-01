@@ -171,7 +171,7 @@ const Pending = ({
           leave_status: [152],
         })
       }
-      await props.filteredLeaveFetch(lmsAdminForm)
+      if (isLeaveFiltered) await props.filteredLeaveFetch(lmsAdminForm)
       handleCloseModal()
     }
   }
@@ -192,7 +192,7 @@ const Pending = ({
         loading={{ spinning: lmsLoading, indicator: <Loader /> }}
         currentPage={page.pageNo}
         postPerPage={page.postPerPage}
-        totalData={totalPending}
+        totalData={isLeaveFiltered ? 0 : totalPending}
       />
 
       <ModalDetail
