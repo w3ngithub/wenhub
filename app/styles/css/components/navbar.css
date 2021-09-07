@@ -6,6 +6,13 @@
   align-items: flex-start;
 }
 
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
+  margin-top: -1px;
+  margin-bottom: 0;
+  padding: 0 8px;
+}
+
 .ant-menu-overflow {
   display: flex;
   justify-content: flex-end;
@@ -48,4 +55,12 @@
   text-decoration: none;
   outline: none;
   margin-right: 0px;
+}
+
+.ant-layout-header {
+  height: 64px;
+  padding: 0 30px;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 64px;
+  background: #001529;
 }
