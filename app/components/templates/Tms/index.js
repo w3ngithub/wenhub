@@ -13,6 +13,7 @@ import styles from './styles.module.css'
 function TMS() {
   const [isModelOpen, setIsModelOPen] = useState(false)
   const [modelContent, setModeldContent] = useState({})
+
   const handleViewPunchDetail = (rowKey = {}, parentRow = {}) => {
     setIsModelOPen(true)
     setModeldContent({
@@ -117,10 +118,10 @@ function TMS() {
             showSizeChanger
             pageSize={10}
             pageSizeOptions={[5, 10, 20]}
-            // onChange={(pageNo, perPageNo) => {
-            //   setPage(pageNo)
-            //   setPerPage(perPageNo)
-            // }}
+            onChange={(pageNo, perPageNo) => {
+              // setPage(pageNo)
+              // setPerPage(perPageNo)
+            }}
             defaultPageSize={10}
             responsive
             // hideOnSinglePage

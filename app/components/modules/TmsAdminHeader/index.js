@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import FormField from 'components/elements/Form'
-import SelectComponent from 'components/elements/Select'
 import ButtonComponent from 'components/elements/Button'
+import React, { useEffect, useState } from 'react'
+import { IoIosAddCircleOutline } from '@react-icons/all-files/io/IoIosAddCircleOutline'
+import FormField from 'components/elements/Form'
 import moment from 'moment'
-import styles from './styles.module.css'
+import SelectComponent from 'components/elements/Select'
 import { selectedDates } from 'utils/getSelectedDays'
+import styles from './styles.module.css'
 
-function TmsAttendanceRecordHeader({ children }) {
+function TmsAdminHeader() {
   const [weekOrMonth, setweekOrMonth] = useState({
     label: 'This Week',
     value: '1',
@@ -15,6 +16,7 @@ function TmsAttendanceRecordHeader({ children }) {
     moment().startOf('isoWeek'),
     moment().startOf('isoWeek').add('4', 'days'),
   ])
+  const [user, setUser] = useState({})
 
   useEffect(() => {
     setDates(selectedDates(weekOrMonth))
@@ -29,16 +31,26 @@ function TmsAttendanceRecordHeader({ children }) {
       moment().startOf('isoWeek'),
       moment().startOf('isoWeek').add('4', 'days'),
     ])
+    setUser({})
   }
-
   const handleFilter = () => {
-    console.log(dates, weekOrMonth)
+    console.log(weekOrMonth, dates, user)
   }
 
   return (
-    <div className={styles.tms_attendance_record_container}>
-      {children}
-      <div className={styles.record_filter_container}>
+    <div className={styles.header}>
+      <h4 className={styles.tms_heading}>Attendance Record</h4>
+      <div className={styles.header_actions}>
+        <ButtonComponent
+          htmlType="button"
+          btnText="Add Time"
+          icon={<IoIosAddCircleOutline style={{ fontSize: '18px' }} />}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px',
+          }}
+        />
         <FormField
           value={dates}
           isRange
@@ -52,7 +64,7 @@ function TmsAttendanceRecordHeader({ children }) {
           onChange={(e) => {
             setDates(e)
           }}
-        />
+        />{' '}
         <SelectComponent
           showSearch={false}
           value={weekOrMonth}
@@ -70,7 +82,26 @@ function TmsAttendanceRecordHeader({ children }) {
           }}
           onChange={(val) => setweekOrMonth(val)}
         />
-        <div className={styles.actions}>
+        <SelectComponent
+          value={user}
+          placeholder="Select User"
+          options={[
+            { label: 'All', value: '1' },
+            { label: 'Ashok Ganika', value: '2' },
+            { label: 'Mukesh Dhungana', value: '3' },
+            { label: 'Rujal Sapkota', value: '4' },
+            { label: 'Sagar Shrestha', value: '5' },
+            { label: 'Pariskrit Moktan', value: '6' },
+          ]}
+          onChange={(val) => setUser(val)}
+          style={{
+            minWidth: '150px',
+            textAlign: 'left',
+            fontSize: '0.7rem',
+            fontWeight: 'bold',
+          }}
+        />
+        <div className={styles.actions_btn}>
           <ButtonComponent
             btnText="Filter"
             htmlType="button"
@@ -88,4 +119,4 @@ function TmsAttendanceRecordHeader({ children }) {
   )
 }
 
-export default TmsAttendanceRecordHeader
+export default TmsAdminHeader
