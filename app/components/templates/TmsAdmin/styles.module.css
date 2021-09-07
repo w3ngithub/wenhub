@@ -2,3 +2,34 @@
   width: 100%;
   padding: 30px 40px;
 }
+
+.tms_admin_table {
+  margin-top: 20px;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.actions {
+  padding: 2px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  align-items: center;
+  color: var(--navbar-color);
+}
+
+.action {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.action_name {
+  transition: all 0.2s;
+}
+
+.action_name:hover {
+  border-bottom: 1.5px solid var(--navbar-color);
+}

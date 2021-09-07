@@ -3,8 +3,8 @@ import FormField from 'components/elements/Form'
 import SelectComponent from 'components/elements/Select'
 import ButtonComponent from 'components/elements/Button'
 import moment from 'moment'
-import styles from './styles.module.css'
 import { selectedDates } from 'utils/getSelectedDays'
+import styles from './styles.module.css'
 
 function TmsAttendanceRecordHeader({ children }) {
   const [weekOrMonth, setweekOrMonth] = useState({
