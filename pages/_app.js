@@ -29,6 +29,12 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} history={history} />
       </Card>
     )
+  } else if (noCard) {
+    WrapperComponent = (
+      <HeaderLayout>
+        <Component {...pageProps} history={history} />
+      </HeaderLayout>
+    )
   } else {
     WrapperComponent = (
       <HeaderLayout>

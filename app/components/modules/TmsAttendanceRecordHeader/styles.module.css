@@ -1,0 +1,27 @@
+.tms_attendance_record_container {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.record_filter_container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+@media only screen and (max-width: 767px) {
+  .tms_attendance_record_container,
+  .record_filter_container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

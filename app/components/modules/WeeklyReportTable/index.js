@@ -5,13 +5,14 @@ import FormField from 'elements/Form'
 import { Table } from 'antd'
 import { tableBodyStyle } from 'constants/constants'
 import Loader from 'components/elements/Loader'
+import { GO_TO_LOG_PATH } from 'constants/routePath'
 import styles from './styles.module.css'
 
 function WeeklyReportTable({ searchedPorject, handleSearchProject }) {
   const router = useRouter()
 
   const handlesetGotoDetails = (projectId) => {
-    router.push(`/project/${projectId}`)
+    router.push(`${GO_TO_LOG_PATH}/${projectId}`)
   }
   const {
     weeklyReport: { loading, weeklyReports },
