@@ -1,0 +1,54 @@
+.add_punch_container {
+  padding: 20px 40px 40px 40px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+@media only screen and (max-width: 865px) {
+  .add_punch_container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.action,
+.real_time {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+@media only screen and (max-width: 767px) {
+  .action {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.real_time {
+  max-width: 130px;
+  min-width: 130px;
+}
+
+.input,
+.punch_in {
+  width: 100%;
+}
+
+.real_time {
+  border: 1px solid #d6d6d6;
+  box-sizing: border-box;
+  border-radius: 2px;
+  padding: 5px;
+  flex-wrap: nowrap;
+}
+
+.input {
+  margin-top: 30px;
+}
+
+.form_label {
+  color: #545454;
+}

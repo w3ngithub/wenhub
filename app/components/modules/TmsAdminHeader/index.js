@@ -8,6 +8,7 @@ import { selectedDates } from 'utils/getSelectedDays'
 import Modals from 'components/elements/Modal'
 import { GiAlarmClock } from '@react-icons/all-files/gi/GiAlarmClock'
 import LiveTime from 'components/elements/LiveTime'
+import TmsAdminAddPunch from '../TmsAdminAddPunch'
 import styles from './styles.module.css'
 
 function TmsAdminHeader() {
@@ -136,15 +137,7 @@ function TmsAdminHeader() {
         handleCancel={() => setOpenModelView(false)}
         variant="large"
       >
-        <h2>Modela</h2>
-        <h2>Modela</h2>
-        <h2>Modela</h2>
-        <h2>Modela</h2>
-        <h2>Modela</h2>
-        <h2>Modela</h2>
-
-        <h2>Modela</h2>
-        <h2>Modela</h2>
+        <TmsAdminAddPunch />
       </Modals>
     </>
   )
