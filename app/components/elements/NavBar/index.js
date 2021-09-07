@@ -5,13 +5,22 @@ import { Menu, Layout } from 'antd'
 import { MenuFoldOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { IoIosFingerPrint } from '@react-icons/all-files/io/IoIosFingerPrint'
+import LiveTime from 'elements/LiveTime'
 import wenLogo from 'assets/images/wenLogo.png'
+import { setfirstPunchIn, setfirstPunchOut } from 'redux/tms/tmsActions'
 import style from './navbar.module.css'
 
 const { SubMenu } = Menu
 const { Header } = Layout
 
 function NavBar({ navItems, backgroundColor, styles }) {
+  const { firstPunchIn, firstPunchOut } = useSelector(
+    (state) => state.tms,
+    shallowEqual,
+  )
+  const dispatch = useDispatch()
   const [menuItemSelectedKey, setMenuItemSelecteKey] = useState(null)
   const { pathname } = useRouter()
 
@@ -42,6 +51,11 @@ function NavBar({ navItems, backgroundColor, styles }) {
     setActiveNavBarItem()
   }, [pathname])
 
+  const handlePunch = () => {
+    if (!firstPunchIn) dispatch(setfirstPunchIn())
+    else dispatch(setfirstPunchOut())
+  }
+
   return (
     <Layout style={{ width: '100%' }}>
       <Header
@@ -59,6 +73,16 @@ function NavBar({ navItems, backgroundColor, styles }) {
               <Image src={wenLogo} alt="WEN" width={130} height={40} />
             </span>
           </Link>
+        </div>
+        <div className={`${style.punch}`} onClick={handlePunch} aria-hidden>
+          <IoIosFingerPrint style={{ fontSize: '24px' }} />
+          {firstPunchOut ? (
+            <span>OFFICE HOUR 9HR</span>
+          ) : (
+            <span>
+              PUNCH {firstPunchIn ? 'OUT' : 'IN'} <LiveTime />
+            </span>
+          )}
         </div>
         <Menu
           onClick={handleMenuClicked}

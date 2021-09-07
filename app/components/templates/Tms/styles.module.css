@@ -1,0 +1,29 @@
+.tms_container {
+  width: 100%;
+  padding: 30px 40px;
+}
+
+.tms_heading {
+  color: #545454;
+  font-weight: 700;
+  line-height: 21.87px;
+}
+
+.record_table {
+  margin-top: 10px;
+}
+
+.viewDetailOfPunchTime {
+  cursor: pointer;
+  color: var(--navbar-color);
+  transition: all 0.3s;
+}
+
+.viewDetailOfPunchTime:hover {
+  border-bottom: 2px solid var(--navbar-color);
+}
+
+.record_table {
+  white-space: nowrap;
+  overflow-x: auto;
+}

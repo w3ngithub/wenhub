@@ -10,6 +10,7 @@ import HomePageForm from 'modules/HomePageForm'
 import ModalDetail from 'components/modules/ModalDetail'
 import Loader from 'components/elements/Loader'
 import { projectColumns, projectDetailColumns } from 'constants/homeConstants'
+import { GO_TO_LOG_PATH, MY_PROJECTS_PATH } from 'constants/routePath'
 import styles from './HomePage.module.css'
 
 const HomePage = ({
@@ -25,7 +26,7 @@ const HomePage = ({
   const [detail, setDetail] = useState({})
   const [data, setData] = useState([])
   const [page, setPage] = useState({ pageNumber: 1, postPerPage: 20 })
-  const pathname = !router.pathname.includes('my-projects')
+  const pathname = !router.pathname.includes(MY_PROJECTS_PATH.substring(1))
 
   const { projectTypes, projectStatus, developers, designers, projectTags } =
     filterType
@@ -79,7 +80,7 @@ const HomePage = ({
           </span>
         ),
         time_log: (
-          <Link href={{ pathname: `/project/${x.id}` }}>
+          <Link href={{ pathname: `${GO_TO_LOG_PATH}/${x.id}` }}>
             <span className={styles.timeloglink}>Go to Log</span>
           </Link>
         ),

@@ -12,6 +12,7 @@ import { getDate } from 'utils/date'
 import Loader from 'components/elements/Loader'
 import useDidMountEffect from 'hooks/useDidMountEffect'
 import { fetchFilteredBlogs, changePage } from 'redux/blog/blogActions'
+import { CATOGORY_PATH, VIEW_BLOG_PATH } from 'constants/routePath'
 import styles from './styles.module.css'
 
 const Blog = ({ blogs, totalData, categories, page, loading, ...props }) => {
@@ -62,7 +63,7 @@ const Blog = ({ blogs, totalData, categories, page, loading, ...props }) => {
           <ButtonComponent
             btnText="Search Blog"
             htmlType="submit"
-            style={{ width: '100px' }}
+            style={{ maxWidth: '120px' }}
           />
         </form>
 
@@ -77,7 +78,7 @@ const Blog = ({ blogs, totalData, categories, page, loading, ...props }) => {
                   <>
                     <Link
                       href={{
-                        pathname: `/blog/${x.id}`,
+                        pathname: `${VIEW_BLOG_PATH}/${x.id}`,
                       }}
                     >
                       <h3 className={styles.heading}>
@@ -102,7 +103,7 @@ const Blog = ({ blogs, totalData, categories, page, loading, ...props }) => {
                       <Link
                         key={y.id}
                         href={{
-                          pathname: `/category/${y.id}`,
+                          pathname: `${CATOGORY_PATH}/${y.id}`,
                         }}
                       >
                         <span className={styles.category}>{y.name},&nbsp;</span>

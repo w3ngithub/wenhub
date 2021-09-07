@@ -34,3 +34,25 @@
   color: #fff;
   /* margin-left: -25px; */
 }
+
+.punch {
+  background: #fefefe;
+  height: 36px;
+  width: 200px;
+  min-height: 36px;
+  min-width: 200px;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  /* gap: 5px; */
+  align-items: center;
+  margin: 15px;
+  cursor: pointer;
+  color: var(--navbar-color);
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.punch:hover {
+  color: #3379b7c2;
+}
