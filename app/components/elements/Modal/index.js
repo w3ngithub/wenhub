@@ -55,7 +55,7 @@ Modals.defaultProps = {
 }
 
 Modals.propTypes = {
-  title: PropTypes.string,
+  title: PropTypes.node,
   visible: PropTypes.bool,
   handleOk: PropTypes.func,
   handleCancel: PropTypes.func,
