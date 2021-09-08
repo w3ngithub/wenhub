@@ -80,14 +80,10 @@ const TmsAdminEditPunch = ({ details }) => {
                       marginTop: '20px',
                     }}
                     danger
-                    icon={
-                      <TiCancel
-                        style={{ fontSize: '18px' }}
-                        onClick={() => {
-                          setChangeEditPunchInTime(false)
-                        }}
-                      />
-                    }
+                    icon={<TiCancel style={{ fontSize: '18px' }} />}
+                    onClick={() => {
+                      setChangeEditPunchInTime(false)
+                    }}
                   />
                 )}
               </div>
