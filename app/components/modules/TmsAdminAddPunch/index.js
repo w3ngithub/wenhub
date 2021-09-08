@@ -51,9 +51,14 @@ function TmsAdminAddPunch() {
                 Punch-in-note
               </label>
               <FormField
-                component="InputField"
-                padding="15px"
-                styles={{ marginTop: '5px', width: '100%', padding: '20px' }}
+                component="TextAreaField"
+                rows={4}
+                styles={{
+                  fontSize: '0.7rem',
+                  fontWeight: 'bold',
+                  marginTop: '5px',
+                  borderRadius: '3px',
+                }}
               />
               <ButtonComponent
                 btnText="Save"
@@ -80,9 +85,14 @@ function TmsAdminAddPunch() {
                 Punch-out-note
               </label>
               <FormField
-                component="InputField"
-                padding="15px"
-                styles={{ marginTop: '5px', width: '100%', padding: '20px' }}
+                component="TextAreaField"
+                rows={4}
+                styles={{
+                  fontSize: '0.7rem',
+                  fontWeight: 'bold',
+                  borderRadius: '3px',
+                  marginTop: '5px',
+                }}
               />
               <ButtonComponent
                 btnText="Save"
