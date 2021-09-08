@@ -127,7 +127,7 @@ function TmsAdminHeader() {
         title={
           <div className={styles.time_attendance_header}>
             <div className={styles.time_attendance_time}>
-              <GiAlarmClock style={{ fontSize: '26px' }} />
+              <GiAlarmClock style={{ fontSize: '22px' }} />
               <LiveTime />
             </div>
             {moment().format('dddd, MMMM D, YYYY')}

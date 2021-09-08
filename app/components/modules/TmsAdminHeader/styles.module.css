@@ -38,6 +38,7 @@
   gap: 25px;
   color: #545454;
   flex-wrap: nowrap;
+  font-size: 14px;
   /* white-space: nowrap; */
 }
 
