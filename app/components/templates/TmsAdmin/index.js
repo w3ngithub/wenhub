@@ -10,14 +10,30 @@ import {
 import { navBarBackgroundColor } from 'constants/constants'
 import Modals from 'components/elements/Modal'
 import AttendanceRecordDetail from 'components/modules/AttendanceRecordDetail'
+import TmsAdminEditPunch from 'components/modules/TmsAdminEditPunch'
 import styles from './styles.module.css'
 
 function TMSAdmin() {
   const [isModelOpenView, setIsModelOPenView] = useState(false)
+  const [isModelOpenEdit, setIsModelOPenEdit] = useState(false)
+
   const [modelContent, setModeldContent] = useState({})
 
   const handleViewPunchDetail = (rowKey = {}, parentRow = {}) => {
     setIsModelOPenView(true)
+    setModeldContent({
+      user: parentRow.user,
+      type: parentRow.type,
+      date: parentRow.date,
+      day: parentRow.day,
+      punchInTime: rowKey.punchintime,
+      punchOutTime: rowKey.punchouttime,
+      officeHour: rowKey.officehour,
+    })
+  }
+
+  const handleEditPunchDetail = (rowKey = {}, parentRow = {}) => {
+    setIsModelOPenEdit(true)
     setModeldContent({
       user: parentRow.user,
       type: parentRow.type,
@@ -58,7 +74,13 @@ function TMSAdmin() {
         key: 'action',
         render: (_, rowKey) => (
           <div className={styles.actions}>
-            <span className={styles.action}>
+            <span
+              className={styles.action}
+              aria-hidden
+              onClick={() => {
+                handleEditPunchDetail(rowKey, parentRow)
+              }}
+            >
               <BiEdit
                 style={{ color: navBarBackgroundColor, fontSize: '18px' }}
               />
@@ -145,6 +167,23 @@ function TMSAdmin() {
         variant="large"
       >
         <AttendanceRecordDetail details={modelContent} />
+      </Modals>
+      <Modals
+        title={
+          <div style={{ fontSize: '13px' }}>
+            <span>
+              <span style={{ fontWeight: '600', fontSize: '14px' }}>
+                {modelContent?.user}
+              </span>
+              - {modelContent.day}, {modelContent.date}
+            </span>
+          </div>
+        }
+        visible={isModelOpenEdit}
+        handleCancel={() => setIsModelOPenEdit(false)}
+        variant="large"
+      >
+        <TmsAdminEditPunch details={modelContent} />
       </Modals>
     </>
   )
