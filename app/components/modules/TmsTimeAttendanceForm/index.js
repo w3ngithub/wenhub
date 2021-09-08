@@ -62,9 +62,14 @@ function TmsTimeAttendanceForm() {
               Punch-in-note
             </label>
             <FormField
-              component="InputField"
-              padding="15px"
-              styles={{ marginTop: '5px', width: '100%' }}
+              component="TextAreaField"
+              rows={4}
+              styles={{
+                fontSize: '0.7rem',
+                fontWeight: 'bold',
+                marginTop: '5px',
+                borderRadius: '3px',
+              }}
             />
             <ButtonComponent
               btnText={punchIn ? 'Update' : 'PUNCH IN'}
@@ -102,9 +107,14 @@ function TmsTimeAttendanceForm() {
                 Punch-out-note
               </label>
               <FormField
-                component="InputField"
-                padding="15px"
-                styles={{ marginTop: '5px', width: '100%' }}
+                component="TextAreaField"
+                rows={4}
+                styles={{
+                  fontSize: '0.7rem',
+                  fontWeight: 'bold',
+                  marginTop: '5px',
+                  borderRadius: '3px',
+                }}
               />
               <ButtonComponent
                 btnText={punchOut ? 'Update' : 'PUNCH OUT'}

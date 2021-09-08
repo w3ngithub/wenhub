@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { Pagination, Table } from 'antd'
 import { BiEdit } from '@react-icons/all-files/bi/BiEdit'
-// import { HiOutlineViewGrid } from '@react-icons/all-files/hi/HiOutlineViewGrid'
-// import { GrView } from '@react-icons/all-files/gr/GrView'
 import { AiOutlineEye } from '@react-icons/all-files/ai/AiOutlineEye'
-// import { FiEye } from '@react-icons/all-files/fi/FiEye'
-// import { HiOutlineEye } from '@react-icons/all-files/hi/HiOutlineEye'
 import TmsAdminHeader from 'components/modules/TmsAdminHeader'
 import {
   AdminAttendanceRecordColumns,

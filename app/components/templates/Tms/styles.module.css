@@ -27,3 +27,12 @@
   white-space: nowrap;
   overflow-x: auto;
 }
+
+.action {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+  color: var(--navbar-color);
+  cursor: pointer;
+}
