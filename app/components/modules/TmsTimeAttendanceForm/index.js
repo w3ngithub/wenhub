@@ -65,6 +65,9 @@ function TmsTimeAttendanceForm() {
               Punch-in-note
             </label>
             <Form.Item
+              style={{
+                marginBottom: '20px',
+              }}
               name="date"
               rules={[
                 {
@@ -97,11 +100,7 @@ function TmsTimeAttendanceForm() {
               />
             </Form.Item>
 
-            <Form.Item
-              style={{
-                marginTop: '20px',
-              }}
-            >
+            <Form.Item>
               <ButtonComponent
                 btnText={punchIn ? 'Update' : 'PUNCH IN'}
                 htmlType="submit"
@@ -161,6 +160,9 @@ function TmsTimeAttendanceForm() {
                     validateTrigger: 'onSubmit',
                   },
                 ]}
+                style={{
+                  marginBottom: '20px',
+                }}
               >
                 <FormField
                   component="TextAreaField"
@@ -173,11 +175,7 @@ function TmsTimeAttendanceForm() {
                   }}
                 />
               </Form.Item>
-              <Form.Item
-                style={{
-                  marginTop: '20px',
-                }}
-              >
+              <Form.Item style={{}}>
                 <ButtonComponent
                   btnText={punchOut ? 'Update' : 'PUNCH OUT'}
                   htmlType="submit"
