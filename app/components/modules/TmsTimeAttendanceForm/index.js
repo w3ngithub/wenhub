@@ -1,4 +1,5 @@
 import React from 'react'
+import { Form } from 'antd'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { GiAlarmClock } from '@react-icons/all-files/gi/GiAlarmClock'
 import { IoIosFingerPrint } from '@react-icons/all-files/io/IoIosFingerPrint'
@@ -22,17 +23,19 @@ function TmsTimeAttendanceForm() {
     shallowEqual,
   )
   const dispatch = useDispatch()
+  const [punchInForm] = Form.useForm()
+  const [punchOutForm] = Form.useForm()
 
-  const handlePunchInSubmit = (e) => {
-    e.preventDefault()
+  const handlePunchInSubmit = (values) => {
     if (!firstPunchIn) dispatch(setfirstPunchIn())
     dispatch(setPunchIn())
+    console.log(values)
   }
 
-  const handlePunchOutSubmit = (e) => {
-    e.preventDefault()
+  const handlePunchOutSubmit = (values) => {
     if (!firstPunchOut) dispatch(setfirstPunchOut())
     dispatch(setPunchOut())
+    console.log(values)
   }
   return (
     <div
@@ -57,34 +60,66 @@ function TmsTimeAttendanceForm() {
               <span>Punched-in</span>
             </div>
           )}
-          <form onSubmit={handlePunchInSubmit}>
+          <Form form={punchInForm} onFinish={handlePunchInSubmit}>
             <label className={styles.form_label} htmlFor="punchInNote">
               Punch-in-note
             </label>
-            <FormField
-              component="TextAreaField"
-              rows={4}
-              styles={{
-                fontSize: '0.7rem',
-                fontWeight: 'bold',
-                marginTop: '5px',
-                borderRadius: '3px',
-              }}
-            />
-            <ButtonComponent
-              btnText={punchIn ? 'Update' : 'PUNCH IN'}
-              htmlType="submit"
+            <Form.Item
+              name="date"
+              rules={[
+                {
+                  validateTrigger: 'onSubmit',
+                },
+                {
+                  validator: (_, value) => {
+                    try {
+                      if (firstPunchOut) {
+                        if (!value) throw new Error('Reason Required')
+                      }
+                      return Promise.resolve()
+                    } catch (err) {
+                      return Promise.reject(err)
+                    }
+                  },
+                  validateTrigger: 'onSubmit',
+                },
+              ]}
+            >
+              <FormField
+                component="TextAreaField"
+                rows={4}
+                styles={{
+                  fontSize: '0.7rem',
+                  fontWeight: 'bold',
+                  marginTop: '5px',
+                  borderRadius: '3px',
+                }}
+              />
+            </Form.Item>
+
+            <Form.Item
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
                 marginTop: '20px',
               }}
-              icon={
-                punchIn ? '' : <IoIosFingerPrint style={{ fontSize: '22px' }} />
-              }
-            />
-          </form>
+            >
+              <ButtonComponent
+                btnText={punchIn ? 'Update' : 'PUNCH IN'}
+                htmlType="submit"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                }}
+                icon={
+                  punchIn ? (
+                    ''
+                  ) : (
+                    <IoIosFingerPrint style={{ fontSize: '22px' }} />
+                  )
+                }
+              />
+            </Form.Item>
+          </Form>
         </div>
         {firstPunchIn && (
           <div className={styles.time_attendance_punch_in_form}>
@@ -102,38 +137,65 @@ function TmsTimeAttendanceForm() {
                 <Checkbox>Mid-day Exit</Checkbox>
               </div>
             )}
-            <form onSubmit={handlePunchOutSubmit}>
+            <Form form={punchOutForm} onFinish={handlePunchOutSubmit}>
               <label className={styles.form_label} htmlFor="punchInNote">
                 Punch-out-note
               </label>
-              <FormField
-                component="TextAreaField"
-                rows={4}
-                styles={{
-                  fontSize: '0.7rem',
-                  fontWeight: 'bold',
-                  marginTop: '5px',
-                  borderRadius: '3px',
-                }}
-              />
-              <ButtonComponent
-                btnText={punchOut ? 'Update' : 'PUNCH OUT'}
-                htmlType="submit"
+              <Form.Item
+                name="date"
+                rules={[
+                  {
+                    validateTrigger: 'onSubmit',
+                  },
+                  {
+                    validator: (_, value) => {
+                      try {
+                        if (firstPunchOut) {
+                          if (!value) throw new Error('Reason Required')
+                        }
+                        return Promise.resolve()
+                      } catch (err) {
+                        return Promise.reject(err)
+                      }
+                    },
+                    validateTrigger: 'onSubmit',
+                  },
+                ]}
+              >
+                <FormField
+                  component="TextAreaField"
+                  rows={4}
+                  styles={{
+                    fontSize: '0.7rem',
+                    fontWeight: 'bold',
+                    marginTop: '5px',
+                    borderRadius: '3px',
+                  }}
+                />
+              </Form.Item>
+              <Form.Item
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
                   marginTop: '20px',
                 }}
-                icon={
-                  punchOut ? (
-                    ''
-                  ) : (
-                    <IoIosFingerPrint style={{ fontSize: '22px' }} />
-                  )
-                }
-              />
-            </form>
+              >
+                <ButtonComponent
+                  btnText={punchOut ? 'Update' : 'PUNCH OUT'}
+                  htmlType="submit"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                  }}
+                  icon={
+                    punchOut ? (
+                      ''
+                    ) : (
+                      <IoIosFingerPrint style={{ fontSize: '22px' }} />
+                    )
+                  }
+                />
+              </Form.Item>
+            </Form>
           </div>
         )}
       </div>

@@ -62,6 +62,9 @@ const TmsAdminEditPunch = ({ details }) => {
                 use12Hours
                 format="h:mm:ss A"
                 value={moment(statePunchInTime, 'h:mm:ss A')}
+                onChange={(e) => {
+                  setStatePunchInTime(moment(e).format('h:mm:ss A'))
+                }}
               />
             )}
             <div className={styles.punch_list}>
@@ -138,7 +141,13 @@ const TmsAdminEditPunch = ({ details }) => {
           <div className={styles.action}>
             {!details.punchOutTime && (
               <>
-                <TimePicker use12Hours format="h:mm:ss A" />
+                <TimePicker
+                  use12Hours
+                  format="h:mm:ss A"
+                  onChange={(e) => {
+                    setStatePunchOutTime(moment(e).format('h:mm:ss A'))
+                  }}
+                />
                 <Checkbox>Mid-day Exit</Checkbox>
               </>
             )}
@@ -149,6 +158,9 @@ const TmsAdminEditPunch = ({ details }) => {
                     use12Hours
                     format="h:mm:ss A"
                     value={moment(statePunchOutTime, 'h:mm:ss A')}
+                    onChange={(e) => {
+                      setStatePunchOutTime(moment(e).format('h:mm:ss A'))
+                    }}
                   />
                 )}
                 <div className={styles.punch_list}>
