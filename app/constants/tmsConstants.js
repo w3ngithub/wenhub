@@ -136,3 +136,6 @@ export const AttendanceRecordData = [
     officehour: '8',
   },
 ]
+
+export const punchInTime = '08:30:00 AM'
+export const punchOutTime = '06:30:00 PM'

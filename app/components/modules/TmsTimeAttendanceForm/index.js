@@ -1,5 +1,5 @@
-import React from 'react'
-import { Form } from 'antd'
+import React, { useState } from 'react'
+import { Form, Checkbox } from 'antd'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { GiAlarmClock } from '@react-icons/all-files/gi/GiAlarmClock'
 import { IoIosFingerPrint } from '@react-icons/all-files/io/IoIosFingerPrint'
@@ -7,7 +7,6 @@ import moment from 'moment'
 import LiveTime from 'components/elements/LiveTime'
 import FormField from 'components/elements/Form'
 import ButtonComponent from 'components/elements/Button'
-import Checkbox from 'antd/lib/checkbox/Checkbox'
 import { BiCheckCircle } from '@react-icons/all-files/bi/BiCheckCircle'
 import {
   setfirstPunchIn,
@@ -15,6 +14,7 @@ import {
   setPunchIn,
   setPunchOut,
 } from 'redux/tms/tmsActions'
+import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
 function TmsTimeAttendanceForm() {
@@ -22,7 +22,9 @@ function TmsTimeAttendanceForm() {
     (state) => state.tms,
     shallowEqual,
   )
+  const [midayExit, setMidayExit] = useState(false)
   const dispatch = useDispatch()
+
   const [punchInForm] = Form.useForm()
   const [punchOutForm] = Form.useForm()
 
@@ -30,12 +32,17 @@ function TmsTimeAttendanceForm() {
     if (!firstPunchIn) dispatch(setfirstPunchIn())
     dispatch(setPunchIn())
     console.log(values)
+    openNotification({ type: 'success', message: 'Punched In Successfull' })
+    punchInForm.resetFields()
   }
 
   const handlePunchOutSubmit = (values) => {
     if (!firstPunchOut) dispatch(setfirstPunchOut())
     dispatch(setPunchOut())
-    console.log(values)
+    console.log(values, midayExit)
+    openNotification({ type: 'success', message: 'Punched Out Successfull' })
+    setMidayExit(false)
+    punchOutForm.resetFields()
   }
   return (
     <div
@@ -130,7 +137,14 @@ function TmsTimeAttendanceForm() {
             )}
             {punchIn && firstPunchIn && (
               <div className={styles.punch_list}>
-                <Checkbox>Mid-day Exit</Checkbox>
+                <Checkbox
+                  checked={midayExit}
+                  onChange={(e) => {
+                    setMidayExit(e.target.checked)
+                  }}
+                >
+                  Mid-day Exit
+                </Checkbox>
               </div>
             )}
             <Form form={punchOutForm} onFinish={handlePunchOutSubmit}>
