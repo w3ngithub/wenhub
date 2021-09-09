@@ -9,6 +9,7 @@ import styles from './styles.module.css'
 
 function TmsAdminAddPunch() {
   const [user, setUser] = useState({})
+  const [addPunchOut, setAddPunchOut] = useState(true)
   const [punchInForm] = Form.useForm()
   const [punchOutForm] = Form.useForm()
 
@@ -19,6 +20,7 @@ function TmsAdminAddPunch() {
     })
     console.log(values)
     punchInForm.resetFields()
+    setAddPunchOut(false)
   }
   const handlePunchOutSubmit = (values) => {
     console.log(values)
@@ -27,6 +29,7 @@ function TmsAdminAddPunch() {
       type: 'success',
       message: 'punch in saved successfully',
     })
+    setAddPunchOut(true)
   }
 
   return (
@@ -132,7 +135,7 @@ function TmsAdminAddPunch() {
               >
                 <TimePicker use12Hours format="h:mm:ss A" />
               </Form.Item>
-              <Form.Item name="midDay">
+              <Form.Item name="midDay" valuePropName="checked">
                 <Checkbox>Mid-day Exit</Checkbox>
               </Form.Item>
             </div>
@@ -180,6 +183,7 @@ function TmsAdminAddPunch() {
                     gap: '5px',
                     marginTop: '20px',
                   }}
+                  isDisabled={addPunchOut}
                   icon={<VscSaveAs style={{ fontSize: '16px' }} />}
                 />
               </Form.Item>
