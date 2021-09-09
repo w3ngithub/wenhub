@@ -69,7 +69,7 @@ function NavBar({ navItems, backgroundColor, styles }) {
       >
         <div className={`${style.logo} nav-logo`}>
           <Link href="/">
-            <span>
+            <span style={{ cursor: 'pointer' }}>
               <Image src={wenLogo} alt="WEN" width={130} height={40} />
             </span>
           </Link>

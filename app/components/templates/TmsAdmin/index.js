@@ -111,8 +111,8 @@ function TMSAdmin() {
       },
       {
         key: 2,
-        punchouttime: '12:17:06 AM',
-        punchintime: '12:17:06 AM',
+        punchouttime: '02:17:06 AM',
+        punchintime: '03:17:06 AM',
         officehour: '9',
       },
       {
@@ -123,9 +123,9 @@ function TMSAdmin() {
       },
       {
         key: 4,
-        punchouttime: '12:17:06 AM',
+        // punchouttime: '12:17:06 AM',
         punchintime: '12:17:06 AM',
-        officehour: '9',
+        officehour: '4',
       },
     ]
 
