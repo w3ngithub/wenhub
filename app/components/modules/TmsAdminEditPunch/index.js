@@ -6,6 +6,7 @@ import { BiSave } from '@react-icons/all-files/bi/BiSave'
 import FormField from 'components/elements/Form'
 import ButtonComponent from 'components/elements/Button'
 import styles from './styles.module.css'
+import moment from 'moment'
 
 const TmsAdminEditPunch = ({ details }) => {
   const [changeEditPunchInTime, setChangeEditPunchInTime] = useState(false)
@@ -21,7 +22,7 @@ const TmsAdminEditPunch = ({ details }) => {
         <div className={styles.punch_in}>
           <div className={styles.action}>
             {changeEditPunchInTime && (
-              <TimePicker use12Hours format="h:mm:ss A" />
+              <TimePicker use12Hours format="h:mm:ss A" value={moment()} />
             )}
             <div className={styles.punch_list}>
               <span>
@@ -56,7 +57,9 @@ const TmsAdminEditPunch = ({ details }) => {
                   marginTop: '5px',
                   borderRadius: '3px',
                 }}
+                value="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aspernatur nulla at eveniet, minus laboriosam nostrum odio eos repudiandae ullam veniam ipsum. Nesciunt impedit dicta cumque cupiditate consectetur voluptatem expedita. Lorem. "
               />
+
               <div className={styles.submit_form}>
                 <ButtonComponent
                   btnText="Update"

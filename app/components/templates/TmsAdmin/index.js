@@ -161,7 +161,9 @@ function TMSAdmin() {
         </div>
       </div>
       <Modals
-        title={modelContent?.user || ''}
+        title={
+          <div style={{ fontWeight: '700' }}>{modelContent?.user || ''}</div>
+        }
         visible={isModelOpenView}
         handleCancel={() => setIsModelOPenView(false)}
         variant="large"
