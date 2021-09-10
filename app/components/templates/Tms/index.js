@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Pagination, Table } from 'antd'
+import { AiOutlineEye } from '@react-icons/all-files/ai/AiOutlineEye'
 import TmsTimeAttendanceForm from 'components/modules/TmsTimeAttendanceForm'
 import TmsAttendanceRecordHeader from 'components/modules/TmsAttendanceRecordHeader'
 import AttendaceRecordDetail from 'components/modules/AttendanceRecordDetail'
@@ -8,11 +9,13 @@ import {
   AttendanceRecordData,
 } from 'constants/tmsConstants'
 import Modals from 'components/elements/Modal'
+import { navBarBackgroundColor } from 'constants/constants'
 import styles from './styles.module.css'
 
 function TMS() {
   const [isModelOpen, setIsModelOPen] = useState(false)
   const [modelContent, setModeldContent] = useState({})
+
   const handleViewPunchDetail = (rowKey = {}, parentRow = {}) => {
     setIsModelOPen(true)
     setModeldContent({
@@ -54,13 +57,16 @@ function TMS() {
         key: 'action',
         render: (_, rowKey) => (
           <span
+            className={styles.action}
             aria-hidden
-            className={styles.viewDetailOfPunchTime}
             onClick={() => {
               handleViewPunchDetail(rowKey, parentRow)
             }}
           >
-            View
+            <AiOutlineEye
+              style={{ color: navBarBackgroundColor, fontSize: '18px' }}
+            />
+            <span className={styles.action_name}>View</span>
           </span>
         ),
       },
@@ -117,10 +123,10 @@ function TMS() {
             showSizeChanger
             pageSize={10}
             pageSizeOptions={[5, 10, 20]}
-            // onChange={(pageNo, perPageNo) => {
-            //   setPage(pageNo)
-            //   setPerPage(perPageNo)
-            // }}
+            onChange={(pageNo, perPageNo) => {
+              // setPage(pageNo)
+              // setPerPage(perPageNo)
+            }}
             defaultPageSize={10}
             responsive
             // hideOnSinglePage

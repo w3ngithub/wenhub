@@ -1,8 +1,9 @@
 .logo {
+  width: 130px;
   min-width: 130px;
   display: flex;
-  cursor: pointer;
   padding-top: 20px;
+  flex: 1;
 }
 .nav_item {
   color: #fff;

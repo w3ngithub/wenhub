@@ -18,6 +18,7 @@ function TextAreaField({
   allowClear,
   rows,
   width,
+  styles,
 }) {
   const style = {
     borderRadius: `${borderRadius}`,
@@ -36,7 +37,7 @@ function TextAreaField({
       bordered={bordered}
       maxLength={maxLength}
       size={size}
-      style={style}
+      style={{ ...style, ...styles }}
       autoSize={autoSize}
       allowClear={allowClear}
     />
@@ -59,6 +60,7 @@ TextAreaField.propTypes = {
   rows: PropTypes.number,
   width: PropTypes.string,
   autoSize: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  styles: PropTypes.object,
 }
 
 TextAreaField.defaultProps = {

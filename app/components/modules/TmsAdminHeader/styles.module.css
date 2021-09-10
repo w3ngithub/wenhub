@@ -1,0 +1,49 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header_actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.actions_btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+  .header,
+  .header_actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.tms_heading {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #545454;
+}
+
+.time_attendance_header {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  color: #545454;
+  flex-wrap: nowrap;
+  font-size: 14px;
+  /* white-space: nowrap; */
+}
+
+.time_attendance_time {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
