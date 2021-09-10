@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import moment from 'moment'
 import { Checkbox, TimePicker } from 'antd'
 import { TiCancel } from '@react-icons/all-files/ti/TiCancel'
 import { BiCheckCircle } from '@react-icons/all-files/bi/BiCheckCircle'
 import { BiSave } from '@react-icons/all-files/bi/BiSave'
 import FormField from 'components/elements/Form'
 import ButtonComponent from 'components/elements/Button'
-import moment from 'moment'
 import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
@@ -30,16 +30,18 @@ const TmsAdminEditPunch = ({ details }) => {
     e.preventDefault()
     openNotification({
       type: 'success',
-      message: 'punch in sucessfully edited',
+      message: 'punch in sucessfully updated',
     })
   }
+
   const handlePunchOutSubmit = (e) => {
     e.preventDefault()
     openNotification({
       type: 'success',
-      message: 'punch out sucessfully edited',
+      message: 'punch out sucessfully updated',
     })
   }
+
   useEffect(() => {
     setPunchOutNote(
       details.punchOutTime
@@ -181,7 +183,7 @@ const TmsAdminEditPunch = ({ details }) => {
                     </span>
                   )}
                 </div>
-                <Checkbox>Mid-day Exit</Checkbox>
+                {changeEditPunchOutTime && <Checkbox>Mid-day Exit</Checkbox>}
               </>
             )}
           </div>

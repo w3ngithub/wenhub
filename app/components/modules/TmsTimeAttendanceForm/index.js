@@ -22,9 +22,9 @@ function TmsTimeAttendanceForm() {
     (state) => state.tms,
     shallowEqual,
   )
-  const [midayExit, setMidayExit] = useState(false)
   const dispatch = useDispatch()
 
+  const [midayExit, setMidayExit] = useState(false)
   const [punchInForm] = Form.useForm()
   const [punchOutForm] = Form.useForm()
 
@@ -44,6 +44,7 @@ function TmsTimeAttendanceForm() {
     setMidayExit(false)
     punchOutForm.resetFields()
   }
+
   return (
     <div
       className={styles.time_attendance_container}

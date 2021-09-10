@@ -16,7 +16,6 @@ import styles from './styles.module.css'
 function TMSAdmin() {
   const [isModelOpenView, setIsModelOPenView] = useState(false)
   const [isModelOpenEdit, setIsModelOPenEdit] = useState(false)
-
   const [modelContent, setModeldContent] = useState({})
 
   const handleViewPunchDetail = (rowKey = {}, parentRow = {}) => {

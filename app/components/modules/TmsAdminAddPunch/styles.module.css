@@ -1,5 +1,5 @@
 .add_punch_container {
-  padding: 15px 40px 40px 40px;
+  padding: 10px 40px 10px;
 }
 .punch {
   display: flex;
@@ -40,10 +40,6 @@
 .input,
 .punch_in {
   width: 100%;
-}
-
-.input {
-  margin-top: 30px;
 }
 
 .form_label {

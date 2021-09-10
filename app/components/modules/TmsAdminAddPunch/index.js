@@ -10,6 +10,7 @@ import styles from './styles.module.css'
 function TmsAdminAddPunch() {
   const [user, setUser] = useState({})
   const [addPunchOut, setAddPunchOut] = useState(true)
+
   const [punchInForm] = Form.useForm()
   const [punchOutForm] = Form.useForm()
 
@@ -22,6 +23,7 @@ function TmsAdminAddPunch() {
     punchInForm.resetFields()
     setAddPunchOut(false)
   }
+
   const handlePunchOutSubmit = (values) => {
     console.log(values)
     punchOutForm.resetFields()
@@ -113,7 +115,6 @@ function TmsAdminAddPunch() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '5px',
-                    marginTop: '20px',
                   }}
                   icon={<VscSaveAs style={{ fontSize: '16px' }} />}
                 />
@@ -181,7 +182,6 @@ function TmsAdminAddPunch() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '5px',
-                    marginTop: '20px',
                   }}
                   isDisabled={addPunchOut}
                   icon={<VscSaveAs style={{ fontSize: '16px' }} />}
