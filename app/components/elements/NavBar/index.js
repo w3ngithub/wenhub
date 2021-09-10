@@ -10,6 +10,9 @@ import { IoIosFingerPrint } from '@react-icons/all-files/io/IoIosFingerPrint'
 import LiveTime from 'elements/LiveTime'
 import wenLogo from 'assets/images/wenLogo.png'
 import { setfirstPunchIn, setfirstPunchOut } from 'redux/tms/tmsActions'
+import { openNotification } from 'utils/notification'
+import { TMS_PATH } from 'constants/routePath'
+import { officeHour } from 'utils/validateOfficeHourTime'
 import style from './navbar.module.css'
 
 const { SubMenu } = Menu
@@ -22,7 +25,7 @@ function NavBar({ navItems, backgroundColor, styles }) {
   )
   const dispatch = useDispatch()
   const [menuItemSelectedKey, setMenuItemSelecteKey] = useState(null)
-  const { pathname } = useRouter()
+  const { pathname, push } = useRouter()
 
   const handleMenuClicked = (navItem) => {
     setMenuItemSelecteKey(navItem.key)
@@ -52,8 +55,14 @@ function NavBar({ navItems, backgroundColor, styles }) {
   }, [pathname])
 
   const handlePunch = () => {
-    if (!firstPunchIn) dispatch(setfirstPunchIn())
-    else dispatch(setfirstPunchOut())
+    if (firstPunchOut) return
+    if (officeHour) {
+      if (!firstPunchIn) dispatch(setfirstPunchIn())
+      else dispatch(setfirstPunchOut())
+    } else {
+      openNotification({ type: 'info', message: 'Please Add Punch Note' })
+      push(TMS_PATH)
+    }
   }
 
   return (
@@ -69,7 +78,7 @@ function NavBar({ navItems, backgroundColor, styles }) {
       >
         <div className={`${style.logo} nav-logo`}>
           <Link href="/">
-            <span>
+            <span style={{ cursor: 'pointer' }}>
               <Image src={wenLogo} alt="WEN" width={130} height={40} />
             </span>
           </Link>
