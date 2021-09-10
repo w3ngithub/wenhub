@@ -16,8 +16,20 @@ const TmsAdminEditPunch = ({ details }) => {
   const [changeEditPunchInTime, setChangeEditPunchInTime] = useState(false)
   const [changeEditPunchOutTime, setChangeEditPunchOutTime] = useState(false)
 
-  const [punchInInitialState, setPunchInInitialState] = useState()
-  const [punchOutInitialState, setPunchOutInitialState] = useState()
+  const [punchInInitialState, setPunchInInitialState] = useState({
+    punchintime: moment(details.punchInTime, 'h:mm:ss A'),
+    punchinnote:
+      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aspernatur nulla at eveniet, minus laboriosam nostrum odio eos repudiandae ullam veniam ipsum. Nesciunt impedit dicta cumque cupiditate consectetur voluptatem expedita.',
+  })
+  const [punchOutInitialState, setPunchOutInitialState] = useState({
+    punchouttime: details.punchOutTime
+      ? moment(details.punchOutTime, 'h:mm:ss A')
+      : '',
+    middayexit: false,
+    punchoutnote: details.punchOutTime
+      ? 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aspernatur nulla at eveniet, minus laboriosam nostrum odio eos repudiandae ullam veniam ipsum. Nesciunt impedit dicta cumque cupiditate consectetur voluptatem expedita.'
+      : '',
+  })
 
   const handlePunchInSubmit = (values) => {
     openNotification({
@@ -36,16 +48,17 @@ const TmsAdminEditPunch = ({ details }) => {
   }
 
   useEffect(() => {
+    EditPunchInform.resetFields()
+    EditPunchOutform.resetFields()
+  }, [punchOutInitialState, punchInInitialState])
+
+  useEffect(() => {
     setChangeEditPunchInTime(false)
     setChangeEditPunchOutTime(false)
     setPunchInInitialState({
-      punchouttime: details.punchOutTime
-        ? moment(details.punchOutTime, 'h:mm:ss A')
-        : '',
-      middayexit: false,
-      punchoutnote: details.punchOutTime
-        ? 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aspernatur nulla at eveniet, minus laboriosam nostrum odio eos repudiandae ullam veniam ipsum. Nesciunt impedit dicta cumque cupiditate consectetur voluptatem expedita.'
-        : '',
+      punchintime: moment(details.punchInTime, 'h:mm:ss A'),
+      punchinnote:
+        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aspernatur nulla at eveniet, minus laboriosam nostrum odio eos repudiandae ullam veniam ipsum. Nesciunt impedit dicta cumque cupiditate consectetur voluptatem expedita.',
     })
     setPunchOutInitialState({
       punchouttime: details.punchOutTime
