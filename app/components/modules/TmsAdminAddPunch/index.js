@@ -16,6 +16,8 @@ function TmsAdminAddPunch() {
 
   const [punchOutPermitted, setpunchOutPermitted] = useState(false)
 
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false)
+
   const [punchInForm] = Form.useForm()
   const [punchOutForm] = Form.useForm()
 
@@ -58,7 +60,16 @@ function TmsAdminAddPunch() {
               { label: 'Sagar Shrestha', value: '5' },
               { label: 'Pariskrit Moktan', value: '6' },
             ]}
-            onChange={(val) => setUser(val)}
+            onChange={(val) => {
+              setUser(val)
+              if (isFormSubmitted) {
+                if (!val.value) {
+                  setuserError(true)
+                } else {
+                  setuserError(false)
+                }
+              }
+            }}
             style={{
               minWidth: '150px',
               textAlign: 'left',
@@ -73,7 +84,16 @@ function TmsAdminAddPunch() {
             component="DatePicker"
             placeholder="Select Date"
             value={punchOutDate}
-            onChange={(e) => setPunchOutDate(e)}
+            onChange={(e) => {
+              setPunchOutDate(e)
+              if (isFormSubmitted) {
+                if (!e) {
+                  setPunchOutDateError(true)
+                } else {
+                  setPunchOutDateError(false)
+                }
+              }
+            }}
           />
           <small className={styles.error}>
             {punchOutDateError && 'Required'}
@@ -140,6 +160,7 @@ function TmsAdminAddPunch() {
                   }}
                   icon={<VscSaveAs style={{ fontSize: '16px' }} />}
                   onClick={() => {
+                    setIsFormSubmitted(true)
                     if (!user.value || !punchOutDate) {
                       if (!user.value) setuserError(true)
                       if (!punchOutDate) setPunchOutDateError(true)
