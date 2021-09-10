@@ -9,7 +9,12 @@ import styles from './styles.module.css'
 
 function TmsAdminAddPunch() {
   const [user, setUser] = useState({})
-  const [addPunchOut, setAddPunchOut] = useState(true)
+  const [punchOutDate, setPunchOutDate] = useState('')
+
+  const [userError, setuserError] = useState(false)
+  const [punchOutDateError, setPunchOutDateError] = useState(false)
+
+  const [punchOutPermitted, setpunchOutPermitted] = useState(false)
 
   const [punchInForm] = Form.useForm()
   const [punchOutForm] = Form.useForm()
@@ -21,7 +26,9 @@ function TmsAdminAddPunch() {
     })
     console.log(values)
     punchInForm.resetFields()
-    setAddPunchOut(false)
+    setpunchOutPermitted(true)
+    setPunchOutDateError(false)
+    setuserError(false)
   }
 
   const handlePunchOutSubmit = (values) => {
@@ -31,32 +38,47 @@ function TmsAdminAddPunch() {
       type: 'success',
       message: 'punch in saved successfully',
     })
-    setAddPunchOut(true)
+    setpunchOutPermitted(false)
+    setPunchOutDateError(false)
+    setuserError(false)
   }
 
   return (
     <div className={styles.add_punch_container}>
       <div className={styles.header_form_punch}>
-        <SelectComponent
-          value={user}
-          placeholder="Select User"
-          options={[
-            { label: 'All', value: '1' },
-            { label: 'Ashok Ganika', value: '2' },
-            { label: 'Mukesh Dhungana', value: '3' },
-            { label: 'Rujal Sapkota', value: '4' },
-            { label: 'Sagar Shrestha', value: '5' },
-            { label: 'Pariskrit Moktan', value: '6' },
-          ]}
-          onChange={(val) => setUser(val)}
-          style={{
-            minWidth: '150px',
-            textAlign: 'left',
-            fontSize: '0.7rem',
-            fontWeight: 'bold',
-          }}
-        />
-        <FormField component="DatePicker" placeholder="Select Date" />
+        <div className={styles.manaulForm}>
+          <SelectComponent
+            value={user}
+            placeholder="Select User"
+            options={[
+              { label: 'All', value: '1' },
+              { label: 'Ashok Ganika', value: '2' },
+              { label: 'Mukesh Dhungana', value: '3' },
+              { label: 'Rujal Sapkota', value: '4' },
+              { label: 'Sagar Shrestha', value: '5' },
+              { label: 'Pariskrit Moktan', value: '6' },
+            ]}
+            onChange={(val) => setUser(val)}
+            style={{
+              minWidth: '150px',
+              textAlign: 'left',
+              fontSize: '0.7rem',
+              fontWeight: 'bold',
+            }}
+          />
+          <small className={styles.error}>{userError && 'Required'}</small>
+        </div>
+        <div className={styles.manaulForm}>
+          <FormField
+            component="DatePicker"
+            placeholder="Select Date"
+            value={punchOutDate}
+            onChange={(e) => setPunchOutDate(e)}
+          />
+          <small className={styles.error}>
+            {punchOutDateError && 'Required'}
+          </small>
+        </div>
       </div>
       <div className={styles.punch}>
         <Form
@@ -117,6 +139,12 @@ function TmsAdminAddPunch() {
                     gap: '5px',
                   }}
                   icon={<VscSaveAs style={{ fontSize: '16px' }} />}
+                  onClick={() => {
+                    if (!user.value || !punchOutDate) {
+                      if (!user.value) setuserError(true)
+                      if (!punchOutDate) setPunchOutDateError(true)
+                    }
+                  }}
                 />
               </Form.Item>
             </div>
@@ -183,8 +211,14 @@ function TmsAdminAddPunch() {
                     alignItems: 'center',
                     gap: '5px',
                   }}
-                  isDisabled={addPunchOut}
+                  isDisabled={!punchOutPermitted}
                   icon={<VscSaveAs style={{ fontSize: '16px' }} />}
+                  onClick={() => {
+                    if (!user.value || !punchOutDate) {
+                      if (!user.value) setuserError(true)
+                      if (!punchOutDate) setPunchOutDateError(true)
+                    }
+                  }}
                 />
               </Form.Item>
             </div>

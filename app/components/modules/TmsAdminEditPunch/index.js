@@ -16,20 +16,8 @@ const TmsAdminEditPunch = ({ details }) => {
   const [changeEditPunchInTime, setChangeEditPunchInTime] = useState(false)
   const [changeEditPunchOutTime, setChangeEditPunchOutTime] = useState(false)
 
-  const [punchInInitialState, setPunchInInitialState] = useState({
-    punchintime: moment(details.punchInTime, 'h:mm:ss A'),
-    punchinnote:
-      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aspernatur nulla at eveniet, minus laboriosam nostrum odio eos repudiandae ullam veniam ipsum. Nesciunt impedit dicta cumque cupiditate consectetur voluptatem expedita.',
-  })
-  const [punchOutInitialState, setPunchOutInitialState] = useState({
-    punchouttime: details.punchOutTime
-      ? moment(details.punchOutTime, 'h:mm:ss A')
-      : '',
-    middayexit: false,
-    punchoutnote: details.punchOutTime
-      ? 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aspernatur nulla at eveniet, minus laboriosam nostrum odio eos repudiandae ullam veniam ipsum. Nesciunt impedit dicta cumque cupiditate consectetur voluptatem expedita.'
-      : '',
-  })
+  const [punchInInitialState, setPunchInInitialState] = useState()
+  const [punchOutInitialState, setPunchOutInitialState] = useState()
 
   const handlePunchInSubmit = (values) => {
     openNotification({
@@ -47,6 +35,7 @@ const TmsAdminEditPunch = ({ details }) => {
     console.log(values)
   }
 
+  // updates the inital values of forms
   useEffect(() => {
     EditPunchInform.resetFields()
     EditPunchOutform.resetFields()

@@ -45,3 +45,13 @@
 .form_label {
   color: #545454;
 }
+
+.manaulForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 14px;
+}
