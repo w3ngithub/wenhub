@@ -15,7 +15,6 @@ function TmsAdminAddPunch() {
   const [punchOutDateError, setPunchOutDateError] = useState(false)
 
   const [punchOutPermitted, setpunchOutPermitted] = useState(false)
-
   const [isFormSubmitted, setIsFormSubmitted] = useState(false)
 
   const [punchInForm] = Form.useForm()
