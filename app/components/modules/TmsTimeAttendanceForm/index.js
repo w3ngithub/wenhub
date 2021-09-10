@@ -110,20 +110,14 @@ function TmsTimeAttendanceForm() {
 
             <Form.Item>
               <ButtonComponent
-                btnText={punchIn ? 'Update' : 'PUNCH IN'}
+                btnText="PUNCH IN"
                 htmlType="submit"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '10px',
                 }}
-                icon={
-                  punchIn ? (
-                    ''
-                  ) : (
-                    <IoIosFingerPrint style={{ fontSize: '22px' }} />
-                  )
-                }
+                icon={<IoIosFingerPrint style={{ fontSize: '22px' }} />}
               />
             </Form.Item>
           </Form>
@@ -191,20 +185,14 @@ function TmsTimeAttendanceForm() {
               </Form.Item>
               <Form.Item>
                 <ButtonComponent
-                  btnText={punchOut ? 'Update' : 'PUNCH OUT'}
+                  btnText="PUNCH OUT"
                   htmlType="submit"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '10px',
                   }}
-                  icon={
-                    punchOut ? (
-                      ''
-                    ) : (
-                      <IoIosFingerPrint style={{ fontSize: '22px' }} />
-                    )
-                  }
+                  icon={<IoIosFingerPrint style={{ fontSize: '22px' }} />}
                 />
               </Form.Item>
             </Form>

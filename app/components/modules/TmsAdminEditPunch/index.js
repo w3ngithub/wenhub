@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
-import { Checkbox, TimePicker } from 'antd'
+import { Checkbox, TimePicker, Form } from 'antd'
 import { TiCancel } from '@react-icons/all-files/ti/TiCancel'
 import { BiCheckCircle } from '@react-icons/all-files/bi/BiCheckCircle'
 import { BiSave } from '@react-icons/all-files/bi/BiSave'
@@ -10,233 +10,258 @@ import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
 const TmsAdminEditPunch = ({ details }) => {
+  const [EditPunchInform] = Form.useForm()
+  const [EditPunchOutform] = Form.useForm()
+
   const [changeEditPunchInTime, setChangeEditPunchInTime] = useState(false)
   const [changeEditPunchOutTime, setChangeEditPunchOutTime] = useState(false)
 
-  const [punchInNote, setPunchInNote] = useState(
-    'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aspernatur nulla at eveniet, minus laboriosam nostrum odio eos repudiandae ullam veniam ipsum. Nesciunt impedit dicta cumque cupiditate consectetur voluptatem expedita.',
-  )
-  const [punchOutNote, setPunchOutNote] = useState(
-    details.punchOutTime
-      ? 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aspernatur nulla at eveniet, minus laboriosam nostrum odio eos repudiandae ullam veniam ipsum. Nesciunt impedit dicta cumque cupiditate consectetur voluptatem expedita.'
-      : '',
-  )
-  const [statePunchInTime, setStatePunchInTime] = useState(details.punchInTime)
-  const [statePunchOutTime, setStatePunchOutTime] = useState(
-    details.punchOutTime,
-  )
+  const [punchInInitialState, setPunchInInitialState] = useState()
+  const [punchOutInitialState, setPunchOutInitialState] = useState()
 
-  const handlePunchInSubmit = (e) => {
-    e.preventDefault()
+  const handlePunchInSubmit = (values) => {
     openNotification({
       type: 'success',
       message: 'punch in sucessfully updated',
     })
+    console.log(values)
   }
 
-  const handlePunchOutSubmit = (e) => {
-    e.preventDefault()
+  const handlePunchOutSubmit = (values) => {
     openNotification({
       type: 'success',
       message: 'punch out sucessfully updated',
     })
+    console.log(values)
   }
 
   useEffect(() => {
-    setPunchOutNote(
-      details.punchOutTime
-        ? 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aspernatur nulla at eveniet, minus laboriosam nostrum odio eos repudiandae ullam veniam ipsum. Nesciunt impedit dicta cumque cupiditate consectetur voluptatem expedita.'
-        : '',
-    )
     setChangeEditPunchInTime(false)
     setChangeEditPunchOutTime(false)
-    setStatePunchOutTime(details.punchOutTime)
-    setStatePunchInTime(details.punchInTime)
+    setPunchInInitialState({
+      punchouttime: details.punchOutTime
+        ? moment(details.punchOutTime, 'h:mm:ss A')
+        : '',
+      middayexit: false,
+      punchoutnote: details.punchOutTime
+        ? 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aspernatur nulla at eveniet, minus laboriosam nostrum odio eos repudiandae ullam veniam ipsum. Nesciunt impedit dicta cumque cupiditate consectetur voluptatem expedita.'
+        : '',
+    })
+    setPunchOutInitialState({
+      punchouttime: details.punchOutTime
+        ? moment(details.punchOutTime, 'h:mm:ss A')
+        : '',
+      middayexit: false,
+      punchoutnote: details.punchOutTime
+        ? 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem aspernatur nulla at eveniet, minus laboriosam nostrum odio eos repudiandae ullam veniam ipsum. Nesciunt impedit dicta cumque cupiditate consectetur voluptatem expedita.'
+        : '',
+    })
   }, [details.punchOutTime, details.punchInTime])
 
   return (
     <div className={styles.container}>
       <div className={styles.punch}>
-        <div className={styles.punch_in}>
-          <div className={styles.action}>
-            {changeEditPunchInTime && (
-              <TimePicker
-                use12Hours
-                format="h:mm:ss A"
-                value={moment(statePunchInTime, 'h:mm:ss A')}
-                onChange={(e) => {
-                  setStatePunchInTime(moment(e).format('h:mm:ss A'))
-                }}
-              />
-            )}
-            <div className={styles.punch_list}>
-              <span>
-                <BiCheckCircle style={{ fontSize: '16px' }} />
-              </span>
-              <span>{details.punchInTime}</span>
-              <span>Punched-in</span>
-              {!changeEditPunchInTime && (
-                <span
-                  className={styles.change_punch_time}
-                  aria-hidden
-                  onClick={() => {
-                    setChangeEditPunchInTime(true)
-                  }}
+        <Form
+          form={EditPunchInform}
+          onFinish={handlePunchInSubmit}
+          style={{ width: '100%' }}
+          initialValues={punchInInitialState}
+        >
+          <div className={styles.punch_in}>
+            <div className={styles.action}>
+              {changeEditPunchInTime && (
+                <Form.Item
+                  name="punchintime"
+                  rules={[{ required: true, message: 'Required' }]}
                 >
-                  Change
-                </span>
+                  <TimePicker use12Hours format="h:mm:ss A" />
+                </Form.Item>
               )}
+              <div className={styles.punch_list}>
+                <span>
+                  <BiCheckCircle style={{ fontSize: '16px' }} />
+                </span>
+                <span>{details.punchInTime}</span>
+                <span>Punched-in</span>
+                {!changeEditPunchInTime && (
+                  <span
+                    className={styles.change_punch_time}
+                    aria-hidden
+                    onClick={() => {
+                      setChangeEditPunchInTime(true)
+                    }}
+                  >
+                    Change
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-          <div className={styles.input}>
-            <form onSubmit={handlePunchInSubmit}>
+            <div className={styles.input}>
               <label className={styles.form_label} htmlFor="punchInNote">
                 Punch-in-note
               </label>
-              <FormField
-                component="TextAreaField"
-                rows={4}
-                styles={{
-                  fontSize: '0.7rem',
-                  fontWeight: 'bold',
-                  marginTop: '5px',
-                  borderRadius: '3px',
-                }}
-                value={punchInNote}
-                onChange={(e) => setPunchInNote(e.target.value)}
-              />
+              <Form.Item
+                name="punchinnote"
+                rules={[{ required: true, message: 'Required' }]}
+              >
+                <FormField
+                  component="TextAreaField"
+                  rows={4}
+                  styles={{
+                    fontSize: '0.7rem',
+                    fontWeight: 'bold',
+                    borderRadius: '3px',
+                  }}
+                />
+              </Form.Item>
 
               <div className={styles.submit_form}>
-                <ButtonComponent
-                  btnText="Update"
-                  htmlType="submit"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    marginTop: '20px',
-                  }}
-                  icon={<BiSave style={{ fontSize: '18px' }} />}
-                />
-                {changeEditPunchInTime && (
+                <Form.Item>
                   <ButtonComponent
-                    btnText="Cancel"
-                    htmlType="button"
+                    btnText="Update"
+                    htmlType="submit"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '5px',
-                      marginTop: '20px',
                     }}
-                    danger
-                    icon={<TiCancel style={{ fontSize: '18px' }} />}
-                    onClick={() => {
-                      setChangeEditPunchInTime(false)
-                    }}
+                    icon={<BiSave style={{ fontSize: '18px' }} />}
                   />
+                </Form.Item>
+                {changeEditPunchInTime && (
+                  <Form.Item>
+                    <ButtonComponent
+                      btnText="Cancel"
+                      htmlType="button"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                      }}
+                      danger
+                      icon={<TiCancel style={{ fontSize: '18px' }} />}
+                      onClick={() => {
+                        setChangeEditPunchInTime(false)
+                      }}
+                    />
+                  </Form.Item>
                 )}
               </div>
-            </form>
+            </div>
           </div>
-        </div>
-        <div className={styles.punch_in}>
-          <div className={styles.action}>
-            {!details.punchOutTime && (
-              <>
-                <TimePicker
-                  use12Hours
-                  format="h:mm:ss A"
-                  onChange={(e) => {
-                    setStatePunchOutTime(moment(e).format('h:mm:ss A'))
-                  }}
-                />
-                <Checkbox>Mid-day Exit</Checkbox>
-              </>
-            )}
-            {details.punchOutTime && (
-              <>
-                {changeEditPunchOutTime && (
-                  <TimePicker
-                    use12Hours
-                    format="h:mm:ss A"
-                    value={moment(statePunchOutTime, 'h:mm:ss A')}
-                    onChange={(e) => {
-                      setStatePunchOutTime(moment(e).format('h:mm:ss A'))
-                    }}
-                  />
-                )}
-                <div className={styles.punch_list}>
-                  <span>
-                    <BiCheckCircle style={{ fontSize: '16px' }} />
-                  </span>
-                  <span>{details.punchOutTime}</span>
-                  <span>Punched-in</span>
-                  {!changeEditPunchOutTime && (
-                    <span
-                      className={styles.change_punch_time}
-                      aria-hidden
-                      onClick={() => {
-                        setChangeEditPunchOutTime(true)
-                      }}
+        </Form>
+        <Form
+          form={EditPunchOutform}
+          onFinish={handlePunchOutSubmit}
+          style={{ width: '100%' }}
+          initialValues={punchOutInitialState}
+        >
+          <div className={styles.punch_in}>
+            <div className={styles.action}>
+              {!details.punchOutTime && (
+                <>
+                  <Form.Item
+                    name="punchouttime"
+                    rules={[{ required: true, message: 'Required' }]}
+                  >
+                    <TimePicker use12Hours format="h:mm:ss A" />
+                  </Form.Item>
+                  <Form.Item>
+                    <Checkbox valuePropName="checked" name="middayexit">
+                      Mid-day Exit
+                    </Checkbox>
+                  </Form.Item>
+                </>
+              )}
+              {details.punchOutTime && (
+                <>
+                  {changeEditPunchOutTime && (
+                    <Form.Item
+                      name="punchouttime"
+                      rules={[{ required: true, message: 'Required' }]}
                     >
-                      Change
-                    </span>
+                      <TimePicker use12Hours format="h:mm:ss A" />
+                    </Form.Item>
                   )}
-                </div>
-                {changeEditPunchOutTime && <Checkbox>Mid-day Exit</Checkbox>}
-              </>
-            )}
-          </div>
-          <div className={styles.input}>
-            <form onSubmit={handlePunchOutSubmit}>
+                  <div className={styles.punch_list}>
+                    <span>
+                      <BiCheckCircle style={{ fontSize: '16px' }} />
+                    </span>
+                    <span>{details.punchOutTime}</span>
+                    <span>Punched-in</span>
+                    {!changeEditPunchOutTime && (
+                      <span
+                        className={styles.change_punch_time}
+                        aria-hidden
+                        onClick={() => {
+                          setChangeEditPunchOutTime(true)
+                        }}
+                      >
+                        Change
+                      </span>
+                    )}
+                  </div>
+                  {changeEditPunchOutTime && (
+                    <Form.Item name="middayexit" valuePropName="checked">
+                      <Checkbox>Mid-day Exit</Checkbox>
+                    </Form.Item>
+                  )}
+                </>
+              )}
+            </div>
+            <div className={styles.input}>
               <label className={styles.form_label} htmlFor="punchInNote">
                 Punch-out-note
               </label>
-              <FormField
-                component="TextAreaField"
-                value={punchOutNote}
-                onChange={(e) => setPunchOutNote(e.target.value)}
-                rows={4}
-                styles={{
-                  fontSize: '0.7rem',
-                  fontWeight: 'bold',
-                  borderRadius: '3px',
-                  marginTop: '5px',
-                }}
-              />
-              <div className={styles.submit_form}>
-                <ButtonComponent
-                  btnText="Update"
-                  htmlType="submit"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    marginTop: '20px',
+              <Form.Item
+                name="punchoutnote"
+                rules={[{ required: true, message: 'Required' }]}
+              >
+                <FormField
+                  component="TextAreaField"
+                  rows={4}
+                  styles={{
+                    fontSize: '0.7rem',
+                    fontWeight: 'bold',
+                    borderRadius: '3px',
                   }}
-                  icon={<BiSave style={{ fontSize: '18px' }} />}
                 />
-                {changeEditPunchOutTime && (
+              </Form.Item>
+              <div className={styles.submit_form}>
+                <Form.Item>
                   <ButtonComponent
-                    btnText="Cancel"
-                    htmlType="button"
+                    btnText="Update"
+                    htmlType="submit"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '5px',
-                      marginTop: '20px',
                     }}
-                    danger
-                    icon={<TiCancel style={{ fontSize: '18px' }} />}
-                    onClick={() => {
-                      setChangeEditPunchOutTime(false)
-                    }}
+                    icon={<BiSave style={{ fontSize: '18px' }} />}
                   />
+                </Form.Item>
+                {changeEditPunchOutTime && (
+                  <Form.Item>
+                    <ButtonComponent
+                      btnText="Cancel"
+                      htmlType="button"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                      }}
+                      danger
+                      icon={<TiCancel style={{ fontSize: '18px' }} />}
+                      onClick={() => {
+                        setChangeEditPunchOutTime(false)
+                      }}
+                    />
+                  </Form.Item>
                 )}
               </div>
-            </form>
+            </div>
           </div>
-        </div>
+        </Form>
       </div>
     </div>
   )
