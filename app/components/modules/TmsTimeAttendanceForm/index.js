@@ -15,6 +15,7 @@ import {
   setPunchOut,
 } from 'redux/tms/tmsActions'
 import { openNotification } from 'utils/notification'
+import { officeHour } from 'utils/validateOfficeHourTime'
 import styles from './styles.module.css'
 
 function TmsTimeAttendanceForm() {
@@ -81,6 +82,8 @@ function TmsTimeAttendanceForm() {
                 {
                   validator: (_, value) => {
                     try {
+                      if (!firstPunchIn && !officeHour && !value)
+                        throw new Error('Reason Required')
                       if (firstPunchOut) {
                         if (!value) throw new Error('Reason Required')
                       }
@@ -161,6 +164,8 @@ function TmsTimeAttendanceForm() {
                   {
                     validator: (_, value) => {
                       try {
+                        if (firstPunchIn && !officeHour && !value)
+                          throw new Error('Reason Required')
                         if (firstPunchOut) {
                           if (!value) throw new Error('Reason Required')
                         }
