@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import moment from 'moment'
 import { Menu, Layout } from 'antd'
 import { MenuFoldOutlined } from '@ant-design/icons'
 import PropTypes from 'prop-types'
@@ -10,6 +11,9 @@ import { IoIosFingerPrint } from '@react-icons/all-files/io/IoIosFingerPrint'
 import LiveTime from 'elements/LiveTime'
 import wenLogo from 'assets/images/wenLogo.png'
 import { setfirstPunchIn, setfirstPunchOut } from 'redux/tms/tmsActions'
+import { punchInTime, punchOutTime } from 'constants/tmsConstants'
+import { openNotification } from 'utils/notification'
+import { TMS_PATH } from 'constants/routePath'
 import style from './navbar.module.css'
 
 const { SubMenu } = Menu
@@ -22,7 +26,7 @@ function NavBar({ navItems, backgroundColor, styles }) {
   )
   const dispatch = useDispatch()
   const [menuItemSelectedKey, setMenuItemSelecteKey] = useState(null)
-  const { pathname } = useRouter()
+  const { pathname, push } = useRouter()
 
   const handleMenuClicked = (navItem) => {
     setMenuItemSelecteKey(navItem.key)
@@ -52,8 +56,18 @@ function NavBar({ navItems, backgroundColor, styles }) {
   }, [pathname])
 
   const handlePunch = () => {
-    if (!firstPunchIn) dispatch(setfirstPunchIn())
-    else dispatch(setfirstPunchOut())
+    if (firstPunchOut) return
+    const officeHour = moment().isBetween(
+      moment(punchInTime, 'h:mm:ss A'),
+      moment(punchOutTime, 'h:mm:ss A'),
+    )
+    if (officeHour) {
+      if (!firstPunchIn) dispatch(setfirstPunchIn())
+      else dispatch(setfirstPunchOut())
+    } else {
+      openNotification({ type: 'info', message: 'Please Add Punch Note' })
+      push(TMS_PATH)
+    }
   }
 
   return (
