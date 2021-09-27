@@ -20,7 +20,9 @@ import restClient from 'api/restClient'
 import styles from './styles.module.css'
 import style from './styles.module.scss'
 
-const SelectableFile = ({ children, selected, onClick }) => (
+const SelectableFile = ({ children, selected, onClick }) => { 
+  
+return (
   <div className={style.card}>
     <div
       className={classNames(style.selectable, { [style.selected]: selected })}
@@ -29,12 +31,14 @@ const SelectableFile = ({ children, selected, onClick }) => (
       aria-hidden="true"
     >
       {children}
-      <div className={style.check}>
-        <span className={style.checkmark}>✔</span>
+      {selected && 
+      <div className={style.check} >
+        <span className={style.checkmark}></span> 
       </div>
+      }
     </div>
   </div>
-)
+)}
 const SelectableComponent = createSelectable(SelectableFile)
 
 function MediaLibrary() {
@@ -58,6 +62,7 @@ function MediaLibrary() {
     value: 'all',
   })
   const [screenWidth] = useScreenWidthHeightHook()
+
 
   useEffect(() => {
     setSelectedKeys([

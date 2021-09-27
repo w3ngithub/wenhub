@@ -16,13 +16,14 @@ $card-shadow-hover: 0 14px 28px rgba(0, 0, 0, 0.25),
   width: 125px;
 
   &:hover {
-    box-shadow: $card-shadow-hover;
+    // box-shadow: $card-shadow-hover;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.25);
   }
 }
 
 /* Selectable */
-$check-size: 20px;
-$selected-color: #44aadd;
+$check-size: 18px;
+$selected-color: #2271b1;
 
 .card .selectable {
   position: relative;
@@ -31,27 +32,31 @@ $selected-color: #44aadd;
   .check {
     transition: $transition;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -12px;
+    right: -12px;
     z-index: 10;
-    width: $check-size;
-    height: $check-size;
-    &:before {
-      transition: $transition;
-      content: '';
-      border: $check-size solid;
-      border-color: transparent;
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: -1;
-    }
+    height: 25px;
+    width: 25px;     
+    border-radius: 3px;
+    background-color: $selected-color;
+    border: 1.5px solid white;
+    
     .checkmark {
       display: block;
       font: $check-size sans-serif;
       line-height: $check-size;
       text-align: center;
       color: transparent;
+      padding-top: 3px;
+      &:before{
+        content: '✔'
+      }
+
+      &:hover{
+        &:before{
+          content: '─'
+        }
+      }
     }
   }
 
