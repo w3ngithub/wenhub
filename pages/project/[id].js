@@ -40,7 +40,7 @@ export const getStaticProps = wrapper.getStaticProps(
       await store.dispatch(fetchWeeklyTimeSpent(params.id))
 
       return {
-        revalidate: 1,
+        revalidate: 60,
       }
     },
 )

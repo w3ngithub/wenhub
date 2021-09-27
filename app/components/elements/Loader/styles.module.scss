@@ -28,7 +28,7 @@ $clouds: #ecf0f1;
   @for $i from 1 through 3 {
     &:nth-child(#{$i}) {
       z-index: -$i;
-      animation-delay: 1.4s * $i;
+      animation-delay: 0.2s * $i;
     }
   }
 }
