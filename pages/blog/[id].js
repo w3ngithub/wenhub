@@ -13,29 +13,28 @@ function BlogDetailPage({ blogs }) {
 
 export default BlogDetailPage
 
-export const getStaticPaths = async () => {
-  const res = await api.get(`${API_URL}/posts?per_page=100&_fields=id`)
-  const { data } = res
-  return {
-    paths: data.map((x) => ({ params: { id: `${x.id}` } })),
-    fallback: false,
-  }
-}
-
-export const getStaticProps = wrapper.getStaticProps(
+export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ params }) => {
-      const { dispatch } = store
+      const { dispatch, getState } = store
+      const {
+        blogData: {
+          page: { offset },
+        },
+      } = getState()
       await dispatch(fetchCategories())
       await dispatch(fetchDetailBlog(params.id))
       await dispatch(allUserFetch(100, 1))
 
-      const blogs = await api.get(`${API_URL}/posts?per_page=100`)
+      // Fetching max 3 data only for next and previous along
+      // -1 is done to get previous index for previous data
+      const blogs = await api.get(
+        `${API_URL}/posts?per_page=3&&offset=${offset === 0 ? 0 : offset - 1}`,
+      )
       return {
         props: {
           blogs: blogs.data,
         },
-        revalidate: 3600,
       }
     },
 )

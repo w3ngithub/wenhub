@@ -33,7 +33,7 @@ export const fetchFilterOptionLists = () => (dispatch) => {
       )
       .catch((err) => {
         dispatch(filterOptionsFetchingError({ error: 'Error Fetching' }))
-        console.log(err)
+        console.log('fetch filter', err)
       })
   })
 }
@@ -47,7 +47,7 @@ export const fetchCategories = () => (dispatch) => {
     })
     .catch((err) => {
       dispatch(categoriesFetchingError({ error: 'Sending Error' }))
-      console.log(err)
+      console.log('fetch category', err)
     })
 }
 
@@ -76,7 +76,7 @@ export const fetchLeaveFields = () => (dispatch) => {
     )
     .catch((err) => {
       dispatch(leaveFieldsFailure({ error: 'Sending Error' }))
-      console.log('Error Response is as follows', err)
+      console.log('fetch leave fields', err)
     })
 }
 
@@ -92,7 +92,7 @@ export const fetchDeveloperDesigner = () => (dispatch) => {
     )
     .catch((err) => {
       dispatch(filterOptionsFetchingError({ error: 'Error Fetching' }))
-      console.log(err)
+      console.log('fetch developer and designer', err)
     })
 }
 
@@ -108,6 +108,6 @@ export const clientAndProjectStatusFetch = () => (dispatch) => {
     )
     .catch((err) => {
       dispatch(filterOptionsFetchingError({ error: 'Error Fetching' }))
-      console.log(err)
+      console.log('client project status', err)
     })
 }

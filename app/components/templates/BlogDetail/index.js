@@ -1,25 +1,53 @@
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 import { getDate } from 'utils/date'
 import HTMLReactParser from 'html-react-parser'
+import { changePage } from 'redux/blog/blogActions'
 import PasswordProtected from 'components/elements/PasswordProtected'
 import styles from './styles.module.css'
 
-const BlogDetail = ({ blogDetail, blogs, categories, allUsers }) => {
+const BlogDetail = ({
+  blogDetail,
+  blogs,
+  categories,
+  allUsers,
+  page,
+  ...props
+}) => {
+  const router = useRouter()
   const [anotherBlog, setAnotherBlog] = useState({ prev: {}, next: {} })
   const getCategories = (ids) => categories.filter((x) => ids.includes(x.id))
 
   useEffect(() => {
     const setBlogs = () => {
-      const indexofBlog = blogs.findIndex((x) => x.id === blogDetail.id)
-      const previousBlog = blogs[indexofBlog - 1] || {}
-      const nextBlog = blogs[indexofBlog + 1] || {}
+      // First 0 index is previous and 2 last index is next blog
+      const currentIndex = blogs.findIndex((x) => x.id === blogDetail.id)
+      const previousBlog = blogs[currentIndex - 1] || {}
+      const nextBlog = blogs[currentIndex + 1] || {}
       setAnotherBlog({ prev: previousBlog, next: nextBlog })
     }
     setBlogs()
   }, [blogs, blogDetail])
+
+  const gotoPrev = () => {
+    props.changePage({
+      pageNumber: page.pageNumber,
+      postPerPage: page.postPerPage,
+      offset: page.offset - 1,
+    })
+    router.push(`/blog/${anotherBlog.prev?.id}`)
+  }
+  const gotoNext = () => {
+    props.changePage({
+      pageNumber: page.pageNumber,
+      postPerPage: page.postPerPage,
+      offset: page.offset + 1,
+    })
+    router.push(`/blog/${anotherBlog.next?.id}`)
+  }
 
   return (
     <div className={styles.blogDetail}>
@@ -57,20 +85,26 @@ const BlogDetail = ({ blogDetail, blogs, categories, allUsers }) => {
       <div className={styles.navLinks}>
         {Object.values(anotherBlog.prev).length > 0 && (
           <div className={styles.navLink}>
-            <Link href={{ pathname: `/blog/${anotherBlog.prev?.id}` }}>
-              <span>
-                <LeftOutlined /> {anotherBlog.prev?.title?.rendered}
-              </span>
-            </Link>
+            <span
+              role="link"
+              onClick={gotoPrev}
+              onKeyDown={() => {}}
+              tabIndex={0}
+            >
+              <LeftOutlined /> {anotherBlog.prev?.title?.rendered}
+            </span>
           </div>
         )}
         {Object.values(anotherBlog.next).length > 0 && (
-          <div className={styles.navLink}>
-            <Link href={{ pathname: `/blog/${anotherBlog.next?.id}` }}>
-              <span>
-                {anotherBlog.next?.title?.rendered} <RightOutlined />
-              </span>
-            </Link>
+          <div className={styles.nextLink}>
+            <span
+              role="link"
+              onClick={gotoNext}
+              onKeyDown={() => {}}
+              tabIndex={0}
+            >
+              {anotherBlog.next?.title?.rendered} <RightOutlined />
+            </span>
           </div>
         )}
       </div>
@@ -79,13 +113,14 @@ const BlogDetail = ({ blogDetail, blogs, categories, allUsers }) => {
 }
 
 const mapStateToProps = ({
-  blogData: { blogDetail },
+  blogData: { blogDetail, page },
   commonData: { categories },
   lmsData: { allUsers },
 }) => ({
   blogDetail,
   categories,
   allUsers,
+  page,
 })
 
-export default connect(mapStateToProps)(BlogDetail)
+export default connect(mapStateToProps, { changePage })(BlogDetail)
