@@ -3,6 +3,7 @@ import FormField from 'components/elements/Form'
 import SelectComponent from 'components/elements/Select'
 import ButtonComponent from 'components/elements/Button'
 import moment from 'moment'
+import { selectedDates } from 'utils/getSelectedDays'
 import styles from './styles.module.css'
 
 function TmsAttendanceRecordHeader({ children }) {
@@ -10,29 +11,13 @@ function TmsAttendanceRecordHeader({ children }) {
     label: 'This Week',
     value: '1',
   })
-  const [dates, setDates] = useState([moment().startOf('isoWeek'), moment()])
+  const [dates, setDates] = useState([
+    moment().startOf('isoWeek'),
+    moment().startOf('isoWeek').add('4', 'days'),
+  ])
 
   useEffect(() => {
-    const selectedDates = () => {
-      if (weekOrMonth.value === '1')
-        return [
-          moment().startOf('isoWeek'),
-          moment().startOf('isoWeek').add('4', 'days'),
-        ]
-      if (weekOrMonth.value === '2')
-        return [
-          moment().startOf('isoWeek').subtract('7', 'days'),
-          moment().startOf('isoWeek').subtract('7', 'days').add('4', 'days'),
-        ]
-      if (weekOrMonth.value === '3')
-        return [moment().startOf('month'), moment()]
-
-      return [
-        moment().startOf('month').subtract('1', 'month'),
-        moment().startOf('month').subtract('1', 'month').endOf('month'),
-      ]
-    }
-    setDates(selectedDates)
+    setDates(selectedDates(weekOrMonth))
   }, [weekOrMonth.value])
 
   const handleReset = () => {
@@ -40,7 +25,10 @@ function TmsAttendanceRecordHeader({ children }) {
       label: 'This Week',
       value: '1',
     })
-    setDates([moment().startOf('isoWeek'), moment()])
+    setDates([
+      moment().startOf('isoWeek'),
+      moment().startOf('isoWeek').add('4', 'days'),
+    ])
   }
 
   const handleFilter = () => {

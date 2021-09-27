@@ -3,6 +3,14 @@
   padding: 30px 40px;
 }
 
+@media only screen and (min-width: 1707px) {
+  .tms_container {
+    width: 70%;
+    padding: 30px 40px;
+    margin: 0 auto;
+  }
+}
+
 .tms_heading {
   color: #545454;
   font-weight: 700;
@@ -26,4 +34,13 @@
 .record_table {
   white-space: nowrap;
   overflow-x: auto;
+}
+
+.action {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+  color: var(--navbar-color);
+  cursor: pointer;
 }

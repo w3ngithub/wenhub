@@ -12,9 +12,10 @@ function HeaderLayout({ children }) {
           color: '#fff',
           fontSize: '14px',
           fontWeight: '600',
-          width: '80%',
+          width: 'auto',
           height: '100%',
           alignItems: 'center',
+          flex: 1,
           textDecoration: 'none',
         }}
       />

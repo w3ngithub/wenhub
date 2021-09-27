@@ -6,6 +6,7 @@ import {
 import { createWrapper } from 'next-redux-wrapper'
 import { reducer } from './rootReducer'
 import { userSlice } from './user/userSlice'
+import { blogSlice } from './blog/blogSlice'
 const makeStore = wrapMakeStore(() =>
   configureStore({
     reducer,
@@ -13,7 +14,7 @@ const makeStore = wrapMakeStore(() =>
     middleware: getDefaultMiddleware().prepend(
       nextReduxCookieMiddleware({
         secure: true,
-        subtrees: [`${userSlice.name}.userDetail`],
+        subtrees: [`${userSlice.name}.userDetail`, `${blogSlice.name}.page`],
       }),
     ),
   }),
