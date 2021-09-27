@@ -14,6 +14,7 @@ import {
   setPunchIn,
   setPunchOut,
 } from 'redux/tms/tmsActions'
+import useScreenWidthHeightHook from 'hooks/useScreenWidthHeightHook'
 import { openNotification } from 'utils/notification'
 import { officeHour } from 'utils/validateOfficeHourTime'
 import styles from './styles.module.css'
@@ -24,6 +25,8 @@ function TmsTimeAttendanceForm() {
     shallowEqual,
   )
   const dispatch = useDispatch()
+  const [width] = useScreenWidthHeightHook()
+  console.log('width', width)
 
   const [midayExit, setMidayExit] = useState(false)
   const [punchInForm] = Form.useForm()
@@ -49,7 +52,7 @@ function TmsTimeAttendanceForm() {
   return (
     <div
       className={styles.time_attendance_container}
-      style={{ width: firstPunchIn ? '100%' : '50%' }}
+      style={{ width: firstPunchIn || +width < 768 ? '100%' : '50%' }}
     >
       <div className={styles.time_attendance_header}>
         <div className={styles.time_attendance_time}>
@@ -109,16 +112,21 @@ function TmsTimeAttendanceForm() {
             </Form.Item>
 
             <Form.Item>
-              <ButtonComponent
-                btnText="PUNCH IN"
-                htmlType="submit"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                }}
-                icon={<IoIosFingerPrint style={{ fontSize: '22px' }} />}
-              />
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <ButtonComponent
+                  btnText="PUNCH IN"
+                  htmlType="submit"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                  }}
+                  icon={<IoIosFingerPrint style={{ fontSize: '22px' }} />}
+                />
+                {punchIn && (
+                  <ButtonComponent btnText="Update" htmlType="submit" />
+                )}
+              </div>
             </Form.Item>
           </Form>
         </div>
@@ -184,16 +192,21 @@ function TmsTimeAttendanceForm() {
                 />
               </Form.Item>
               <Form.Item>
-                <ButtonComponent
-                  btnText="PUNCH OUT"
-                  htmlType="submit"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                  }}
-                  icon={<IoIosFingerPrint style={{ fontSize: '22px' }} />}
-                />
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <ButtonComponent
+                    btnText="PUNCH OUT"
+                    htmlType="submit"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                    }}
+                    icon={<IoIosFingerPrint style={{ fontSize: '22px' }} />}
+                  />
+                  {punchOut && (
+                    <ButtonComponent btnText="Update" htmlType="submit" />
+                  )}
+                </div>
               </Form.Item>
             </Form>
           </div>
