@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Row, Col, Card } from 'antd'
 import useScreenWidthHeightHook from 'hooks/useScreenWidthHeightHook'
@@ -7,6 +7,7 @@ import ButtonComponent from 'components/elements/Button'
 import { Paginate } from 'components/elements/Pagination'
 import parse from 'html-react-parser'
 import classNames from 'classnames'
+import { useRouter } from 'next/router'
 import { connect } from 'react-redux'
 import { getDate } from 'utils/date'
 import Loader from 'components/elements/Loader'
@@ -18,8 +19,17 @@ import styles from './styles.module.css'
 const Blog = ({ blogs, totalData, categories, page, loading, ...props }) => {
   const [searchBlog, setSearchBlog] = useState('')
   const [text, setText] = useState('')
+  const router = useRouter()
 
   const [screenWidth] = useScreenWidthHeightHook()
+
+  useEffect(() => {
+    props.changePage({
+      pageNumber: 1,
+      postPerPage: 10,
+      offset: 0,
+    })
+  }, [])
 
   useDidMountEffect(
     () =>
@@ -33,6 +43,15 @@ const Blog = ({ blogs, totalData, categories, page, loading, ...props }) => {
     e.preventDefault()
     setSearchBlog(text)
     props.changePage({ pageNumber: 1, postPerPage: 10 })
+  }
+
+  const gotToDetail = (x, i) => {
+    router.push(`${VIEW_BLOG_PATH}/${x.id}`)
+    props.changePage({
+      pageNumber: page.pageNumber,
+      postPerPage: page.postPerPage,
+      offset: page.pageNumber * page.postPerPage - page.postPerPage + i,
+    })
   }
 
   return (
@@ -68,7 +87,7 @@ const Blog = ({ blogs, totalData, categories, page, loading, ...props }) => {
         </form>
 
         <Row gutter={[12, 24]}>
-          {blogs.map((x) => (
+          {blogs.map((x, i) => (
             <Col sm={24} md={12} key={x.id}>
               <Card
                 bodyStyle={
@@ -76,15 +95,16 @@ const Blog = ({ blogs, totalData, categories, page, loading, ...props }) => {
                 }
                 title={
                   <>
-                    <Link
-                      href={{
-                        pathname: `${VIEW_BLOG_PATH}/${x.id}`,
-                      }}
+                    <span
+                      role="link"
+                      onClick={() => gotToDetail(x, i)}
+                      onKeyDown={() => {}}
+                      tabIndex={0}
                     >
                       <h3 className={styles.heading}>
                         {x.excerpt.protected && 'Protected:'} {x.title.rendered}
                       </h3>
-                    </Link>
+                    </span>
                     <strong>
                       <i>Posted on {getDate(x.date)}</i>
                     </strong>
@@ -121,7 +141,11 @@ const Blog = ({ blogs, totalData, categories, page, loading, ...props }) => {
               length={+totalData}
               currentPage={page.pageNumber}
               handlePageChange={(pgNo, pgSz) =>
-                props.changePage({ pageNumber: pgNo, postPerPage: pgSz })
+                props.changePage({
+                  pageNumber: pgNo,
+                  postPerPage: pgSz,
+                  offset: pgNo * pgSz - pgSz,
+                })
               }
             />
           </Col>

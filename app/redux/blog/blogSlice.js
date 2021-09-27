@@ -3,7 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper'
 
 const initialState = {
   blogs: [],
-  page: { pageNumber: 1, postPerPage: 10 },
+  page: { pageNumber: 1, postPerPage: 10, offset: 0 },
   blogDetail: {},
   loading: false,
   totalData: 0,
