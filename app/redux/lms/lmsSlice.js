@@ -137,6 +137,19 @@ export const lmsSlice = createSlice({
       state.isLeaveFiltered = false
       state.filteredLeaves = []
     },
+    lmsAdminInitialData: (state, { payload }) => {
+      state.lmsLoading = false
+      state.lmsPending = payload[0].data
+      state.totalPending = +payload[0].headers['x-wp-total']
+      state.lmsApproved = payload[1].data
+      state.totalApproved = +payload[1].headers['x-wp-total']
+      state.lmsCancelled = payload[2].data
+      state.totalCancelled = +payload[2].headers['x-wp-total']
+      state.allUsersLeavesRemaining = payload[3].data
+      state.allUsers = payload[4].data
+      state.allUsersTotal = +payload[4].headers['x-wp-total']
+      state.allLeavesCalendar = payload[5].data
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => ({

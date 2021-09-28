@@ -89,6 +89,7 @@ function NavBar({ navItems, backgroundColor, styles }) {
           {navItems.map((item) =>
             !item.subItem ? (
               <li
+                key={item.item}
                 aria-hidden
                 className={style.listMobile}
                 onClick={() => setShowMenuMobile(false)}
@@ -107,6 +108,7 @@ function NavBar({ navItems, backgroundColor, styles }) {
                   <ul>
                     {item.subItem.map((sub) => (
                       <li
+                        key={sub.item}
                         aria-hidden
                         className={style.subListMobile}
                         onClick={() => setShowMenuMobile(false)}

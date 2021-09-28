@@ -66,3 +66,14 @@ export function allLeavesCalendarFetch() {
 export function filteredLeaveFetch(payload) {
   return api.post(`${API_URL}/lms/search_filter`, payload)
 }
+
+export function lmsAdminInitialData() {
+  return api.all([
+    getLmsAdminLeave(1, 10, 150),
+    getLmsAdminLeave(1, 10, 151),
+    getLmsAdminLeave(1, 10, 152),
+    allUsersLeavesRemaining(),
+    allUserFetch(100, 1),
+    allLeavesCalendarFetch(),
+  ])
+}
