@@ -26,7 +26,6 @@ function TmsTimeAttendanceForm() {
   )
   const dispatch = useDispatch()
   const [width] = useScreenWidthHeightHook()
-  console.log('width', width)
 
   const [midayExit, setMidayExit] = useState(false)
   const [punchInForm] = Form.useForm()

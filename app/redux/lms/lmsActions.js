@@ -24,7 +24,7 @@ const {
   resetIsLeaveFilterCondition,
 } = lmsSlice.actions
 
-export const fetchLmsLeave = (page, perPage, id) => (dispatch) => {
+export const fetchLmsLeave = (page, perPage, id) => async (dispatch) => {
   dispatch(lmsLeaveLoading())
   return requestFromServer
     .getLmsLeave(page, perPage, id)
