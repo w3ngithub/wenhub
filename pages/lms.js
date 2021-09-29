@@ -29,10 +29,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
     }
     await dispatch(fetchLeaveFields())
     const teamLeads = await restClient.get(`${API_URL}/users/team_leads`)
-    // await dispatch(fetchLmsLeave(1, 10, userDetail.user_id))
-    // await dispatch(userLeaveDaysFetch(userDetail.user_id))
-    // await dispatch(fetchLmsFaq())
-    // await dispatch(fetchLmsArchiveTypes())
     await dispatch(lmsServerFetch(userDetail.user_id))
     return { props: { teamLeads: teamLeads.data } }
   },
