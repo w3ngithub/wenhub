@@ -47,6 +47,13 @@ export function userLeaveDaysFetch(userId) {
   ])
 }
 
+export function userAppliedFetch(userId) {
+  return api.get(`${API_URL}/lms/leave_applied_days/${userId}`)
+}
+export function userRemainingFetch(userId) {
+  return api.get(`${API_URL}/lms/leave_remaining_days/${userId}`)
+}
+
 export function allUsersLeavesRemaining(perPage = 100, page = 1) {
   return api.get(
     `${API_URL}/lms/users/leaves_remaining?per_page=${perPage}&page=${page}`,
@@ -65,4 +72,29 @@ export function allLeavesCalendarFetch() {
 
 export function filteredLeaveFetch(payload) {
   return api.post(`${API_URL}/lms/search_filter`, payload)
+}
+export function teamLeads() {
+  return api.get(`${API_URL}/users/team_leads`)
+}
+
+export function lmsAdminInitialData() {
+  return api.all([
+    getLmsAdminLeave(1, 10, 150),
+    getLmsAdminLeave(1, 10, 151),
+    getLmsAdminLeave(1, 10, 152),
+    allUsersLeavesRemaining(),
+    allUserFetch(100, 1),
+    allLeavesCalendarFetch(),
+  ])
+}
+
+export function lmsInitialData(userId) {
+  return api.all([
+    getLmsLeave(1, 10, userId),
+    userAppliedFetch(userId),
+    userRemainingFetch(userId),
+    getLmsFaq(),
+    getLmsArchiveTypes(),
+    teamLeads(),
+  ])
 }

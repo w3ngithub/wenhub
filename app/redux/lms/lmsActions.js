@@ -22,9 +22,11 @@ const {
   filteredLeaveFetchSucess,
   getlmsAdminForm,
   resetIsLeaveFilterCondition,
+  lmsAdminInitialData,
+  lmsInitialData,
 } = lmsSlice.actions
 
-export const fetchLmsLeave = (page, perPage, id) => (dispatch) => {
+export const fetchLmsLeave = (page, perPage, id) => async (dispatch) => {
   dispatch(lmsLeaveLoading())
   return requestFromServer
     .getLmsLeave(page, perPage, id)
@@ -311,4 +313,65 @@ export const lmsAdminFormAction = (payload) => (dispatch) => {
 
 export const resetIsLeaveFilter = () => (dispatch) => {
   dispatch(resetIsLeaveFilterCondition())
+}
+
+export const lmsAdminServerDataFetch = () => (dispatch) => {
+  dispatch(lmsLeaveLoading())
+  return requestFromServer
+    .lmsAdminInitialData()
+    .then(
+      axios.spread((...response) => {
+        dispatch(
+          lmsAdminInitialData([
+            {
+              data: response[0].data,
+              total: +response[0].headers['x-wp-total'],
+            },
+            {
+              data: response[1].data,
+              total: +response[1].headers['x-wp-total'],
+            },
+            {
+              data: response[2].data,
+              total: +response[2].headers['x-wp-total'],
+            },
+            { data: response[3].data },
+            {
+              data: response[4].data,
+              total: +response[4].headers['x-wp-total'],
+            },
+            { data: response[5].data },
+          ]),
+        )
+      }),
+    )
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+export const lmsServerFetch = (userId) => (dispatch) => {
+  dispatch(lmsLeaveLoading())
+  return requestFromServer
+    .lmsInitialData(userId)
+    .then(
+      axios.spread((...response) => {
+        dispatch(
+          lmsInitialData([
+            {
+              data: response[0].data,
+              total: +response[0].headers['x-wp-total'],
+            },
+            { data: response[1].data },
+            { data: response[2].data },
+            { data: response[3].data },
+            { data: response[4].data },
+            { data: response[5].data },
+          ]),
+        )
+      }),
+    )
+    .catch((err) => {
+      console.log(err)
+    })
 }

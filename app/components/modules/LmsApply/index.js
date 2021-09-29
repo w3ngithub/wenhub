@@ -237,8 +237,8 @@ function LmsApply({
 
 const mapStateToProps = ({
   userData: { userDetail },
-  lmsData: { lmsLoading, lmsLeaves },
+  lmsData: { lmsLoading, lmsLeaves, teamLeads },
   commonData: { leaveFields },
-}) => ({ userDetail, leaveFields, lmsLoading, lmsLeaves })
+}) => ({ userDetail, leaveFields, lmsLoading, lmsLeaves, teamLeads })
 
 export default connect(mapStateToProps, { putLmsLeave })(LmsApply)
