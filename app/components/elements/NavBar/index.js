@@ -156,7 +156,10 @@ function NavBar({ navItems, backgroundColor, styles }) {
                 </span>
               )}
             </div>
-            <div className={`${style.menuOpen} ${style.mobileView}`}>
+            <div
+              className={`${style.menuOpen} ${style.mobileView}`}
+              style={{ marginLeft: '10px' }}
+            >
               <MenuOutlined
                 style={{ fontSize: '16px', color: '#fff' }}
                 onClick={() => setShowMenuMobile(true)}
@@ -175,7 +178,7 @@ function NavBar({ navItems, backgroundColor, styles }) {
               defaultSelectedKeys={['1']}
               style={{
                 backgroundColor: 'inherit',
-                padding: '32px 0',
+                padding: '1px 0',
                 width: '100%',
                 ...styles,
               }}
