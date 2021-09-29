@@ -321,7 +321,28 @@ export const lmsAdminServerDataFetch = () => (dispatch) => {
     .lmsAdminInitialData()
     .then(
       axios.spread((...response) => {
-        dispatch(lmsAdminInitialData(response))
+        dispatch(
+          lmsAdminInitialData([
+            {
+              data: response[0].data,
+              total: +response[0].headers['x-wp-total'],
+            },
+            {
+              data: response[1].data,
+              total: +response[1].headers['x-wp-total'],
+            },
+            {
+              data: response[2].data,
+              total: +response[2].headers['x-wp-total'],
+            },
+            { data: response[3].data },
+            {
+              data: response[4].data,
+              total: +response[4].headers['x-wp-total'],
+            },
+            { data: response[5].data },
+          ]),
+        )
       }),
     )
     .catch((err) => {
@@ -335,8 +356,19 @@ export const lmsServerFetch = (userId) => (dispatch) => {
     .lmsInitialData(userId)
     .then(
       axios.spread((...response) => {
-        console.log(response)
-        dispatch(lmsInitialData(response))
+        dispatch(
+          lmsInitialData([
+            {
+              data: response[0].data,
+              total: +response[0].headers['x-wp-total'],
+            },
+            { data: response[1].data },
+            { data: response[2].data },
+            { data: response[3].data },
+            { data: response[4].data },
+            { data: response[5].data },
+          ]),
+        )
       }),
     )
     .catch((err) => {
