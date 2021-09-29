@@ -23,6 +23,7 @@ const {
   getlmsAdminForm,
   resetIsLeaveFilterCondition,
   lmsAdminInitialData,
+  lmsInitialData,
 } = lmsSlice.actions
 
 export const fetchLmsLeave = (page, perPage, id) => async (dispatch) => {
@@ -321,6 +322,21 @@ export const lmsAdminServerDataFetch = () => (dispatch) => {
     .then(
       axios.spread((...response) => {
         dispatch(lmsAdminInitialData(response))
+      }),
+    )
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+export const lmsServerFetch = (userId) => (dispatch) => {
+  dispatch(lmsLeaveLoading())
+  return requestFromServer
+    .lmsInitialData(userId)
+    .then(
+      axios.spread((...response) => {
+        console.log(response)
+        dispatch(lmsInitialData(response))
       }),
     )
     .catch((err) => {

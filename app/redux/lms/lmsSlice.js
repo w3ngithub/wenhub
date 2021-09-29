@@ -150,6 +150,15 @@ export const lmsSlice = createSlice({
       state.allUsersTotal = +payload[4].headers['x-wp-total']
       state.allLeavesCalendar = payload[5].data
     },
+    lmsInitialData: (state, { payload }) => {
+      state.lmsLoading = false
+      state.lmsLeaves = payload[0].data
+      state.totalLeaves = +payload[0].headers['x-wp-total']
+      state.userLeaveDaysApplied = payload[1].data
+      state.userLeaveDaysRemaning = payload[2].data
+      state.faq = payload[3].data
+      state.archiveTypes = payload[4].data
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => ({
