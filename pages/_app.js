@@ -10,7 +10,6 @@ import 'styles/app.scss'
 import 'styles/css/components/button.css'
 import 'styles/public.css'
 
-
 function MyApp({ Component, pageProps }) {
   const [history, setHistory] = useState([])
   const { noHeader, noCard, isLogin } = pageProps
