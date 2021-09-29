@@ -26,6 +26,7 @@ const initialState = {
   isLeaveFiltered: false,
   filteredLeaves: [],
   lmsAdminForm: {},
+  teamLeads: [],
 }
 
 export const lmsSlice = createSlice({
@@ -136,6 +137,29 @@ export const lmsSlice = createSlice({
     resetIsLeaveFilterCondition: (state) => {
       state.isLeaveFiltered = false
       state.filteredLeaves = []
+    },
+    lmsAdminInitialData: (state, { payload }) => {
+      state.lmsLoading = false
+      state.lmsPending = payload[0].data
+      state.totalPending = +payload[0].total
+      state.lmsApproved = payload[1].data
+      state.totalApproved = +payload[1].total
+      state.lmsCancelled = payload[2].data
+      state.totalCancelled = +payload[2].total
+      state.allUsersLeavesRemaining = payload[3].data
+      state.allUsers = payload[4].data
+      state.allUsersTotal = +payload[4].total
+      state.allLeavesCalendar = payload[5].data
+    },
+    lmsInitialData: (state, { payload }) => {
+      state.lmsLoading = false
+      state.lmsLeaves = payload[0].data
+      state.totalLeaves = payload[0].total
+      state.userLeaveDaysApplied = payload[1].data
+      state.userLeaveDaysRemaning = payload[2].data
+      state.faq = payload[3].data
+      state.archiveTypes = payload[4].data
+      state.teamLeads = payload[5].data
     },
   },
   extraReducers: {
