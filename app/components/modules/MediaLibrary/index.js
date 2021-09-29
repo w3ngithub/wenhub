@@ -20,9 +20,7 @@ import restClient from 'api/restClient'
 import styles from './styles.module.css'
 import style from './styles.module.scss'
 
-const SelectableFile = ({ children, selected, onClick }) => { 
-  
-return (
+const SelectableFile = ({ children, selected, onClick }) => (
   <div className={style.card}>
     <div
       className={classNames(style.selectable, { [style.selected]: selected })}
@@ -31,14 +29,15 @@ return (
       aria-hidden="true"
     >
       {children}
-      {selected && 
-      <div className={style.check} >
-        <span className={style.checkmark}></span> 
-      </div>
-      }
+      {selected && (
+        <div className={style.check}>
+          <span className={style.checkmark}></span>
+        </div>
+      )}
     </div>
   </div>
-)}
+)
+
 const SelectableComponent = createSelectable(SelectableFile)
 
 function MediaLibrary() {
@@ -61,8 +60,8 @@ function MediaLibrary() {
     label: 'All Dates',
     value: 'all',
   })
+  const [isDeleting, setIsDeleting] = useState(false)
   const [screenWidth] = useScreenWidthHeightHook()
-
 
   useEffect(() => {
     setSelectedKeys([
@@ -102,6 +101,7 @@ function MediaLibrary() {
 
   // delete remote media file
   const confirm = () => {
+    setIsDeleting(true)
     restClient
       .del(
         `${API_URL}/media/delete?ids=${remoteSelectedFiles
@@ -122,6 +122,9 @@ function MediaLibrary() {
           type: 'error',
           message: err.response?.data?.message || 'Could not delete file',
         })
+      })
+      .finally(() => {
+        setIsDeleting(false)
       })
   }
 
@@ -273,6 +276,12 @@ function MediaLibrary() {
               </SelectableGroup>
             </div>
           </div>
+
+          {isDeleting && (
+            <div className={styles.deleting_loading_container}>
+              <Loader />
+            </div>
+          )}
           <div
             className={styles.media_details}
             style={{
