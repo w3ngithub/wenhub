@@ -73,6 +73,9 @@ export function allLeavesCalendarFetch() {
 export function filteredLeaveFetch(payload) {
   return api.post(`${API_URL}/lms/search_filter`, payload)
 }
+export function teamLeads() {
+  return api.get(`${API_URL}/users/team_leads`)
+}
 
 export function lmsAdminInitialData() {
   return api.all([
@@ -92,5 +95,6 @@ export function lmsInitialData(userId) {
     userRemainingFetch(userId),
     getLmsFaq(),
     getLmsArchiveTypes(),
+    teamLeads(),
   ])
 }

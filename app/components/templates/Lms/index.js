@@ -9,7 +9,7 @@ import Archive from 'components/modules/LmsArchive'
 import FAQ from './LmsFaq'
 import styles from './styles.module.css'
 
-function Lms({ leaveFields, teamLeads }) {
+function Lms({ leaveFields }) {
   const [alertVisible, setAlertVisible] = useState(false)
 
   const { userLeaveDaysApplied, userLeaveDaysRemaning } = useSelector(
@@ -59,12 +59,7 @@ function Lms({ leaveFields, teamLeads }) {
             {
               id: '1',
               tab: 'Apply',
-              content: (
-                <Apply
-                  setAlertVisible={setAlertVisible}
-                  teamLeads={teamLeads}
-                />
-              ),
+              content: <Apply setAlertVisible={setAlertVisible} />,
             },
             {
               id: '2',

@@ -26,6 +26,7 @@ const initialState = {
   isLeaveFiltered: false,
   filteredLeaves: [],
   lmsAdminForm: {},
+  teamLeads: [],
 }
 
 export const lmsSlice = createSlice({
@@ -158,6 +159,7 @@ export const lmsSlice = createSlice({
       state.userLeaveDaysRemaning = payload[2].data
       state.faq = payload[3].data
       state.archiveTypes = payload[4].data
+      state.teamLeads = payload[5].data
     },
   },
   extraReducers: {

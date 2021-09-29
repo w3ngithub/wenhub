@@ -3,13 +3,11 @@ import Lms from 'components/templates/Lms'
 import { wrapper } from 'redux/store'
 import { fetchLeaveFields } from 'redux/common/commonActions'
 import { lmsServerFetch } from 'redux/lms/lmsActions'
-import restClient from 'api/restClient'
-import { API_URL } from 'constants/constants'
 
-function LmsPage({ teamLeads }) {
+function LmsPage() {
   return (
     <>
-      <Lms teamLeads={teamLeads} />
+      <Lms />
     </>
   )
 }
@@ -28,9 +26,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
       }
     }
     await dispatch(fetchLeaveFields())
-    const teamLeads = await restClient.get(`${API_URL}/users/team_leads`)
     await dispatch(lmsServerFetch(userDetail.user_id))
-    return { props: { teamLeads: teamLeads.data } }
+    return { props: {} }
   },
 )
 
