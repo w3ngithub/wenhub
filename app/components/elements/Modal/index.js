@@ -17,7 +17,7 @@ const Modals = ({
   footer,
   centered,
 }) => {
-  useLockBodyScroll()
+  useLockBodyScroll(visible)
   let width
 
   if (variant === 'small') {

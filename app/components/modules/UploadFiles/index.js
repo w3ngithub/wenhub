@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { Upload, message } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
+import axios from 'axios'
 import {
   addingselectedFilesFromMedia,
   addMediaFiles,
   getAllMediaFiles,
 } from 'redux/addMedia/addMediaActions'
 import { API_URL } from 'constants/constants'
-import axios from 'axios'
 import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
@@ -37,6 +37,7 @@ function UplaodFiles() {
   }
 
   const customRequest = (options) => {
+    console.log(options)
     const formData = new FormData()
     formData.append('file', options.file)
     formData.append('title', options.file.name)

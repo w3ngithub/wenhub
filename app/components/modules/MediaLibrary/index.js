@@ -58,7 +58,7 @@ function MediaLibrary() {
   const [remoteMediaFilesDropDown, selectedRemoteFilesDropdown] = useState([])
   const [dateSearchFiles, setDateSearchFiles] = useState({
     label: 'All Dates',
-    value: 'all',
+    value: '',
   })
   const [medialTypeSearchFiles, setMedialTypeSearchFiles] = useState({
     label: 'All Media Items',
@@ -115,7 +115,7 @@ function MediaLibrary() {
       .then(() => {
         openNotification({
           type: 'success',
-          message: 'file deleted successfully',
+          message: 'File deleted successfully',
         })
         dispatch(
           deleteMediaFiles([...remoteSelectedFiles.map((file) => file.id)]),
