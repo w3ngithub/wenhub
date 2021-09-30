@@ -96,11 +96,19 @@
   .media_search {
     width: 100%;
   }
+
+  .filter_action {
+    flex-direction: column;
+    width: 100%;
+  }
+  .media_filter {
+    width: 100%;
+  }
 }
 
 .filter_action {
   display: flex;
-  column-gap: 5px;
+  gap: 5px;
   width: 100%;
 }
 

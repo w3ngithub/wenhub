@@ -60,6 +60,10 @@ function MediaLibrary() {
     label: 'All Dates',
     value: 'all',
   })
+  const [medialTypeSearchFiles, setMedialTypeSearchFiles] = useState({
+    label: 'All Media Items',
+    value: '1',
+  })
   const [isDeleting, setIsDeleting] = useState(false)
   const [screenWidth] = useScreenWidthHeightHook()
 
@@ -157,15 +161,23 @@ function MediaLibrary() {
     getMediaFiles()
   }, [])
 
-  // show date specific files to user
+  // show date specific files and file type specific files to user
   useEffect(() => {
     selectedRemoteFilesDropdown(
       remoteMedialFiles.filter((file) => {
-        if (dateSearchFiles.value === 'all') return true
-        return moment(file.date) >= moment(dateSearchFiles.value)
+        if (dateSearchFiles.value === '' && medialTypeSearchFiles.value === '1')
+          return true
+        if (dateSearchFiles.value === '')
+          return file.media_type === medialTypeSearchFiles.value
+        if (medialTypeSearchFiles.value === '1')
+          return moment(file.date) >= moment(dateSearchFiles.value)
+        return (
+          moment(file.date) >= moment(dateSearchFiles.value) &&
+          file.media_type === medialTypeSearchFiles.value
+        )
       }),
     )
-  }, [dateSearchFiles.value, remoteMedialFiles])
+  }, [dateSearchFiles.value, medialTypeSearchFiles.value, remoteMedialFiles])
 
   // send selectd files to redux store
   useEffect(() => {
@@ -193,24 +205,26 @@ function MediaLibrary() {
                 <span>Filter Media</span>
                 <div className={styles.filter_action}>
                   <SelectComponent
-                    value={{ label: 'All Media Items', value: '1' }}
+                    value={medialTypeSearchFiles}
                     options={[
                       { label: 'All Media Items', value: '1' },
-                      { label: 'Uploaded to this page', value: '2' },
-                      { label: 'Images', value: '3' },
+                      { label: 'Images', value: 'image' },
+                      { label: 'Videos', value: 'video' },
                     ]}
                     style={{
                       width: '100%',
                       fontSize: '0.7rem',
                       fontWeight: 'bold',
                       textAlign: 'left',
+                      minWidth: '155px',
                     }}
+                    onChange={(value) => setMedialTypeSearchFiles(value)}
                   />
                   <SelectComponent
                     value={dateSearchFiles}
                     onChange={(value) => setDateSearchFiles(value)}
                     options={[
-                      { label: 'All Dates', value: 'all' },
+                      { label: 'All Dates', value: '' },
                       { label: 'July 2021', value: '2021/07' },
                       { label: 'June 2021', value: '2021/06' },
                       { label: 'May 2018', value: '2018/05' },

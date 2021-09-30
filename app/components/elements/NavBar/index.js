@@ -18,6 +18,7 @@ import { setfirstPunchIn, setfirstPunchOut } from 'redux/tms/tmsActions'
 import { openNotification } from 'utils/notification'
 import { TMS_PATH } from 'constants/routePath'
 import { officeHour } from 'utils/validateOfficeHourTime'
+import config from 'constants/config'
 import style from './navbar.module.css'
 
 const { SubMenu } = Menu
@@ -146,16 +147,22 @@ function NavBar({ navItems, backgroundColor, styles }) {
                 </span>
               </Link>
             </div>
-            <div className={`${style.punch}`} onClick={handlePunch} aria-hidden>
-              <IoIosFingerPrint style={{ fontSize: '24px' }} />
-              {firstPunchOut ? (
-                <span>OFFICE HOUR 9HR</span>
-              ) : (
-                <span>
-                  PUNCH {firstPunchIn ? 'OUT' : 'IN'} <LiveTime />
-                </span>
-              )}
-            </div>
+            {config.showTmsFeature && (
+              <div
+                className={`${style.punch}`}
+                onClick={handlePunch}
+                aria-hidden
+              >
+                <IoIosFingerPrint style={{ fontSize: '24px' }} />
+                {firstPunchOut ? (
+                  <span>OFFICE HOUR 9HR</span>
+                ) : (
+                  <span>
+                    PUNCH {firstPunchIn ? 'OUT' : 'IN'} <LiveTime />
+                  </span>
+                )}
+              </div>
+            )}
             <div
               className={`${style.menuOpen} ${style.mobileView}`}
               style={{ marginLeft: '10px' }}
