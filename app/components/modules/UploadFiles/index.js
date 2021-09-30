@@ -4,6 +4,7 @@ import { InboxOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import {
+  activeMediaTabAction,
   addingselectedFilesFromMedia,
   addMediaFiles,
   getAllMediaFiles,
@@ -56,6 +57,7 @@ function UplaodFiles() {
         options.onSuccess(options.file)
         dispatch(addingselectedFilesFromMedia(res.data))
         dispatch(getAllMediaFiles())
+        dispatch(activeMediaTabAction('2'))
       })
       .catch((err) => {
         console.log('err', JSON.stringify(err))

@@ -7,6 +7,7 @@ const initialState = {
   loading: false,
   selectedFilesFromMedia: [],
   remoteSelectedFilesfromMedia: [],
+  activeMediaTab: '1',
   error: '',
 }
 
@@ -61,6 +62,9 @@ export const addMediaSlice = createSlice({
     },
     resetselectedFilesFromMedia: (state) => {
       state.remoteSelectedFilesfromMedia = []
+    },
+    activeMediaTabFetch: (state, { payload }) => {
+      state.activeMediaTab = payload
     },
   },
 })

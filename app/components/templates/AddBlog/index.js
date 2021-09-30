@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
+import { Tabs, Checkbox } from 'antd'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import classNames from 'classnames'
 import {
+  activeMediaTabAction,
   clearRemoteSelectedFiles,
   resetSelectedFilesFromMedia,
 } from 'redux/addMedia/addMediaActions'
 import { CameraOutlined } from '@ant-design/icons'
-import { Checkbox } from 'antd'
 import QuillEditor from 'components/elements/QuillEditor'
 import FormField from 'components/elements/Form'
 import ButtonComponent from 'components/elements/Button'
 import Modal from 'components/elements/Modal'
-import Tab from 'components/elements/Tabs'
 import UploadFiles from 'components/modules/UploadFiles'
 import MediaLibrary from 'components/modules/MediaLibrary'
 import restClient from 'api/restClient'
@@ -19,15 +19,16 @@ import { API_URL } from 'constants/constants'
 import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
+const { TabPane } = Tabs
+
 const AddBlog = () => {
   const [loading, setLoading] = useState(false)
-  const [getKey, setGetKey] = useState(1)
   const [category, setCategory] = useState([])
   const [content, setContent] = useState('')
   const [title, setTitle] = useState('')
   const [modelOpen, setModelOPen] = useState(false)
 
-  const { remoteSelectedFiles } = useSelector(
+  const { remoteSelectedFiles, activeMediaTab } = useSelector(
     (state) => state.addMedia,
     shallowEqual,
   )
@@ -203,8 +204,7 @@ const AddBlog = () => {
               'modal_container_add_media',
             )}
           >
-            <Tab
-              activeKey={getKey}
+            <Tabs
               type="card"
               tabBarStyle={{
                 background: '#fff',
@@ -212,22 +212,26 @@ const AddBlog = () => {
                 overFlowX: 'scroll',
                 whiteSpace: 'nowrap',
               }}
-              tabs={[
+              activeKey={activeMediaTab}
+              onChange={(value) => dispatch(activeMediaTabAction(value))}
+            >
+              {[
                 {
                   id: '1',
                   tab: 'Upload Files',
-                  content: <UploadFiles />,
+                  contents: <UploadFiles />,
                 },
                 {
                   id: '2',
                   tab: 'Media Library',
-                  content: <MediaLibrary />,
+                  contents: <MediaLibrary />,
                 },
-              ]}
-              getKey={(key) => {
-                setGetKey(key)
-              }}
-            />
+              ].map(({ id, tab, contents }) => (
+                <TabPane key={id} tab={tab}>
+                  <div style={{ paddingTop: '15px' }}>{contents}</div>
+                </TabPane>
+              ))}
+            </Tabs>
           </div>
         </Modal>
       </div>
