@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import {
   activeMediaTabAction,
-  addingselectedFilesFromMedia,
+  // addingselectedFilesFromMedia,
   addMediaFiles,
   getAllMediaFiles,
 } from 'redux/addMedia/addMediaActions'
@@ -55,14 +55,22 @@ function UplaodFiles() {
       .post(`${API_URL}/media`, formData, { headers })
       .then((res) => {
         options.onSuccess(options.file)
-        dispatch(addingselectedFilesFromMedia(res.data))
+        // dispatch(addingselectedFilesFromMedia(res.data))
         dispatch(getAllMediaFiles())
+        openNotification({
+          type: 'success',
+          message: `${options.file.name} Uploaded Successfully`,
+        })
+
         dispatch(activeMediaTabAction('2'))
       })
       .catch((err) => {
         console.log('err', JSON.stringify(err))
-        openNotification({ type: 'error', message: 'Upload failed' })
-        options.onError('Upload failed')
+        openNotification({
+          type: 'error',
+          message: `${options.file.name} Upload failed`,
+        })
+        options.onError(`${options.file.name} Upload failed`)
       })
   }
 
