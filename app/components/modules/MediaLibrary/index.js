@@ -168,12 +168,12 @@ function MediaLibrary() {
         if (dateSearchFiles.value === '' && medialTypeSearchFiles.value === '1')
           return true
         if (dateSearchFiles.value === '')
-          return file.media_type === medialTypeSearchFiles.value
+          return file.mime_type.split('/')[0] === medialTypeSearchFiles.value
         if (medialTypeSearchFiles.value === '1')
           return moment(file.date) >= moment(dateSearchFiles.value)
         return (
           moment(file.date) >= moment(dateSearchFiles.value) &&
-          file.media_type === medialTypeSearchFiles.value
+          file.mime_type.split('/')[0] === medialTypeSearchFiles.value
         )
       }),
     )
@@ -275,14 +275,20 @@ function MediaLibrary() {
                         selectableKey={item.id}
                         onClick={() => handleSelectImageByClick(item.id)}
                       >
-                        <Image
-                          src={
-                            item?.media_details?.sizes?.thumbnail?.source_url
-                          }
-                          alt={item.alt_text}
-                          height={125}
-                          width={125}
-                        />
+                        {item.mime_type.split('/')[0] === 'image' ? (
+                          <Image
+                            src={
+                              item?.media_details?.sizes?.thumbnail?.source_url
+                            }
+                            alt={item.alt_text}
+                            height={125}
+                            width={125}
+                          />
+                        ) : (
+                          <video style={{ width: '118px', height: '120px' }}>
+                            <source src={item.source_url} />
+                          </video>
+                        )}
                       </SelectableComponent>
                     )
                   })
@@ -309,24 +315,37 @@ function MediaLibrary() {
                   className={style.card}
                   style={{ border: '4px solid transparent', margin: '0' }}
                 >
-                  <Image
-                    src={
-                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
-                        .media_details?.sizes?.thumbnail?.source_url
-                    }
-                    alt={
-                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
-                        .alt_text
-                    }
-                    height={
-                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
-                        .media_details?.sizes?.thumbnail?.height
-                    }
-                    width={
-                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
-                        .media_details?.sizes?.thumbnail?.width
-                    }
-                  />
+                  {remoteSelectedFiles[
+                    remoteSelectedFiles.length - 1
+                  ].mime_type.split('/')[0] === 'image' ? (
+                    <Image
+                      src={
+                        remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                          .media_details?.sizes?.thumbnail?.source_url
+                      }
+                      alt={
+                        remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                          .alt_text
+                      }
+                      height={
+                        remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                          .media_details?.sizes?.thumbnail?.height
+                      }
+                      width={
+                        remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                          .media_details?.sizes?.thumbnail?.width
+                      }
+                    />
+                  ) : (
+                    <video style={{ width: '118px', height: '120px' }} autoPlay>
+                      <source
+                        src={
+                          remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                            .source_url
+                        }
+                      />
+                    </video>
+                  )}
                 </div>
                 <p>
                   {

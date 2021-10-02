@@ -32,22 +32,38 @@ const AddBlog = () => {
     (state) => state.addMedia,
     shallowEqual,
   )
+  console.log(remoteSelectedFiles)
   const { categories } = useSelector((state) => state.commonData, shallowEqual)
   const dispatch = useDispatch()
 
   const isRemoteFileSelected = remoteSelectedFiles.length > 0
 
   const handleInsertIntoPage = () => {
-    setContent(
-      `<p>${remoteSelectedFiles
-        .map((file) => `<img src=${file.guid.rendered} />`)
-        .join('')}</p>`,
+    setContent((prev) =>
+      prev.concat(`<p>
+      <img src='https://wendevs.com/wenhub-rt/wp-content/uploads/2021/09/Statue-of-Ramses-II-Luxor-Egypt.jpg' />
+        </p>`),
     )
 
     setModelOPen(false)
     dispatch(clearRemoteSelectedFiles())
     dispatch(resetSelectedFilesFromMedia())
   }
+  // ${remoteSelectedFiles
+  //   .map((file) => {
+  //     if (file.mime_type.split('/')[0] === 'image')
+  //       return `<img src=${file.guid.rendered} />`
+  //     return `<video  autoPlay height="130px" width="130px" controls>
+  //     <source
+  //       src=${
+  //         remoteSelectedFiles[remoteSelectedFiles.length - 1].source_url
+  //       }
+  //     />
+  //   </video>`
+  //   })
+  //   .join('')}
+  console.log('content', content)
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if (title !== '') {
@@ -112,7 +128,16 @@ const AddBlog = () => {
             />
             <QuillEditor
               name="blog_content"
-              value={content}
+              value={`<p>
+              
+
+              <video   height="130px" width="130px" controls>
+                  <source
+                    src="https://wendevs.com/wenhub-rt/wp-content/uploads/2021/10/pexels-eva-elijas-7606359-2.mp4"
+                  />
+                </video>
+
+                </p>`}
               onChange={(value) => setContent(value)}
               className={styles.content_editor}
             />
@@ -176,15 +201,25 @@ const AddBlog = () => {
                       </div>
                     </div>
                     <span className={styles.footer_images}>
-                      {remoteSelectedFiles.map((file) => (
-                        <img
-                          key={file.id}
-                          src={file.media_details?.sizes?.thumbnail?.source_url}
-                          alt="media files"
-                          height="30px"
-                          width="30px"
-                        />
-                      ))}
+                      {remoteSelectedFiles.map((file) => {
+                        if (file.mime_type.split('/')[0] === 'image')
+                          return (
+                            <img
+                              key={file.id}
+                              src={
+                                file.media_details?.sizes?.thumbnail?.source_url
+                              }
+                              alt="media files"
+                              height="30px"
+                              width="30px"
+                            />
+                          )
+                        return (
+                          <video key={file.id} height="30px" width="30px">
+                            <source src={file.source_url} />
+                          </video>
+                        )
+                      })}
                     </span>
                   </div>
                 )}
