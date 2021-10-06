@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import {
   activeMediaTabAction,
-  // addingselectedFilesFromMedia,
   addMediaFiles,
   getAllMediaFiles,
 } from 'redux/addMedia/addMediaActions'
@@ -38,7 +37,10 @@ function UplaodFiles() {
   }
 
   const customRequest = (options) => {
-    console.log(options)
+    options.onProgress({ percent: 10 }, options.file)
+    options.onProgress({ percent: 30 }, options.file)
+    options.onProgress({ percent: 50 }, options.file)
+
     const formData = new FormData()
     formData.append('file', options.file)
     formData.append('title', options.file.name)
@@ -54,18 +56,16 @@ function UplaodFiles() {
     axios
       .post(`${API_URL}/media`, formData, { headers })
       .then((res) => {
+        options.onProgress({ percent: 100 }, options.file)
         options.onSuccess(options.file)
-        // dispatch(addingselectedFilesFromMedia(res.data))
         dispatch(getAllMediaFiles())
         openNotification({
           type: 'success',
           message: `${options.file.name} Uploaded Successfully`,
         })
-
         dispatch(activeMediaTabAction('2'))
       })
       .catch((err) => {
-        console.log('err', JSON.stringify(err))
         openNotification({
           type: 'error',
           message: `${options.file.name} Upload failed`,
@@ -80,6 +80,10 @@ function UplaodFiles() {
     listType: 'picture',
     onChange,
     customRequest,
+    showUploadList: true,
+    // itemRender: (element, file, filelist, config) => {
+    //   console.log(filelist, config)
+    // },
     beforeUpload: (file) => {
       if (!allowedFileTypes.includes(file.type.split('/')[0])) {
         warning('Invalid File.Only images and vedios are allowed')
