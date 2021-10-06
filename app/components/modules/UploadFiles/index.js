@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Upload, message } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
@@ -21,10 +21,11 @@ const warning = (msg) => {
 
 function UplaodFiles() {
   const [FileList, setFileList] = useState([])
+  const [fileListStatus, setFileListStatus] = useState('')
   const dispatch = useDispatch()
 
   const onChange = (info) => {
-    setFileList(info.fileList)
+    setFileList([...info.fileList])
     const { status } = info.file
     if (status !== 'uploading') {
       dispatch(addMediaFiles(info.fileList.map((file) => file.originFileObj)))
@@ -59,16 +60,15 @@ function UplaodFiles() {
           )
         },
       })
-      .then((res) => {
+      .then(() => {
         options.onSuccess(options.file)
         dispatch(getAllMediaFiles())
         openNotification({
           type: 'success',
           message: `${options.file.name} Uploaded Successfully`,
         })
-        dispatch(activeMediaTabAction('2'))
       })
-      .catch((err) => {
+      .catch(() => {
         openNotification({
           type: 'error',
           message: `${options.file.name} Upload failed`,
@@ -77,15 +77,34 @@ function UplaodFiles() {
       })
   }
 
+  useEffect(() => {
+    if (FileList.length !== 0 && fileListStatus === 'done') {
+      setFileList([])
+      dispatch(activeMediaTabAction('2'))
+    }
+    return () => {
+      setFileListStatus('')
+    }
+  }, [FileList, fileListStatus])
+
   const props = {
     name: 'file',
     multiple: true,
     listType: 'picture',
     onChange,
+    fileList: FileList,
     customRequest,
     showUploadList: true,
     itemRender: (element, file, filelist) => {
-      if (filelist.every((item) => item.status === 'done')) return null
+      if (
+        filelist.every((item) => item.status === 'done') &&
+        file.status === 'done'
+      ) {
+        setFileListStatus('done')
+
+        return null
+      }
+      setFileListStatus('')
       return element
     },
     beforeUpload: (file) => {
