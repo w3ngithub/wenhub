@@ -37,10 +37,6 @@ function UplaodFiles() {
   }
 
   const customRequest = (options) => {
-    options.onProgress({ percent: 10 }, options.file)
-    options.onProgress({ percent: 30 }, options.file)
-    options.onProgress({ percent: 50 }, options.file)
-
     const formData = new FormData()
     formData.append('file', options.file)
     formData.append('title', options.file.name)
@@ -54,9 +50,16 @@ function UplaodFiles() {
     headers['Content-Type'] = 'multipart/form-data'
 
     axios
-      .post(`${API_URL}/media`, formData, { headers })
+      .post(`${API_URL}/media`, formData, {
+        headers,
+        onUploadProgress: ({ total, loaded }) => {
+          options.onProgress(
+            { percent: Math.round((loaded / total) * 100).toFixed(2) },
+            options.file,
+          )
+        },
+      })
       .then((res) => {
-        options.onProgress({ percent: 100 }, options.file)
         options.onSuccess(options.file)
         dispatch(getAllMediaFiles())
         openNotification({
@@ -81,9 +84,10 @@ function UplaodFiles() {
     onChange,
     customRequest,
     showUploadList: true,
-    // itemRender: (element, file, filelist, config) => {
-    //   console.log(filelist, config)
-    // },
+    itemRender: (element, file, filelist) => {
+      if (filelist.every((item) => item.status === 'done')) return null
+      return element
+    },
     beforeUpload: (file) => {
       if (!allowedFileTypes.includes(file.type.split('/')[0])) {
         warning('Invalid File.Only images and vedios are allowed')
