@@ -32,7 +32,6 @@ const AddBlog = () => {
     (state) => state.addMedia,
     shallowEqual,
   )
-  console.log(remoteSelectedFiles)
   const { categories } = useSelector((state) => state.commonData, shallowEqual)
   const dispatch = useDispatch()
 
@@ -41,7 +40,17 @@ const AddBlog = () => {
   const handleInsertIntoPage = () => {
     setContent((prev) =>
       prev.concat(`<p>
-      <img src='https://wendevs.com/wenhub-rt/wp-content/uploads/2021/09/Statue-of-Ramses-II-Luxor-Egypt.jpg' />
+      ${remoteSelectedFiles
+        .map((file) => {
+          if (file.mime_type.split('/')[0] === 'image')
+            return `<img src=${file.guid.rendered} />`
+          return `<video   height="130px" width="130px" >
+          <source
+            src=${file.source_url}
+          />
+        </video>`
+        })
+        .join('')}
         </p>`),
     )
 
@@ -49,20 +58,6 @@ const AddBlog = () => {
     dispatch(clearRemoteSelectedFiles())
     dispatch(resetSelectedFilesFromMedia())
   }
-  // ${remoteSelectedFiles
-  //   .map((file) => {
-  //     if (file.mime_type.split('/')[0] === 'image')
-  //       return `<img src=${file.guid.rendered} />`
-  //     return `<video  autoPlay height="130px" width="130px" controls>
-  //     <source
-  //       src=${
-  //         remoteSelectedFiles[remoteSelectedFiles.length - 1].source_url
-  //       }
-  //     />
-  //   </video>`
-  //   })
-  //   .join('')}
-  console.log('content', content)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -128,16 +123,7 @@ const AddBlog = () => {
             />
             <QuillEditor
               name="blog_content"
-              value={`<p>
-              
-
-              <video   height="130px" width="130px" controls>
-                  <source
-                    src="https://wendevs.com/wenhub-rt/wp-content/uploads/2021/10/pexels-eva-elijas-7606359-2.mp4"
-                  />
-                </video>
-
-                </p>`}
+              value={content}
               onChange={(value) => setContent(value)}
               className={styles.content_editor}
             />
