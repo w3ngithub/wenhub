@@ -68,11 +68,13 @@ export const addMediaSlice = createSlice({
       state.activeMediaTab = payload
     },
     selectedfilesfromUplaodFetch: (state, { payload }) => {
-      console.log('payload payloadpayloadpayloadpayloadpayload', payload)
       state.selectedfilesfromUplaod = [
         ...state.selectedfilesfromUplaod,
         payload,
       ]
+    },
+    resetselectedfilesfromUplaodFetch: (state) => {
+      state.selectedfilesfromUplaod = []
     },
   },
 })

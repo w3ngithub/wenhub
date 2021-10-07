@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Tabs, Checkbox } from 'antd'
 import dynamic from 'next/dynamic'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
@@ -7,6 +7,7 @@ import {
   activeMediaTabAction,
   clearRemoteSelectedFiles,
   resetSelectedFilesFromMedia,
+  resetselectedfilesfromUplaodFetchAction,
 } from 'redux/addMedia/addMediaActions'
 import { CameraOutlined } from '@ant-design/icons'
 // import QuillEditor from 'components/elements/QuillEditor'
@@ -27,7 +28,6 @@ const QuillEditor = dynamic(() => import('components/elements/QuillEditor'), {
 const { TabPane } = Tabs
 
 const AddBlog = () => {
-  let quillRef = useRef(null)
   const [loading, setLoading] = useState(false)
   const [category, setCategory] = useState([])
   const [content, setContent] = useState('')
@@ -59,6 +59,7 @@ const AddBlog = () => {
     setModelOPen(false)
     dispatch(clearRemoteSelectedFiles())
     dispatch(resetSelectedFilesFromMedia())
+    dispatch(resetselectedfilesfromUplaodFetchAction())
   }
 
   const handleSubmit = (e) => {
@@ -128,9 +129,6 @@ const AddBlog = () => {
               value={content}
               onChange={(value) => setContent(value)}
               className={styles.content_editor}
-              ref={(el) => {
-                if (el) quillRef = el
-              }}
             />
           </div>
           <div className={styles.blog_categories}>

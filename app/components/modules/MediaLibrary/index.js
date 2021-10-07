@@ -68,13 +68,11 @@ function MediaLibrary() {
   const [isDeleting, setIsDeleting] = useState(false)
   const [screenWidth] = useScreenWidthHeightHook()
 
-  // useEffect(() => {
-  //   if (selectedfilesfromUplaod.length !== 0) {
-  //     console.log('selectedfilesfromUplaod', selectedfilesfromUplaod)
-  //     setSelectedKeys([...selectedfilesfromUplaod])
-  //   }
-  // }, [selectedfilesfromUplaod])
-  console.log('selectedfilesfromUplaod', selectedfilesfromUplaod)
+  useEffect(() => {
+    if (selectedfilesfromUplaod.length !== 0) {
+      setSelectedKeys([...selectedfilesfromUplaod, ...selectedKeys])
+    }
+  }, [selectedfilesfromUplaod])
 
   useEffect(() => {
     setSelectedKeys([
@@ -186,7 +184,12 @@ function MediaLibrary() {
         )
       }),
     )
-  }, [dateSearchFiles.value, medialTypeSearchFiles.value, remoteMedialFiles])
+  }, [
+    dateSearchFiles.value,
+    medialTypeSearchFiles.value,
+    remoteMedialFiles,
+    selectedfilesfromUplaod,
+  ])
 
   // send selectd files to redux store
   useEffect(() => {
@@ -198,7 +201,12 @@ function MediaLibrary() {
     } else {
       dispatch(remoteMediaFilesSelected([]))
     }
-  }, [JSON.stringify(selectedKeys)])
+  }, [
+    JSON.stringify(selectedKeys),
+    remoteMediaFilesDropDown,
+    media,
+    remoteMedialFiles,
+  ])
 
   return (
     <div className={styles.add_media_container}>
