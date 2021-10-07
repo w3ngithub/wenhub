@@ -14,6 +14,7 @@ const {
   removeRemoteSelectedFiles,
   resetselectedFilesFromMedia,
   activeMediaTabFetch,
+  selectedfilesfromUplaodFetch,
 } = addMediaSlice.actions
 
 export const addMediaFiles = (files) => (dispatch) => dispatch(addFiles(files))
@@ -52,4 +53,8 @@ export const resetSelectedFilesFromMedia = () => (dispatch) => {
 
 export const activeMediaTabAction = (activeTab) => (dispatch) => {
   dispatch(activeMediaTabFetch(activeTab))
+}
+
+export const selectedfilesfromUplaodFetchAction = (payload) => (dispatch) => {
+  dispatch(selectedfilesfromUplaodFetch(payload))
 }

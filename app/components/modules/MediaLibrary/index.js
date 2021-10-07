@@ -48,6 +48,7 @@ function MediaLibrary() {
     remoteSelectedFiles,
     error,
     remoteSelectedFilesfromMedia,
+    selectedfilesfromUplaod,
   } = useSelector((state) => state.addMedia, shallowEqual)
   const dispatch = useDispatch()
 
@@ -66,6 +67,14 @@ function MediaLibrary() {
   })
   const [isDeleting, setIsDeleting] = useState(false)
   const [screenWidth] = useScreenWidthHeightHook()
+
+  // useEffect(() => {
+  //   if (selectedfilesfromUplaod.length !== 0) {
+  //     console.log('selectedfilesfromUplaod', selectedfilesfromUplaod)
+  //     setSelectedKeys([...selectedfilesfromUplaod])
+  //   }
+  // }, [selectedfilesfromUplaod])
+  console.log('selectedfilesfromUplaod', selectedfilesfromUplaod)
 
   useEffect(() => {
     setSelectedKeys([

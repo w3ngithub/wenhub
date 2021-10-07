@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Tabs, Checkbox } from 'antd'
+import dynamic from 'next/dynamic'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import classNames from 'classnames'
 import {
@@ -8,7 +9,7 @@ import {
   resetSelectedFilesFromMedia,
 } from 'redux/addMedia/addMediaActions'
 import { CameraOutlined } from '@ant-design/icons'
-import QuillEditor from 'components/elements/QuillEditor'
+// import QuillEditor from 'components/elements/QuillEditor'
 import FormField from 'components/elements/Form'
 import ButtonComponent from 'components/elements/Button'
 import Modal from 'components/elements/Modal'
@@ -19,9 +20,14 @@ import { API_URL } from 'constants/constants'
 import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
+const QuillEditor = dynamic(() => import('components/elements/QuillEditor'), {
+  ssr: false,
+})
+
 const { TabPane } = Tabs
 
 const AddBlog = () => {
+  let quillRef = useRef(null)
   const [loading, setLoading] = useState(false)
   const [category, setCategory] = useState([])
   const [content, setContent] = useState('')
@@ -44,11 +50,7 @@ const AddBlog = () => {
         .map((file) => {
           if (file.mime_type.split('/')[0] === 'image')
             return `<img src=${file.guid.rendered} />`
-          return `<video   height="130px" width="130px" >
-          <source
-            src=${file.source_url}
-          />
-        </video>`
+          return `<video controls="true" type="video/mp4" style="height: 200px; width: 100%" src=${file.source_url}></video>`
         })
         .join('')}
         </p>`),
@@ -126,6 +128,9 @@ const AddBlog = () => {
               value={content}
               onChange={(value) => setContent(value)}
               className={styles.content_editor}
+              ref={(el) => {
+                if (el) quillRef = el
+              }}
             />
           </div>
           <div className={styles.blog_categories}>

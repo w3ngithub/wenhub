@@ -7,6 +7,7 @@ import {
   activeMediaTabAction,
   addMediaFiles,
   getAllMediaFiles,
+  selectedfilesfromUplaodFetchAction,
 } from 'redux/addMedia/addMediaActions'
 import { API_URL } from 'constants/constants'
 import { openNotification } from 'utils/notification'
@@ -60,13 +61,14 @@ function UplaodFiles() {
           )
         },
       })
-      .then(() => {
+      .then((res) => {
         options.onSuccess(options.file)
         dispatch(getAllMediaFiles())
         openNotification({
           type: 'success',
           message: `${options.file.name} Uploaded Successfully`,
         })
+        dispatch(selectedfilesfromUplaodFetchAction(res.data.id))
       })
       .catch(() => {
         openNotification({
@@ -80,6 +82,7 @@ function UplaodFiles() {
   useEffect(() => {
     if (FileList.length !== 0 && fileListStatus === 'done') {
       setFileList([])
+
       dispatch(activeMediaTabAction('2'))
     }
     return () => {
