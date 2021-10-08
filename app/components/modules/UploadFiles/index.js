@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import {
   activeMediaTabAction,
-  addMediaFiles,
   getAllMediaFiles,
   selectedfilesfromUplaodFetchAction,
 } from 'redux/addMedia/addMediaActions'
@@ -28,9 +27,6 @@ function UplaodFiles() {
   const onChange = (info) => {
     setFileList([...info.fileList])
     const { status } = info.file
-    if (status !== 'uploading') {
-      dispatch(addMediaFiles(info.fileList.map((file) => file.originFileObj)))
-    }
     if (status === 'done') {
       console.log(`${info.file.name} file uploaded successfully.`)
     } else if (status === 'error') {

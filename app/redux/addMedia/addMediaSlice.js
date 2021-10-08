@@ -7,9 +7,9 @@ const initialState = {
   loading: false,
   selectedFilesFromMedia: [],
   remoteSelectedFilesfromMedia: [],
-  activeMediaTab: '1',
+  activeMediaTab: '2',
   error: '',
-  selectedfilesfromUplaod: [8605],
+  selectedfilesfromUplaod: [],
   quillRefSource: '',
 }
 

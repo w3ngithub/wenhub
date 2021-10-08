@@ -69,7 +69,6 @@ function MediaLibrary() {
   const [isDeleting, setIsDeleting] = useState(false)
   const [screenWidth] = useScreenWidthHeightHook()
 
-  console.log(media, selectedfilesfromUplaod)
   useEffect(() => {
     if (selectedfilesfromUplaod.length !== 0) {
       setSelectedKeys([...selectedfilesfromUplaod, ...selectedKeys])
@@ -105,7 +104,7 @@ function MediaLibrary() {
     else {
       setMedia(remoteMediaFilesDropDown)
     }
-  }, [remoteMediaFilesDropDown])
+  }, [remoteMediaFilesDropDown, remoteMedialFiles, searchValue, selectedKeys])
 
   const mediaDetailsStyle = () => {
     if (screenWidth < 767) {
@@ -162,10 +161,13 @@ function MediaLibrary() {
 
   // clear selectedKeys if remoteSelectedFiles is clear from model footer
   useEffect(() => {
-    if (remoteSelectedFiles.length === 0) {
+    if (
+      remoteSelectedFiles.length === 0 &&
+      selectedfilesfromUplaod.length === 0
+    ) {
       setSelectedKeys([])
     }
-  }, [remoteSelectedFiles])
+  }, [remoteSelectedFiles, selectedfilesfromUplaod])
 
   // api call to get media files from server and store to redux
   useEffect(() => {
@@ -214,7 +216,6 @@ function MediaLibrary() {
     media,
     remoteMedialFiles,
   ])
-
   return (
     <div className={styles.add_media_container}>
       {loading ? (
@@ -291,7 +292,7 @@ function MediaLibrary() {
                   <h3>No Files to Show</h3>
                 ) : (
                   media.map((item) => {
-                    const selected = selectedKeys.indexOf(item.id) > -1
+                    const selected = selectedKeys.indexOf(item.id) !== -1
                     return (
                       <SelectableComponent
                         key={item.id}
