@@ -8,6 +8,7 @@ import {
   clearRemoteSelectedFiles,
   resetSelectedFilesFromMedia,
   resetselectedfilesfromUplaodFetchAction,
+  setQuillRefAction,
 } from 'redux/addMedia/addMediaActions'
 import { CameraOutlined } from '@ant-design/icons'
 // import QuillEditor from 'components/elements/QuillEditor'
@@ -50,7 +51,7 @@ const AddBlog = () => {
         .map((file) => {
           if (file.mime_type.split('/')[0] === 'image')
             return `<img src=${file.guid.rendered} />`
-          return `<video controls="true" type="video/mp4" style="height: 200px; width: 100%" src=${file.source_url}></video>`
+          return dispatch(setQuillRefAction(file.source_url))
         })
         .join('')}
         </p>`),

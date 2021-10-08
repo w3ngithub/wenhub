@@ -10,6 +10,7 @@ const initialState = {
   activeMediaTab: '1',
   error: '',
   selectedfilesfromUplaod: [],
+  quillRefSource: '',
 }
 
 export const addMediaSlice = createSlice({
@@ -75,6 +76,12 @@ export const addMediaSlice = createSlice({
     },
     resetselectedfilesfromUplaodFetch: (state) => {
       state.selectedfilesfromUplaod = []
+    },
+    setQuillRef: (state, { payload }) => {
+      state.quillRefSource = payload
+    },
+    resetQuillRef: (state) => {
+      state.quillRefSource = ''
     },
   },
 })
