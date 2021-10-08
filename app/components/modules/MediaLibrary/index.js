@@ -41,7 +41,6 @@ const SelectableFile = ({ children, selected, onClick }) => (
 const SelectableComponent = createSelectable(SelectableFile)
 
 function MediaLibrary() {
-  let media = []
   const {
     loading,
     remoteMedialFiles,
@@ -65,9 +64,12 @@ function MediaLibrary() {
     label: 'All Media Items',
     value: '1',
   })
+
+  const [media, setMedia] = useState([])
   const [isDeleting, setIsDeleting] = useState(false)
   const [screenWidth] = useScreenWidthHeightHook()
 
+  console.log(media, selectedfilesfromUplaod)
   useEffect(() => {
     if (selectedfilesfromUplaod.length !== 0) {
       setSelectedKeys([...selectedfilesfromUplaod, ...selectedKeys])
@@ -92,13 +94,18 @@ function MediaLibrary() {
     })
   }
 
-  if (searchValue) {
-    media = remoteMediaFilesDropDown.filter((file) =>
-      file.title.rendered.includes(searchValue),
-    )
-  } else {
-    media = remoteMediaFilesDropDown
-  }
+  // filtered media to show in dom
+  useEffect(() => {
+    if (searchValue)
+      setMedia(
+        remoteMediaFilesDropDown.filter((file) =>
+          file.title.rendered.includes(searchValue),
+        ),
+      )
+    else {
+      setMedia(remoteMediaFilesDropDown)
+    }
+  }, [remoteMediaFilesDropDown])
 
   const mediaDetailsStyle = () => {
     if (screenWidth < 767) {
