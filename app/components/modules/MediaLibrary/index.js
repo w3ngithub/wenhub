@@ -216,7 +216,6 @@ function MediaLibrary() {
     media,
     remoteMedialFiles,
   ])
-  console.log(media)
   return (
     <div className={styles.add_media_container}>
       {loading ? (
@@ -309,7 +308,10 @@ function MediaLibrary() {
                             width={125}
                           />
                         ) : (
-                          <video style={{ width: '118px', height: '120px' }}>
+                          <video
+                            style={{ width: '118px', height: '120px' }}
+                            controls
+                          >
                             <source src={item.source_url} />
                           </video>
                         )}
@@ -361,7 +363,11 @@ function MediaLibrary() {
                       }
                     />
                   ) : (
-                    <video style={{ width: '118px', height: '120px' }} autoPlay>
+                    <video
+                      style={{ width: '118px', height: '120px' }}
+                      autoPlay
+                      controls
+                    >
                       <source
                         src={
                           remoteSelectedFiles[remoteSelectedFiles.length - 1]
