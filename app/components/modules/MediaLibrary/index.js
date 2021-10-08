@@ -216,6 +216,7 @@ function MediaLibrary() {
     media,
     remoteMedialFiles,
   ])
+  console.log(media)
   return (
     <div className={styles.add_media_container}>
       {loading ? (
@@ -302,9 +303,7 @@ function MediaLibrary() {
                       >
                         {item.mime_type.split('/')[0] === 'image' ? (
                           <Image
-                            src={
-                              item?.media_details?.sizes?.thumbnail?.source_url
-                            }
+                            src={item?.source_url}
                             alt={item.alt_text}
                             height={125}
                             width={125}
@@ -346,7 +345,7 @@ function MediaLibrary() {
                     <Image
                       src={
                         remoteSelectedFiles[remoteSelectedFiles.length - 1]
-                          .media_details?.sizes?.thumbnail?.source_url
+                          ?.source_url
                       }
                       alt={
                         remoteSelectedFiles[remoteSelectedFiles.length - 1]
