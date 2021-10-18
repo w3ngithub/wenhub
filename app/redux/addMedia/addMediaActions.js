@@ -13,6 +13,11 @@ const {
   DeleteRemoteMediaFile,
   removeRemoteSelectedFiles,
   resetselectedFilesFromMedia,
+  activeMediaTabFetch,
+  selectedfilesfromUplaodFetch,
+  resetselectedfilesfromUplaodFetch,
+  setQuillRef,
+  resetQuillRef,
 } = addMediaSlice.actions
 
 export const addMediaFiles = (files) => (dispatch) => dispatch(addFiles(files))
@@ -47,4 +52,24 @@ export const clearRemoteSelectedFiles = () => (dispatch) => {
 
 export const resetSelectedFilesFromMedia = () => (dispatch) => {
   dispatch(resetselectedFilesFromMedia())
+}
+
+export const activeMediaTabAction = (activeTab) => (dispatch) => {
+  dispatch(activeMediaTabFetch(activeTab))
+}
+
+export const selectedfilesfromUplaodFetchAction = (payload) => (dispatch) => {
+  dispatch(selectedfilesfromUplaodFetch(payload))
+}
+
+export const resetselectedfilesfromUplaodFetchAction = () => (dispatch) => {
+  dispatch(resetselectedfilesfromUplaodFetch())
+}
+
+export const setQuillRefAction = (ref) => (dispatch) => {
+  dispatch(setQuillRef(ref))
+}
+
+export const resetQuillRefAction = () => (dispatch) => {
+  dispatch(resetQuillRef())
 }

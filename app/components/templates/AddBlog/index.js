@@ -1,17 +1,20 @@
 import React, { useState } from 'react'
+import { Tabs, Checkbox } from 'antd'
+import dynamic from 'next/dynamic'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import classNames from 'classnames'
 import {
+  activeMediaTabAction,
   clearRemoteSelectedFiles,
   resetSelectedFilesFromMedia,
+  resetselectedfilesfromUplaodFetchAction,
+  setQuillRefAction,
 } from 'redux/addMedia/addMediaActions'
 import { CameraOutlined } from '@ant-design/icons'
-import { Checkbox } from 'antd'
-import QuillEditor from 'components/elements/QuillEditor'
+// import QuillEditor from 'components/elements/QuillEditor'
 import FormField from 'components/elements/Form'
 import ButtonComponent from 'components/elements/Button'
 import Modal from 'components/elements/Modal'
-import Tab from 'components/elements/Tabs'
 import UploadFiles from 'components/modules/UploadFiles'
 import MediaLibrary from 'components/modules/MediaLibrary'
 import restClient from 'api/restClient'
@@ -19,15 +22,20 @@ import { API_URL } from 'constants/constants'
 import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
+const QuillEditor = dynamic(() => import('components/elements/QuillEditor'), {
+  ssr: false,
+})
+
+const { TabPane } = Tabs
+
 const AddBlog = () => {
   const [loading, setLoading] = useState(false)
-  const [getKey, setGetKey] = useState(1)
   const [category, setCategory] = useState([])
   const [content, setContent] = useState('')
   const [title, setTitle] = useState('')
   const [modelOpen, setModelOPen] = useState(false)
 
-  const { remoteSelectedFiles } = useSelector(
+  const { remoteSelectedFiles, activeMediaTab } = useSelector(
     (state) => state.addMedia,
     shallowEqual,
   )
@@ -37,16 +45,24 @@ const AddBlog = () => {
   const isRemoteFileSelected = remoteSelectedFiles.length > 0
 
   const handleInsertIntoPage = () => {
-    setContent(
-      `<p>${remoteSelectedFiles
-        .map((file) => `<img src=${file.guid.rendered} />`)
-        .join('')}</p>`,
+    setContent((prev) =>
+      prev.concat(`<p>
+      ${remoteSelectedFiles
+        .map((file) => {
+          if (file.mime_type.split('/')[0] === 'image')
+            return `<img src=${file.guid.rendered} />`
+          return dispatch(setQuillRefAction(file.source_url))
+        })
+        .join('')}
+        </p>`),
     )
 
     setModelOPen(false)
     dispatch(clearRemoteSelectedFiles())
     dispatch(resetSelectedFilesFromMedia())
+    dispatch(resetselectedfilesfromUplaodFetchAction())
   }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if (title !== '') {
@@ -175,15 +191,25 @@ const AddBlog = () => {
                       </div>
                     </div>
                     <span className={styles.footer_images}>
-                      {remoteSelectedFiles.map((file) => (
-                        <img
-                          key={file.id}
-                          src={file.media_details?.sizes?.thumbnail?.source_url}
-                          alt="media files"
-                          height="30px"
-                          width="30px"
-                        />
-                      ))}
+                      {remoteSelectedFiles.map((file) => {
+                        if (file.mime_type.split('/')[0] === 'image')
+                          return (
+                            <img
+                              key={file.id}
+                              src={
+                                file.media_details?.sizes?.thumbnail?.source_url
+                              }
+                              alt="media files"
+                              height="30px"
+                              width="30px"
+                            />
+                          )
+                        return (
+                          <video key={file.id} height="30px" width="30px">
+                            <source src={file.source_url} />
+                          </video>
+                        )
+                      })}
                     </span>
                   </div>
                 )}
@@ -203,8 +229,7 @@ const AddBlog = () => {
               'modal_container_add_media',
             )}
           >
-            <Tab
-              activeKey={getKey}
+            <Tabs
               type="card"
               tabBarStyle={{
                 background: '#fff',
@@ -212,22 +237,26 @@ const AddBlog = () => {
                 overFlowX: 'scroll',
                 whiteSpace: 'nowrap',
               }}
-              tabs={[
+              activeKey={activeMediaTab}
+              onChange={(value) => dispatch(activeMediaTabAction(value))}
+            >
+              {[
                 {
                   id: '1',
                   tab: 'Upload Files',
-                  content: <UploadFiles />,
+                  contents: <UploadFiles />,
                 },
                 {
                   id: '2',
                   tab: 'Media Library',
-                  content: <MediaLibrary />,
+                  contents: <MediaLibrary />,
                 },
-              ]}
-              getKey={(key) => {
-                setGetKey(key)
-              }}
-            />
+              ].map(({ id, tab, contents }) => (
+                <TabPane key={id} tab={tab}>
+                  <div style={{ paddingTop: '15px' }}>{contents}</div>
+                </TabPane>
+              ))}
+            </Tabs>
           </div>
         </Modal>
       </div>

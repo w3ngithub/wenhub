@@ -10,7 +10,7 @@ import {
   VIEW_BLOG_PATH,
   WEEKLY_REPORTS_PATH,
 } from './routePath'
-
+import config from './config'
 export const ADMIN_ROLE_ID = 1
 
 export const API_URL = 'https://wendevs.com/wenhub-rt/wp-json/wp/v2'
@@ -24,34 +24,65 @@ export const PRIMARY_DARK_COLOR = '#44416f'
 export const navBarBackgroundColor = '#337ab7'
 
 // navbar items
-export const navBarItems = [
-  {
-    id: 1,
-    item: 'HOME',
-    path: HOME_PATH,
-  },
-  {
-    id: 2,
-    item: 'BLOG',
-    subItem: [
-      { id: 2.1, item: 'ADD NEW BLOG', path: ADD_NEW_BLOG_PATH },
-      { id: 2.2, item: 'VIEW BLOG', path: VIEW_BLOG_PATH },
-    ],
-  },
-  { id: 3, item: 'MY PROJECTS', path: MY_PROJECTS_PATH },
-  { id: 4, item: 'LOG TIME', path: LOG_TIME_PATH },
-  { id: 5, item: 'TMS', path: TMS_PATH },
-  { id: 6, item: 'TMS ADMIN', path: TMS_ADMIN_PATH },
+export const navBarItems = config.showTmsFeature
+  ? [
+      {
+        id: 1,
+        item: 'HOME',
+        path: HOME_PATH,
+      },
+      {
+        id: 2,
+        item: 'BLOG',
+        subItem: [
+          { id: 2.1, item: 'ADD NEW BLOG', path: ADD_NEW_BLOG_PATH },
+          { id: 2.2, item: 'VIEW BLOG', path: VIEW_BLOG_PATH },
+        ],
+      },
+      { id: 3, item: 'MY PROJECTS', path: MY_PROJECTS_PATH },
+      { id: 4, item: 'LOG TIME', path: LOG_TIME_PATH },
+      { id: 5, item: 'TMS', path: TMS_PATH },
+      {
+        id: 6,
+        item: 'TMS ADMIN',
+        path: TMS_ADMIN_PATH,
+      },
 
-  {
-    id: 7,
-    item: 'LMS',
-    path: LMS_PATH,
-  },
-  { id: 8, item: 'LMS ADMIN', path: LMS_ADMIN_PATH },
+      {
+        id: 7,
+        item: 'LMS',
+        path: LMS_PATH,
+      },
+      { id: 8, item: 'LMS ADMIN', path: LMS_ADMIN_PATH },
 
-  { id: 9, item: 'WEEKLY REPORT', path: WEEKLY_REPORTS_PATH },
-]
+      { id: 9, item: 'WEEKLY REPORT', path: WEEKLY_REPORTS_PATH },
+    ]
+  : [
+      {
+        id: 1,
+        item: 'HOME',
+        path: HOME_PATH,
+      },
+      {
+        id: 2,
+        item: 'BLOG',
+        subItem: [
+          { id: 2.1, item: 'ADD NEW BLOG', path: ADD_NEW_BLOG_PATH },
+          { id: 2.2, item: 'VIEW BLOG', path: VIEW_BLOG_PATH },
+        ],
+      },
+      { id: 3, item: 'MY PROJECTS', path: MY_PROJECTS_PATH },
+      { id: 4, item: 'LOG TIME', path: LOG_TIME_PATH },
+
+      {
+        id: 7,
+        item: 'LMS',
+        path: LMS_PATH,
+      },
+      { id: 8, item: 'LMS ADMIN', path: LMS_ADMIN_PATH },
+
+      { id: 9, item: 'WEEKLY REPORT', path: WEEKLY_REPORTS_PATH },
+    ]
 
 // table body style
 

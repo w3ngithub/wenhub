@@ -20,9 +20,7 @@ import restClient from 'api/restClient'
 import styles from './styles.module.css'
 import style from './styles.module.scss'
 
-const SelectableFile = ({ children, selected, onClick }) => { 
-  
-return (
+const SelectableFile = ({ children, selected, onClick }) => (
   <div className={style.card}>
     <div
       className={classNames(style.selectable, { [style.selected]: selected })}
@@ -31,24 +29,25 @@ return (
       aria-hidden="true"
     >
       {children}
-      {selected && 
-      <div className={style.check} >
-        <span className={style.checkmark}></span> 
-      </div>
-      }
+      {selected && (
+        <div className={style.check}>
+          <span className={style.checkmark}></span>
+        </div>
+      )}
     </div>
   </div>
-)}
+)
+
 const SelectableComponent = createSelectable(SelectableFile)
 
 function MediaLibrary() {
-  let media = []
   const {
     loading,
     remoteMedialFiles,
     remoteSelectedFiles,
     error,
     remoteSelectedFilesfromMedia,
+    selectedfilesfromUplaod,
   } = useSelector((state) => state.addMedia, shallowEqual)
   const dispatch = useDispatch()
 
@@ -59,10 +58,22 @@ function MediaLibrary() {
   const [remoteMediaFilesDropDown, selectedRemoteFilesDropdown] = useState([])
   const [dateSearchFiles, setDateSearchFiles] = useState({
     label: 'All Dates',
-    value: 'all',
+    value: '',
   })
+  const [medialTypeSearchFiles, setMedialTypeSearchFiles] = useState({
+    label: 'All Media Items',
+    value: '1',
+  })
+
+  const [media, setMedia] = useState([])
+  const [isDeleting, setIsDeleting] = useState(false)
   const [screenWidth] = useScreenWidthHeightHook()
 
+  useEffect(() => {
+    if (selectedfilesfromUplaod.length !== 0) {
+      setSelectedKeys([...selectedfilesfromUplaod, ...selectedKeys])
+    }
+  }, [selectedfilesfromUplaod])
 
   useEffect(() => {
     setSelectedKeys([
@@ -82,13 +93,18 @@ function MediaLibrary() {
     })
   }
 
-  if (searchValue) {
-    media = remoteMediaFilesDropDown.filter((file) =>
-      file.title.rendered.includes(searchValue),
-    )
-  } else {
-    media = remoteMediaFilesDropDown
-  }
+  // filtered media to show in dom
+  useEffect(() => {
+    if (searchValue)
+      setMedia(
+        remoteMediaFilesDropDown.filter((file) =>
+          file.title.rendered.includes(searchValue),
+        ),
+      )
+    else {
+      setMedia(remoteMediaFilesDropDown)
+    }
+  }, [remoteMediaFilesDropDown, remoteMedialFiles, searchValue, selectedKeys])
 
   const mediaDetailsStyle = () => {
     if (screenWidth < 767) {
@@ -102,6 +118,7 @@ function MediaLibrary() {
 
   // delete remote media file
   const confirm = () => {
+    setIsDeleting(true)
     restClient
       .del(
         `${API_URL}/media/delete?ids=${remoteSelectedFiles
@@ -111,7 +128,7 @@ function MediaLibrary() {
       .then(() => {
         openNotification({
           type: 'success',
-          message: 'file deleted successfully',
+          message: 'File deleted successfully',
         })
         dispatch(
           deleteMediaFiles([...remoteSelectedFiles.map((file) => file.id)]),
@@ -122,6 +139,9 @@ function MediaLibrary() {
           type: 'error',
           message: err.response?.data?.message || 'Could not delete file',
         })
+      })
+      .finally(() => {
+        setIsDeleting(false)
       })
   }
 
@@ -141,10 +161,13 @@ function MediaLibrary() {
 
   // clear selectedKeys if remoteSelectedFiles is clear from model footer
   useEffect(() => {
-    if (remoteSelectedFiles.length === 0) {
+    if (
+      remoteSelectedFiles.length === 0 &&
+      selectedfilesfromUplaod.length === 0
+    ) {
       setSelectedKeys([])
     }
-  }, [remoteSelectedFiles])
+  }, [remoteSelectedFiles, selectedfilesfromUplaod])
 
   // api call to get media files from server and store to redux
   useEffect(() => {
@@ -154,15 +177,28 @@ function MediaLibrary() {
     getMediaFiles()
   }, [])
 
-  // show date specific files to user
+  // show date specific files and file type specific files to user
   useEffect(() => {
     selectedRemoteFilesDropdown(
       remoteMedialFiles.filter((file) => {
-        if (dateSearchFiles.value === 'all') return true
-        return moment(file.date) >= moment(dateSearchFiles.value)
+        if (dateSearchFiles.value === '' && medialTypeSearchFiles.value === '1')
+          return true
+        if (dateSearchFiles.value === '')
+          return file.mime_type.split('/')[0] === medialTypeSearchFiles.value
+        if (medialTypeSearchFiles.value === '1')
+          return moment(file.date) >= moment(dateSearchFiles.value)
+        return (
+          moment(file.date) >= moment(dateSearchFiles.value) &&
+          file.mime_type.split('/')[0] === medialTypeSearchFiles.value
+        )
       }),
     )
-  }, [dateSearchFiles.value, remoteMedialFiles])
+  }, [
+    dateSearchFiles.value,
+    medialTypeSearchFiles.value,
+    remoteMedialFiles,
+    selectedfilesfromUplaod,
+  ])
 
   // send selectd files to redux store
   useEffect(() => {
@@ -174,8 +210,12 @@ function MediaLibrary() {
     } else {
       dispatch(remoteMediaFilesSelected([]))
     }
-  }, [JSON.stringify(selectedKeys)])
-
+  }, [
+    JSON.stringify(selectedKeys),
+    remoteMediaFilesDropDown,
+    media,
+    remoteMedialFiles,
+  ])
   return (
     <div className={styles.add_media_container}>
       {loading ? (
@@ -190,24 +230,26 @@ function MediaLibrary() {
                 <span>Filter Media</span>
                 <div className={styles.filter_action}>
                   <SelectComponent
-                    value={{ label: 'All Media Items', value: '1' }}
+                    value={medialTypeSearchFiles}
                     options={[
                       { label: 'All Media Items', value: '1' },
-                      { label: 'Uploaded to this page', value: '2' },
-                      { label: 'Images', value: '3' },
+                      { label: 'Images', value: 'image' },
+                      { label: 'Videos', value: 'video' },
                     ]}
                     style={{
                       width: '100%',
                       fontSize: '0.7rem',
                       fontWeight: 'bold',
                       textAlign: 'left',
+                      minWidth: '155px',
                     }}
+                    onChange={(value) => setMedialTypeSearchFiles(value)}
                   />
                   <SelectComponent
                     value={dateSearchFiles}
                     onChange={(value) => setDateSearchFiles(value)}
                     options={[
-                      { label: 'All Dates', value: 'all' },
+                      { label: 'All Dates', value: '' },
                       { label: 'July 2021', value: '2021/07' },
                       { label: 'June 2021', value: '2021/06' },
                       { label: 'May 2018', value: '2018/05' },
@@ -250,7 +292,7 @@ function MediaLibrary() {
                   <h3>No Files to Show</h3>
                 ) : (
                   media.map((item) => {
-                    const selected = selectedKeys.indexOf(item.id) > -1
+                    const selected = selectedKeys.indexOf(item.id) !== -1
                     return (
                       <SelectableComponent
                         key={item.id}
@@ -258,14 +300,21 @@ function MediaLibrary() {
                         selectableKey={item.id}
                         onClick={() => handleSelectImageByClick(item.id)}
                       >
-                        <Image
-                          src={
-                            item?.media_details?.sizes?.thumbnail?.source_url
-                          }
-                          alt={item.alt_text}
-                          height={125}
-                          width={125}
-                        />
+                        {item.mime_type.split('/')[0] === 'image' ? (
+                          <Image
+                            src={item?.source_url}
+                            alt={item.alt_text}
+                            height={125}
+                            width={125}
+                          />
+                        ) : (
+                          <video
+                            style={{ width: '118px', height: '120px' }}
+                            controls
+                          >
+                            <source src={item.source_url} />
+                          </video>
+                        )}
                       </SelectableComponent>
                     )
                   })
@@ -273,6 +322,12 @@ function MediaLibrary() {
               </SelectableGroup>
             </div>
           </div>
+
+          {isDeleting && (
+            <div className={styles.deleting_loading_container}>
+              <Loader />
+            </div>
+          )}
           <div
             className={styles.media_details}
             style={{
@@ -286,24 +341,41 @@ function MediaLibrary() {
                   className={style.card}
                   style={{ border: '4px solid transparent', margin: '0' }}
                 >
-                  <Image
-                    src={
-                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
-                        .media_details?.sizes?.thumbnail?.source_url
-                    }
-                    alt={
-                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
-                        .alt_text
-                    }
-                    height={
-                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
-                        .media_details?.sizes?.thumbnail?.height
-                    }
-                    width={
-                      remoteSelectedFiles[remoteSelectedFiles.length - 1]
-                        .media_details?.sizes?.thumbnail?.width
-                    }
-                  />
+                  {remoteSelectedFiles[
+                    remoteSelectedFiles.length - 1
+                  ].mime_type.split('/')[0] === 'image' ? (
+                    <Image
+                      src={
+                        remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                          ?.source_url
+                      }
+                      alt={
+                        remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                          .alt_text
+                      }
+                      height={
+                        remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                          .media_details?.sizes?.thumbnail?.height
+                      }
+                      width={
+                        remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                          .media_details?.sizes?.thumbnail?.width
+                      }
+                    />
+                  ) : (
+                    <video
+                      style={{ width: '118px', height: '120px' }}
+                      autoPlay
+                      controls
+                    >
+                      <source
+                        src={
+                          remoteSelectedFiles[remoteSelectedFiles.length - 1]
+                            .source_url
+                        }
+                      />
+                    </video>
+                  )}
                 </div>
                 <p>
                   {

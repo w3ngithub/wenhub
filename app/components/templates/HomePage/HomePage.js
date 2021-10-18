@@ -25,6 +25,7 @@ const HomePage = ({
   const [open, setOpen] = useState(false)
   const [detail, setDetail] = useState({})
   const [data, setData] = useState([])
+  const [localLoading, setLocalLoading] = useState(false)
   const [page, setPage] = useState({ pageNumber: 1, postPerPage: 20 })
   const pathname = !router.pathname.includes(MY_PROJECTS_PATH.substring(1))
 
@@ -32,6 +33,7 @@ const HomePage = ({
     filterType
 
   React.useEffect(() => {
+    setLocalLoading(true)
     const mainData = projects.map((x, i) => {
       const projectType = projectTypes.find(
         (y) => y?.id === x?.acf_fields?.project_type?.[0],
@@ -100,6 +102,7 @@ const HomePage = ({
       }
     })
     setData(mainData)
+    setLocalLoading(loading)
   }, [projects])
 
   const handleModal = (d) => {
@@ -131,7 +134,7 @@ const HomePage = ({
         designers={designers}
       />
       <PaginateTable
-        loading={{ spinning: loading, indicator: <Loader /> }}
+        loading={{ spinning: localLoading, indicator: <Loader /> }}
         columns={projectColumns}
         data={data}
         handlePagination={(pgNo, pgSize) =>
