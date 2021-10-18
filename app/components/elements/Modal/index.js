@@ -1,6 +1,7 @@
 import React from 'react'
 import { Modal } from 'antd'
 import PropTypes from 'prop-types'
+import useLockBodyScroll from 'hooks/useLockBodyScroll'
 
 const Modals = ({
   title,
@@ -16,6 +17,7 @@ const Modals = ({
   footer,
   centered,
 }) => {
+  // useLockBodyScroll(visible)
   let width
 
   if (variant === 'small') {
