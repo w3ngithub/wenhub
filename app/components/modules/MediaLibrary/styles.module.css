@@ -2,7 +2,6 @@
   display: flex;
   color: #000;
   height: 365px;
-
 }
 
 @media only screen and (max-width: 676px) {
@@ -40,7 +39,7 @@
   padding: 20px;
   border-left: 1px solid #dcdcde;
   overflow-y: auto;
-  margin-top: -18px
+  margin-top: -18px;
 }
 
 @media only screen and (min-width: 0) and (max-width: 767px) {
@@ -97,14 +96,29 @@
   .media_search {
     width: 100%;
   }
+
+  .filter_action {
+    flex-direction: column;
+    width: 100%;
+  }
+  .media_filter {
+    width: 100%;
+  }
 }
 
 .filter_action {
   display: flex;
-  column-gap: 5px;
+  gap: 5px;
   width: 100%;
 }
 
 .loading {
   margin: 10% auto;
+}
+
+.deleting_loading_container {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  z-index: 1000;
 }

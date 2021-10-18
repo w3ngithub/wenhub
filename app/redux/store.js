@@ -11,7 +11,7 @@ const makeStore = wrapMakeStore(() =>
   configureStore({
     reducer,
     devTools: true,
-    middleware: getDefaultMiddleware().prepend(
+    middleware: getDefaultMiddleware({ serializableCheck: false }).prepend(
       nextReduxCookieMiddleware({
         secure: true,
         subtrees: [`${userSlice.name}.userDetail`, `${blogSlice.name}.page`],

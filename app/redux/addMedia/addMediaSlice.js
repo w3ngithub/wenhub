@@ -7,7 +7,10 @@ const initialState = {
   loading: false,
   selectedFilesFromMedia: [],
   remoteSelectedFilesfromMedia: [],
+  activeMediaTab: '2',
   error: '',
+  selectedfilesfromUplaod: [],
+  quillRefSource: '',
 }
 
 export const addMediaSlice = createSlice({
@@ -61,6 +64,24 @@ export const addMediaSlice = createSlice({
     },
     resetselectedFilesFromMedia: (state) => {
       state.remoteSelectedFilesfromMedia = []
+    },
+    activeMediaTabFetch: (state, { payload }) => {
+      state.activeMediaTab = payload
+    },
+    selectedfilesfromUplaodFetch: (state, { payload }) => {
+      state.selectedfilesfromUplaod = [
+        ...state.selectedfilesfromUplaod,
+        payload,
+      ]
+    },
+    resetselectedfilesfromUplaodFetch: (state) => {
+      state.selectedfilesfromUplaod = []
+    },
+    setQuillRef: (state, { payload }) => {
+      state.quillRefSource = payload
+    },
+    resetQuillRef: (state) => {
+      state.quillRefSource = ''
     },
   },
 })
