@@ -170,13 +170,16 @@ const AddBlog = () => {
                     }}
                   >
                     <div>
-                      {' '}
                       <p>
                         {remoteSelectedFiles.length} item
                         {remoteSelectedFiles.length > 1 ? 's' : ''} selected
                       </p>
                       <div
-                        onClick={() => dispatch(clearRemoteSelectedFiles())}
+                        onClick={() => {
+                          dispatch(clearRemoteSelectedFiles())
+                          dispatch(resetSelectedFilesFromMedia())
+                          dispatch(resetselectedfilesfromUplaodFetchAction())
+                        }}
                         aria-hidden="true"
                       >
                         <p
