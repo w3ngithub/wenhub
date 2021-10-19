@@ -12,6 +12,8 @@ import { API_URL } from 'constants/constants'
 import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
+const cancelTokenSource = axios.CancelToken.source()
+
 const { Dragger } = Upload
 const allowedFileTypes = ['image', 'video']
 
@@ -49,6 +51,7 @@ function UplaodFiles() {
 
     axios
       .post(`${API_URL}/media`, formData, {
+        cancelToken: cancelTokenSource.token,
         headers,
         onUploadProgress: ({ total, loaded }) => {
           options.onProgress(
@@ -89,7 +92,7 @@ function UplaodFiles() {
   const props = {
     name: 'file',
     multiple: true,
-    listType: 'picture',
+    listType: 'picture-card',
     onChange,
     fileList: FileList,
     customRequest,

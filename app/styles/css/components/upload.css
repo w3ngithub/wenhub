@@ -1,0 +1,15 @@
+.ant-upload-list {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.85);
+  height: 210px;
+  overflow-y: auto;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: 'tnum', 'tnum', 'tnum';
+  line-height: 1.5715;
+  margin-top: 5px;
+}
