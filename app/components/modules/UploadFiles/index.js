@@ -12,8 +12,6 @@ import { API_URL } from 'constants/constants'
 import { openNotification } from 'utils/notification'
 import styles from './styles.module.css'
 
-const cancelTokenSource = axios.CancelToken.source()
-
 const { Dragger } = Upload
 const allowedFileTypes = ['image', 'video']
 
@@ -24,6 +22,7 @@ const warning = (msg) => {
 function UplaodFiles() {
   const [FileList, setFileList] = useState([])
   const [fileListStatus, setFileListStatus] = useState('')
+  const [withToken, settWithToken] = useState([])
   const dispatch = useDispatch()
 
   const onChange = (info) => {
@@ -37,6 +36,8 @@ function UplaodFiles() {
   }
 
   const customRequest = (options) => {
+    const cancelTokenSource = axios.CancelToken.source()
+    settWithToken([...withToken, { cancelTokenSource, file: options.file }])
     const formData = new FormData()
     formData.append('file', options.file)
     formData.append('title', options.file.name)
@@ -81,7 +82,7 @@ function UplaodFiles() {
   useEffect(() => {
     if (FileList.length !== 0 && fileListStatus === 'done') {
       setFileList([])
-
+      settWithToken([])
       dispatch(activeMediaTabAction('2'))
     }
     return () => {
@@ -92,7 +93,7 @@ function UplaodFiles() {
   const props = {
     name: 'file',
     multiple: true,
-    listType: 'picture-card',
+    listType: 'picture',
     onChange,
     fileList: FileList,
     customRequest,
@@ -120,6 +121,9 @@ function UplaodFiles() {
         file.size < 500 * 1024 * 1024
         ? true
         : Upload.LIST_IGNORE
+    },
+    onRemove: (e) => {
+      withToken.find((f) => f.file.uid === e.uid).cancelTokenSource.cancel()
     },
   }
 
