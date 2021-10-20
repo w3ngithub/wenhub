@@ -23,6 +23,8 @@ function UplaodFiles() {
   const [FileList, setFileList] = useState([])
   const [fileListStatus, setFileListStatus] = useState('')
   const [withToken, settWithToken] = useState([])
+  const [isCancel, setIsCancel] = useState(false)
+
   const dispatch = useDispatch()
 
   const onChange = (info) => {
@@ -71,11 +73,16 @@ function UplaodFiles() {
         dispatch(selectedfilesfromUplaodFetchAction(res.data.id))
       })
       .catch(() => {
-        openNotification({
-          type: 'error',
-          message: `${options.file.name} Upload failed`,
-        })
-        options.onError(`${options.file.name} Upload failed`)
+        if (isCancel) {
+          openNotification({
+            type: 'error',
+            message: `${options.file.name} Upload Failed`,
+          })
+          options.onError(`${options.file.name} Upload Failed`)
+        }
+      })
+      .finally(() => {
+        setIsCancel(false)
       })
   }
 
@@ -123,7 +130,12 @@ function UplaodFiles() {
         : Upload.LIST_IGNORE
     },
     onRemove: (e) => {
+      setIsCancel(true)
       withToken.find((f) => f.file.uid === e.uid).cancelTokenSource.cancel()
+      openNotification({
+        type: 'error',
+        message: `${e.name} Upload Cancel`,
+      })
     },
   }
 
