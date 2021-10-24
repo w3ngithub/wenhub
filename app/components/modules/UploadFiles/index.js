@@ -74,9 +74,11 @@ function UplaodFiles() {
       })
       .catch(() => {
         if (isCancel) {
+          console.log('iscancel', isCancel)
           openNotification({
             type: 'error',
-            message: `${options.file.name} Upload Failed`,
+            message: `Upload Failed`,
+            description: `${options.file.name}`,
           })
           options.onError(`${options.file.name} Upload Failed`)
         }
@@ -134,7 +136,8 @@ function UplaodFiles() {
       withToken.find((f) => f.file.uid === e.uid).cancelTokenSource.cancel()
       openNotification({
         type: 'error',
-        message: `${e.name} Upload Cancel`,
+        message: ` Upload Cancel`,
+        description: `${e.name}`,
       })
     },
   }
