@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "next --openssl-legacy-provider build",
+    "start": "next --openssl-legacy-provider start",
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write \"{,!(node_modules)/**/}*.js\""
