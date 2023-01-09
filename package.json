@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm audit fix --force && next build",
-    "start": "npm audit fix --force && next start",
+    "build": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next build",
+    "start": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next start",
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write \"{,!(node_modules)/**/}*.js\""
@@ -18,6 +18,7 @@
     "axios": "^0.21.1",
     "chart.js": "^3.4.0",
     "classnames": "^2.2.6",
+    "cross-env": "^7.0.3",
     "html-react-parser": "^1.2.7",
     "moment": "^2.29.1",
     "next": "10.2.3",
